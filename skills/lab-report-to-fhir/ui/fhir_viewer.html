@@ -66,6 +66,7 @@
       font-weight: 600;
       text-align: center;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
 
     /* App Header */
@@ -162,27 +163,28 @@
       box-shadow: var(--shadow-sm);
     }
 
-    /* Main Container */
+    /* Main Container with Grid */
     main {
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       overflow: hidden;
       background-color: var(--bg-main);
+      min-height: 0;
     }
 
     main.view-clinical-only {
-      grid-template-columns: 1fr 0px;
+      grid-template-columns: 1fr !important;
     }
     main.view-clinical-only #fhir-inspector {
-      display: none;
+      display: none !important;
     }
 
     main.view-json-only {
-      grid-template-columns: 0px 1fr;
+      grid-template-columns: 1fr !important;
     }
     main.view-json-only #clinical-dashboard {
-      display: none;
+      display: none !important;
     }
 
     /* Clinical Dashboard Column */
@@ -193,16 +195,18 @@
       display: flex;
       flex-direction: column;
       gap: 16px;
+      min-height: 0;
     }
 
     /* FHIR Inspector Column */
     #fhir-inspector {
-      overflow-y: auto;
+      overflow-y: hidden;
       background-color: #0f172a;
       color: #f8fafc;
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-height: 0;
     }
 
     /* Diagnostic Result Banner Card */
@@ -507,6 +511,7 @@
       padding: 4px 10px;
       border-radius: 4px;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .tab-btn.active {
@@ -524,12 +529,14 @@
       font-family: var(--font-mono);
       font-size: 12px;
       line-height: 1.6;
+      background-color: #0f172a;
     }
 
     pre {
       margin: 0;
       white-space: pre-wrap;
       word-break: break-all;
+      color: #f8fafc;
     }
 
     .json-key { color: #38bdf8; font-weight: 600; }
@@ -541,7 +548,7 @@
     /* Responsive */
     @media (max-width: 900px) {
       main {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         grid-template-rows: 1fr 1fr;
       }
       #clinical-dashboard {
@@ -572,8 +579,8 @@
         <button id="btn-view-json" onclick="setViewMode('json')">FHIR JSON</button>
       </div>
 
-      <button onclick="downloadBundleJson()">Download JSON</button>
-      <button class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
+      <button id="btn-download-json" onclick="downloadBundleJson()">Download JSON</button>
+      <button id="btn-copy-json" class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
   </header>
 
@@ -674,12 +681,13 @@
 
   <script>
     // Embedded Active Report FHIR JSON Bundle
-    const ACTIVE_BUNDLE = {"resourceType": "Bundle", "id": "e28144d5-1a36-41b4-be5a-5057fe6c8466", "type": "transaction", "timestamp": "2026-08-21T15:15:37Z", "entry": [{"fullUrl": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2", "resource": {"resourceType": "Patient", "id": "de6526a6-1aa2-47e7-b7da-735a4bca09f2", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "P-44556677"}], "active": true, "name": [{"use": "official", "text": "Jane Q. Sample", "family": "Sample", "given": ["Jane", "Q."]}], "gender": "female", "birthDate": "1972-05-12"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:d0cdba24-6425-4819-ad26-8e56983bc0f7", "resource": {"resourceType": "Practitioner", "id": "d0cdba24-6425-4819-ad26-8e56983bc0f7", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Avery Sterling"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "1234567890"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:55015aed-95df-4044-aa22-ec25ad629bb5", "resource": {"resourceType": "Organization", "id": "55015aed-95df-4044-aa22-ec25ad629bb5", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Aurora Health Institute</p></div>"}, "active": true, "name": "Aurora Health Institute", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D1234567"}], "address": [{"use": "work", "text": "Nexus Precision Diagnostics 888 Synthetic Way, Suite 100 Fictional Heights, CA 90210"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:762e293e-5077-4305-bb45-f5ece21df705", "resource": {"resourceType": "Specimen", "id": "762e293e-5077-4305-bb45-f5ece21df705", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "available", "type": {"coding": [{"code": "119361006", "display": "Plasma specimen", "system": "http://snomed.info/sct"}], "text": "Blood / Plasma"}, "subject": {"reference": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2"}, "collection": {"collectedDateTime": "2026-08-07"}, "receivedTime": "2026-08-08"}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:6fb67303-4583-4fb3-9787-67f7fb16902b", "resource": {"resourceType": "Observation", "id": "6fb67303-4583-4fb3-9787-67f7fb16902b", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94076-7", "display": "Cancer signal methylation analysis in cell-free DNA"}], "text": "Cancer Signal Status"}, "subject": {"reference": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:55015aed-95df-4044-aa22-ec25ad629bb5"}], "specimen": {"reference": "urn:uuid:762e293e-5077-4305-bb45-f5ece21df705"}, "valueString": "Cancer Signal Detected", "referenceRange": [{"text": "Cancer Signal Not Detected"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:6a94db57-a346-4199-b312-21e97c2a637a", "resource": {"resourceType": "Observation", "id": "6a94db57-a346-4199-b312-21e97c2a637a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted cancer signal origin 1"}], "text": "Predicted Cancer Signal Origin 1"}, "subject": {"reference": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:55015aed-95df-4044-aa22-ec25ad629bb5"}], "specimen": {"reference": "urn:uuid:762e293e-5077-4305-bb45-f5ece21df705"}, "valueString": "Lung (85%)", "component": [{"code": {"text": "Tissue"}, "valueString": "Lung"}, {"code": {"text": "Accuracy Frequency"}, "valueString": "85%"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:2c882b64-60f2-4218-bd05-ef4e825dd330", "resource": {"resourceType": "Observation", "id": "2c882b64-60f2-4218-bd05-ef4e825dd330", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted cancer signal origin 2"}], "text": "Predicted Cancer Signal Origin 2"}, "subject": {"reference": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:55015aed-95df-4044-aa22-ec25ad629bb5"}], "specimen": {"reference": "urn:uuid:762e293e-5077-4305-bb45-f5ece21df705"}, "valueString": "Pancreas (12%)", "component": [{"code": {"text": "Tissue"}, "valueString": "Pancreas"}, {"code": {"text": "Accuracy Frequency"}, "valueString": "12%"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:6a2dd180-36db-44bd-90f6-28b211fd1789", "resource": {"resourceType": "DiagnosticReport", "id": "6a2dd180-36db-44bd-90f6-28b211fd1789", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Synthetic Lab Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "11502-2", "display": "Laboratory report", "system": "http://loinc.org"}], "text": "Synthetic Lab Report"}, "subject": {"reference": "urn:uuid:de6526a6-1aa2-47e7-b7da-735a4bca09f2"}, "effectiveDateTime": "2026-08-07", "issued": "2026-08-14", "performer": [{"reference": "urn:uuid:d0cdba24-6425-4819-ad26-8e56983bc0f7"}, {"reference": "urn:uuid:55015aed-95df-4044-aa22-ec25ad629bb5"}], "specimen": [{"reference": "urn:uuid:762e293e-5077-4305-bb45-f5ece21df705"}], "result": [{"reference": "urn:uuid:6fb67303-4583-4fb3-9787-67f7fb16902b"}, {"reference": "urn:uuid:6a94db57-a346-4199-b312-21e97c2a637a"}, {"reference": "urn:uuid:2c882b64-60f2-4218-bd05-ef4e825dd330"}], "conclusion": "A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The \"Cancer Signal Detected\" result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins Lung and Pancreas) should guide the subsequent diagnostic workup. It is recommended that the healthcare provider initiate targeted clinical evaluations, which may include: \u25cf High-resolution imaging (e.g., CT, MRI, or PET-CT( of the chest and abdomen. \u25cf Specialist consultation with oncology or pulmonology. \u25cf Tissue biopsy if a suspicious lesion is identified via imaging.\n\nMethodology: This test utilizes next-generation sequencing NGS( to analyze specific methylation patterns of cell-free DNA (cfDNA) in the blood. The Galleri test uses a machine-learning algorithm to identify patterns characteristic of over 50 types of cancer and to predict the most likely organ of origin.\n\nLimitations: \u25cf A \"Cancer Signal Detected\" result is not a definitive diagnosis and can be a false positive. \u25cf A \"Cancer Signal Not Detected\" result does not rule out the presence of cancer. --- PAGE BREAK --- \u25cf This test is intended for use in adults at elevated risk for cancer, such as those aged 50 or older. \u25cf The test does not detect all cancers and is not a replacement for standard-of-care screenings (e.g., mammography, colonoscopy)."}, "request": {"method": "POST", "url": "DiagnosticReport"}}]};
+    const ACTIVE_BUNDLE = {"resourceType": "Bundle", "id": "bf211925-47f9-42f8-a9e7-d2f960f972e6", "type": "transaction", "timestamp": "2026-08-21T15:34:42Z", "entry": [{"fullUrl": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3", "resource": {"resourceType": "Patient", "id": "4c4ca394-bf82-42ba-86ec-6da1238427c3", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "P-44556677"}], "active": true, "name": [{"use": "official", "text": "Jane Q. Sample", "family": "Sample", "given": ["Jane", "Q."]}], "gender": "female", "birthDate": "1972-05-12"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:e792c085-02ab-41b5-b65a-4bce5620624e", "resource": {"resourceType": "Practitioner", "id": "e792c085-02ab-41b5-b65a-4bce5620624e", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Avery Sterling"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "1234567890"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:12e0296c-50eb-4db1-88bc-e9c9d4a96db3", "resource": {"resourceType": "Organization", "id": "12e0296c-50eb-4db1-88bc-e9c9d4a96db3", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Aurora Health Institute</p></div>"}, "active": true, "name": "Aurora Health Institute", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D1234567"}], "address": [{"use": "work", "text": "Nexus Precision Diagnostics 888 Synthetic Way, Suite 100 Fictional Heights, CA 90210"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:05831ed6-ab4d-4deb-afb8-3419728dc077", "resource": {"resourceType": "Specimen", "id": "05831ed6-ab4d-4deb-afb8-3419728dc077", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "available", "type": {"coding": [{"code": "119361006", "display": "Plasma specimen", "system": "http://snomed.info/sct"}], "text": "Blood / Plasma"}, "subject": {"reference": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3"}, "collection": {"collectedDateTime": "2026-08-07"}, "receivedTime": "2026-08-08"}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:153cc268-d3b5-4b94-b859-0c9ad0395c31", "resource": {"resourceType": "Observation", "id": "153cc268-d3b5-4b94-b859-0c9ad0395c31", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94076-7", "display": "Cancer signal methylation analysis in cell-free DNA"}], "text": "Cancer Signal Status"}, "subject": {"reference": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:12e0296c-50eb-4db1-88bc-e9c9d4a96db3"}], "specimen": {"reference": "urn:uuid:05831ed6-ab4d-4deb-afb8-3419728dc077"}, "valueString": "Cancer Signal Detected", "referenceRange": [{"text": "Cancer Signal Not Detected"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:a66f9b4b-e0b7-49b6-9017-26b161f9286a", "resource": {"resourceType": "Observation", "id": "a66f9b4b-e0b7-49b6-9017-26b161f9286a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted cancer signal origin 1"}], "text": "Predicted Cancer Signal Origin 1"}, "subject": {"reference": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:12e0296c-50eb-4db1-88bc-e9c9d4a96db3"}], "specimen": {"reference": "urn:uuid:05831ed6-ab4d-4deb-afb8-3419728dc077"}, "valueString": "Lung (85%)", "component": [{"code": {"text": "Tissue"}, "valueString": "Lung"}, {"code": {"text": "Accuracy Frequency"}, "valueString": "85%"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:4a3c62e4-4a54-469f-b140-ae9749cde007", "resource": {"resourceType": "Observation", "id": "4a3c62e4-4a54-469f-b140-ae9749cde007", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted cancer signal origin 2"}], "text": "Predicted Cancer Signal Origin 2"}, "subject": {"reference": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:12e0296c-50eb-4db1-88bc-e9c9d4a96db3"}], "specimen": {"reference": "urn:uuid:05831ed6-ab4d-4deb-afb8-3419728dc077"}, "valueString": "Pancreas (12%)", "component": [{"code": {"text": "Tissue"}, "valueString": "Pancreas"}, {"code": {"text": "Accuracy Frequency"}, "valueString": "12%"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:6a6dbc6e-01d1-4021-95ca-432a4aaa3076", "resource": {"resourceType": "DiagnosticReport", "id": "6a6dbc6e-01d1-4021-95ca-432a4aaa3076", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Synthetic Lab Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "11502-2", "display": "Laboratory report", "system": "http://loinc.org"}], "text": "Synthetic Lab Report"}, "subject": {"reference": "urn:uuid:4c4ca394-bf82-42ba-86ec-6da1238427c3"}, "effectiveDateTime": "2026-08-07", "issued": "2026-08-14", "performer": [{"reference": "urn:uuid:e792c085-02ab-41b5-b65a-4bce5620624e"}, {"reference": "urn:uuid:12e0296c-50eb-4db1-88bc-e9c9d4a96db3"}], "specimen": [{"reference": "urn:uuid:05831ed6-ab4d-4deb-afb8-3419728dc077"}], "result": [{"reference": "urn:uuid:153cc268-d3b5-4b94-b859-0c9ad0395c31"}, {"reference": "urn:uuid:a66f9b4b-e0b7-49b6-9017-26b161f9286a"}, {"reference": "urn:uuid:4a3c62e4-4a54-469f-b140-ae9749cde007"}], "conclusion": "A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The \"Cancer Signal Detected\" result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins Lung and Pancreas) should guide the subsequent diagnostic workup. It is recommended that the healthcare provider initiate targeted clinical evaluations, which may include: \u25cf High-resolution imaging (e.g., CT, MRI, or PET-CT( of the chest and abdomen. \u25cf Specialist consultation with oncology or pulmonology. \u25cf Tissue biopsy if a suspicious lesion is identified via imaging.\n\nMethodology: This test utilizes next-generation sequencing NGS( to analyze specific methylation patterns of cell-free DNA (cfDNA) in the blood. The Galleri test uses a machine-learning algorithm to identify patterns characteristic of over 50 types of cancer and to predict the most likely organ of origin.\n\nLimitations: \u25cf A \"Cancer Signal Detected\" result is not a definitive diagnosis and can be a false positive. \u25cf A \"Cancer Signal Not Detected\" result does not rule out the presence of cancer. --- PAGE BREAK --- \u25cf This test is intended for use in adults at elevated risk for cancer, such as those aged 50 or older. \u25cf The test does not detect all cancers and is not a replacement for standard-of-care screenings (e.g., mammography, colonoscopy)."}, "request": {"method": "POST", "url": "DiagnosticReport"}}]};
 
     let currentSelectedResource = null;
 
     // Syntax Highlight JSON
     function syntaxHighlightJson(jsonObj) {
+      if (!jsonObj) return '';
       const jsonStr = JSON.stringify(jsonObj, null, 2);
       return jsonStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(
         /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
@@ -845,6 +853,7 @@
       // All Bundle tab
       const btnAll = document.createElement('button');
       btnAll.className = 'tab-btn active';
+      btnAll.id = 'tab-bundle';
       btnAll.textContent = 'Bundle (Full)';
       btnAll.onclick = () => inspectBundle();
       tabsBar.appendChild(btnAll);
@@ -871,7 +880,7 @@
       document.getElementById('inspected-resource-type').textContent = 'Bundle';
       document.getElementById('inspected-resource-id').textContent = ACTIVE_BUNDLE.id || 'Transaction';
       document.getElementById('json-display').innerHTML = syntaxHighlightJson(ACTIVE_BUNDLE);
-      setActiveTab('Bundle');
+      setActiveTab('bundle');
       clearActiveCards();
     }
 
@@ -894,7 +903,7 @@
 
     function setActiveTab(idOrLabel) {
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        if (btn.id === `tab-${idOrLabel}` || (idOrLabel === 'Bundle' && btn.textContent.startsWith('Bundle'))) {
+        if (btn.id === `tab-${idOrLabel}` || (idOrLabel === 'bundle' && btn.id === 'tab-bundle')) {
           btn.classList.add('active');
         } else {
           btn.classList.remove('active');
@@ -904,6 +913,7 @@
 
     function highlightCard(resource) {
       clearActiveCards();
+      if (!resource) return;
       if (resource.resourceType === 'Patient') document.getElementById('card-patient').classList.add('active-resource');
       if (resource.resourceType === 'Practitioner') document.getElementById('card-provider').classList.add('active-resource');
       if (resource.resourceType === 'Organization') document.getElementById('card-organization').classList.add('active-resource');
@@ -925,25 +935,101 @@
       document.getElementById('btn-view-clinical').classList.toggle('active', mode === 'clinical');
       document.getElementById('btn-view-json').classList.toggle('active', mode === 'json');
 
-      main.className = mode === 'clinical' ? 'view-clinical-only' : (mode === 'json' ? 'view-json-only' : '');
+      if (mode === 'clinical') {
+        main.className = 'view-clinical-only';
+      } else if (mode === 'json') {
+        main.className = 'view-json-only';
+        if (!currentSelectedResource) {
+          inspectBundle();
+        }
+      } else {
+        main.className = '';
+      }
+    }
+
+    function fallbackCopyText(text, callback) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful && callback) callback();
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+      }
+      document.body.removeChild(textArea);
     }
 
     function copyActiveJson() {
-      if (!currentSelectedResource) return;
-      const str = JSON.stringify(currentSelectedResource, null, 2);
-      navigator.clipboard.writeText(str).then(() => {
-        alert('FHIR JSON copied to clipboard!');
-      });
+      const targetObj = currentSelectedResource || ACTIVE_BUNDLE;
+      if (!targetObj) return;
+      const str = JSON.stringify(targetObj, null, 2);
+      const copyBtn = document.getElementById('btn-copy-json');
+      const originalText = copyBtn ? copyBtn.textContent : 'Copy JSON';
+
+      function showSuccess() {
+        if (copyBtn) {
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.backgroundColor = '#16a34a';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '';
+          }, 2000);
+        }
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(str).then(showSuccess).catch(() => {
+          fallbackCopyText(str, showSuccess);
+        });
+      } else {
+        fallbackCopyText(str, showSuccess);
+      }
     }
 
     function downloadBundleJson() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ACTIVE_BUNDLE, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "fhir_bundle.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const targetObj = ACTIVE_BUNDLE;
+      if (!targetObj) return;
+      const jsonStr = JSON.stringify(targetObj, null, 2);
+      const dlBtn = document.getElementById('btn-download-json');
+      const originalText = dlBtn ? dlBtn.textContent : 'Download JSON';
+
+      try {
+        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        
+        const filename = (targetObj.id ? `${targetObj.id}` : 'fhir_bundle') + '.json';
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 150);
+
+        if (dlBtn) {
+          dlBtn.textContent = 'Downloaded!';
+          setTimeout(() => { dlBtn.textContent = originalText; }, 2000);
+        }
+      } catch (e) {
+        console.error('Blob download failed, fallback to data URI', e);
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = 'fhir_bundle.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     // Initialize with the single extracted report bundle

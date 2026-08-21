@@ -78,6 +78,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       font-weight: 600;
       text-align: center;
       letter-spacing: 0.02em;
+      flex-shrink: 0;
     }
 
     /* App Header */
@@ -174,27 +175,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       box-shadow: var(--shadow-sm);
     }
 
-    /* Main Container */
+    /* Main Container with Grid */
     main {
       flex: 1;
       display: grid;
       grid-template-columns: 1fr 1fr;
       overflow: hidden;
       background-color: var(--bg-main);
+      min-height: 0;
     }
 
     main.view-clinical-only {
-      grid-template-columns: 1fr 0px;
+      grid-template-columns: 1fr !important;
     }
     main.view-clinical-only #fhir-inspector {
-      display: none;
+      display: none !important;
     }
 
     main.view-json-only {
-      grid-template-columns: 0px 1fr;
+      grid-template-columns: 1fr !important;
     }
     main.view-json-only #clinical-dashboard {
-      display: none;
+      display: none !important;
     }
 
     /* Clinical Dashboard Column */
@@ -205,16 +207,18 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       display: flex;
       flex-direction: column;
       gap: 16px;
+      min-height: 0;
     }
 
     /* FHIR Inspector Column */
     #fhir-inspector {
-      overflow-y: auto;
+      overflow-y: hidden;
       background-color: #0f172a;
       color: #f8fafc;
       display: flex;
       flex-direction: column;
       height: 100%;
+      min-height: 0;
     }
 
     /* Diagnostic Result Banner Card */
@@ -519,6 +523,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       padding: 4px 10px;
       border-radius: 4px;
       white-space: nowrap;
+      cursor: pointer;
     }
 
     .tab-btn.active {
@@ -536,12 +541,14 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       font-family: var(--font-mono);
       font-size: 12px;
       line-height: 1.6;
+      background-color: #0f172a;
     }
 
     pre {
       margin: 0;
       white-space: pre-wrap;
       word-break: break-all;
+      color: #f8fafc;
     }
 
     .json-key { color: #38bdf8; font-weight: 600; }
@@ -553,7 +560,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     /* Responsive */
     @media (max-width: 900px) {
       main {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr !important;
         grid-template-rows: 1fr 1fr;
       }
       #clinical-dashboard {
@@ -584,8 +591,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <button id="btn-view-json" onclick="setViewMode('json')">FHIR JSON</button>
       </div>
 
-      <button onclick="downloadBundleJson()">Download JSON</button>
-      <button class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
+      <button id="btn-download-json" onclick="downloadBundleJson()">Download JSON</button>
+      <button id="btn-copy-json" class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
   </header>
 
@@ -692,6 +699,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     // Syntax Highlight JSON
     function syntaxHighlightJson(jsonObj) {
+      if (!jsonObj) return '';
       const jsonStr = JSON.stringify(jsonObj, null, 2);
       return jsonStr.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(
         /("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g,
@@ -857,6 +865,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       // All Bundle tab
       const btnAll = document.createElement('button');
       btnAll.className = 'tab-btn active';
+      btnAll.id = 'tab-bundle';
       btnAll.textContent = 'Bundle (Full)';
       btnAll.onclick = () => inspectBundle();
       tabsBar.appendChild(btnAll);
@@ -883,7 +892,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       document.getElementById('inspected-resource-type').textContent = 'Bundle';
       document.getElementById('inspected-resource-id').textContent = ACTIVE_BUNDLE.id || 'Transaction';
       document.getElementById('json-display').innerHTML = syntaxHighlightJson(ACTIVE_BUNDLE);
-      setActiveTab('Bundle');
+      setActiveTab('bundle');
       clearActiveCards();
     }
 
@@ -906,7 +915,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     function setActiveTab(idOrLabel) {
       document.querySelectorAll('.tab-btn').forEach(btn => {
-        if (btn.id === `tab-${idOrLabel}` || (idOrLabel === 'Bundle' && btn.textContent.startsWith('Bundle'))) {
+        if (btn.id === `tab-${idOrLabel}` || (idOrLabel === 'bundle' && btn.id === 'tab-bundle')) {
           btn.classList.add('active');
         } else {
           btn.classList.remove('active');
@@ -916,6 +925,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     function highlightCard(resource) {
       clearActiveCards();
+      if (!resource) return;
       if (resource.resourceType === 'Patient') document.getElementById('card-patient').classList.add('active-resource');
       if (resource.resourceType === 'Practitioner') document.getElementById('card-provider').classList.add('active-resource');
       if (resource.resourceType === 'Organization') document.getElementById('card-organization').classList.add('active-resource');
@@ -937,25 +947,101 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       document.getElementById('btn-view-clinical').classList.toggle('active', mode === 'clinical');
       document.getElementById('btn-view-json').classList.toggle('active', mode === 'json');
 
-      main.className = mode === 'clinical' ? 'view-clinical-only' : (mode === 'json' ? 'view-json-only' : '');
+      if (mode === 'clinical') {
+        main.className = 'view-clinical-only';
+      } else if (mode === 'json') {
+        main.className = 'view-json-only';
+        if (!currentSelectedResource) {
+          inspectBundle();
+        }
+      } else {
+        main.className = '';
+      }
+    }
+
+    function fallbackCopyText(text, callback) {
+      const textArea = document.createElement('textarea');
+      textArea.value = text;
+      textArea.style.position = 'fixed';
+      textArea.style.top = '-9999px';
+      textArea.style.left = '-9999px';
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      try {
+        const successful = document.execCommand('copy');
+        if (successful && callback) callback();
+      } catch (err) {
+        console.error('Fallback copy failed', err);
+      }
+      document.body.removeChild(textArea);
     }
 
     function copyActiveJson() {
-      if (!currentSelectedResource) return;
-      const str = JSON.stringify(currentSelectedResource, null, 2);
-      navigator.clipboard.writeText(str).then(() => {
-        alert('FHIR JSON copied to clipboard!');
-      });
+      const targetObj = currentSelectedResource || ACTIVE_BUNDLE;
+      if (!targetObj) return;
+      const str = JSON.stringify(targetObj, null, 2);
+      const copyBtn = document.getElementById('btn-copy-json');
+      const originalText = copyBtn ? copyBtn.textContent : 'Copy JSON';
+
+      function showSuccess() {
+        if (copyBtn) {
+          copyBtn.textContent = 'Copied!';
+          copyBtn.style.backgroundColor = '#16a34a';
+          setTimeout(() => {
+            copyBtn.textContent = originalText;
+            copyBtn.style.backgroundColor = '';
+          }, 2000);
+        }
+      }
+
+      if (navigator.clipboard && window.isSecureContext) {
+        navigator.clipboard.writeText(str).then(showSuccess).catch(() => {
+          fallbackCopyText(str, showSuccess);
+        });
+      } else {
+        fallbackCopyText(str, showSuccess);
+      }
     }
 
     function downloadBundleJson() {
-      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ACTIVE_BUNDLE, null, 2));
-      const downloadAnchor = document.createElement('a');
-      downloadAnchor.setAttribute("href", dataStr);
-      downloadAnchor.setAttribute("download", "fhir_bundle.json");
-      document.body.appendChild(downloadAnchor);
-      downloadAnchor.click();
-      downloadAnchor.remove();
+      const targetObj = ACTIVE_BUNDLE;
+      if (!targetObj) return;
+      const jsonStr = JSON.stringify(targetObj, null, 2);
+      const dlBtn = document.getElementById('btn-download-json');
+      const originalText = dlBtn ? dlBtn.textContent : 'Download JSON';
+
+      try {
+        const blob = new Blob([jsonStr], { type: 'application/json;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.style.display = 'none';
+        a.href = url;
+        
+        const filename = (targetObj.id ? `${targetObj.id}` : 'fhir_bundle') + '.json';
+        a.download = filename;
+        document.body.appendChild(a);
+        a.click();
+        
+        setTimeout(() => {
+          document.body.removeChild(a);
+          window.URL.revokeObjectURL(url);
+        }, 150);
+
+        if (dlBtn) {
+          dlBtn.textContent = 'Downloaded!';
+          setTimeout(() => { dlBtn.textContent = originalText; }, 2000);
+        }
+      } catch (e) {
+        console.error('Blob download failed, fallback to data URI', e);
+        const dataStr = 'data:text/json;charset=utf-8,' + encodeURIComponent(jsonStr);
+        const a = document.createElement('a');
+        a.href = dataStr;
+        a.download = 'fhir_bundle.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+      }
     }
 
     // Initialize with the single extracted report bundle
