@@ -1,0 +1,577 @@
+{
+  "resourceType": "Bundle",
+  "id": "963d5ff1-e21e-43ff-8dbd-77df944e2e96",
+  "type": "transaction",
+  "timestamp": "2026-08-21T14:51:54Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "a6540dfc-36a4-467f-9e5f-796bab0400c6",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Arthur B. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-3341890"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Arthur B. Sample",
+            "family": "Sample",
+            "given": [
+              "Arthur",
+              "B."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1959-02-14"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:56963a2d-fc74-44f9-9b71-41591a94e7dd",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "56963a2d-fc74-44f9-9b71-41591a94e7dd",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. David Reynolds</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. David Reynolds"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9092837465"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "523ed431-ae96-48ef-b10d-f61840ce4c09",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Northstar Urologic Clinic</p></div>"
+        },
+        "active": true,
+        "name": "Northstar Urologic Clinic",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D1122334"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-PHI-8821 (Serum)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-PHI-8821"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119364003",
+              "display": "Serum specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Serum"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "collection": {
+          "collectedDateTime": "2026-08-10"
+        },
+        "receivedTime": "2026-08-11"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a778319a-9c00-4dbd-9458-1bb5c02b7b02",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a778319a-9c00-4dbd-9458-1bb5c02b7b02",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total PSA:</b> 5.6</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2857-1",
+              "display": "Total PSA"
+            }
+          ],
+          "text": "Total PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+        },
+        "valueQuantity": {
+          "value": 5.6,
+          "unit": "ng/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "ng/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "0.0 - 4.0"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ab4049aa-1543-425f-a44a-ac3a430bb15e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "ab4049aa-1543-425f-a44a-ac3a430bb15e",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Free PSA:</b> 0.58</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "10886-0",
+              "display": "Free PSA"
+            }
+          ],
+          "text": "Free PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+        },
+        "valueQuantity": {
+          "value": 0.58,
+          "unit": "ng/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "ng/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "N/A"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c925fd9f-b064-4619-bd29-a45fedf7a4b1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c925fd9f-b064-4619-bd29-a45fedf7a4b1",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>% Free PSA:</b> 10.4</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "19195-7",
+              "display": "% Free PSA"
+            }
+          ],
+          "text": "% Free PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+        },
+        "valueQuantity": {
+          "value": 10.4,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "referenceRange": [
+          {
+            "text": "> 25.0 %"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L",
+                "display": "Low"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d1b9ec5d-d4c8-4e06-b23a-1a8d2cff0f26",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d1b9ec5d-d4c8-4e06-b23a-1a8d2cff0f26",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>[-2]proPSA:</b> 19.2</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "72304-9",
+              "display": "[-2]proPSA"
+            }
+          ],
+          "text": "[-2]proPSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+        },
+        "valueQuantity": {
+          "value": 19.2,
+          "unit": "pg/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "pg/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "N/A"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d2b1bd32-42c8-4867-89fb-7b90e5302b4e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d2b1bd32-42c8-4867-89fb-7b90e5302b4e",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Prostate Health Index (phi):</b> 47.8</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "72305-6",
+              "display": "Prostate Health Index (phi)"
+            }
+          ],
+          "text": "Prostate Health Index (phi)"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+        },
+        "valueQuantity": {
+          "value": 47.8,
+          "unit": "{score}",
+          "system": "http://unitsofmeasure.org",
+          "code": "{score}"
+        },
+        "referenceRange": [
+          {
+            "text": "< 27.0 (Low Risk)"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f99d9e90-ea69-40cf-8161-1b8b07bd5890",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "f99d9e90-ea69-40cf-8161-1b8b07bd5890",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Prostate Health Index and Early Cancer Biomarker Panel</h2><p><b>Conclusion:</b> Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy. Quantitative Immunoassay Biomarkers Biomarker / Assay LOINC Result Units Reference Range Flag Total PSA 2857-1 5.6 ng/mL 0.0 - 4.0 High (H) Free PSA 10886-0 0.58 ng/mL N/A Normal % Free PSA 19195-7 10.4 % > 25.0 % Low (L) [-2]proPSA 72304-9 19.2 pg/mL N/A Normal Prostate Health Index (phi) 72305-6 47.8 {score} < 27.0 (Low Risk) High (H)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-PHI-8821"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "72305-6",
+              "display": "Prostate Health Index and PSA sub-fractions panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Prostate Health Index and Early Cancer Biomarker Panel"
+        },
+        "subject": {
+          "reference": "urn:uuid:a6540dfc-36a4-467f-9e5f-796bab0400c6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "issued": "2026-08-12",
+        "performer": [
+          {
+            "reference": "urn:uuid:56963a2d-fc74-44f9-9b71-41591a94e7dd"
+          },
+          {
+            "reference": "urn:uuid:523ed431-ae96-48ef-b10d-f61840ce4c09"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:3cf3d49b-f0f2-4215-a7bd-4a2e63f0044e"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:a778319a-9c00-4dbd-9458-1bb5c02b7b02"
+          },
+          {
+            "reference": "urn:uuid:ab4049aa-1543-425f-a44a-ac3a430bb15e"
+          },
+          {
+            "reference": "urn:uuid:c925fd9f-b064-4619-bd29-a45fedf7a4b1"
+          },
+          {
+            "reference": "urn:uuid:d1b9ec5d-d4c8-4e06-b23a-1a8d2cff0f26"
+          },
+          {
+            "reference": "urn:uuid:d2b1bd32-42c8-4867-89fb-7b90e5302b4e"
+          }
+        ],
+        "conclusion": "Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy. Quantitative Immunoassay Biomarkers Biomarker / Assay LOINC Result Units Reference Range Flag Total PSA 2857-1 5.6 ng/mL 0.0 - 4.0 High (H) Free PSA 10886-0 0.58 ng/mL N/A Normal % Free PSA 19195-7 10.4 % > 25.0 % Low (L) [-2]proPSA 72304-9 19.2 pg/mL N/A Normal Prostate Health Index (phi) 72305-6 47.8 {score} < 27.0 (Low Risk) High (H)\n\nClinical Interpretation: The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides strong clinical justification for mpMRI and targeted prostate biopsy.\n\nMethodology: Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using Beckman Coulter Access chemiluminescent immunoassays calibrated against WHO standards. The phi score is derived mathematically.\n\nLimitations: phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}

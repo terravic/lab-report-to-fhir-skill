@@ -1,0 +1,483 @@
+{
+  "resourceType": "Bundle",
+  "id": "a6ab63a8-6450-4ee8-a0a3-3e1c9f452d21",
+  "type": "transaction",
+  "timestamp": "2026-08-21T14:51:54Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "bde056f0-dd66-4f04-b8cd-48387db6d8e7",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Robert T. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-8849102"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Robert T. Sample",
+            "family": "Sample",
+            "given": [
+              "Robert",
+              "T."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1968-11-23"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:62922eac-074c-43f6-bc35-75bf8bf0f030",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "62922eac-074c-43f6-bc35-75bf8bf0f030",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Marcus Vance</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Marcus Vance"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9982736450"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "4f338f0f-7538-4900-97e2-724aab5f79d2",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Bay Area Health System</p></div>"
+        },
+        "active": true,
+        "name": "Bay Area Health System",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D9981245"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "069a9e4c-c412-402c-a5ad-67ed46c9f54d",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-MCED-4491 (Blood / Plasma)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-MCED-4491"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119361006",
+              "display": "Plasma specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Blood / Plasma"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "collection": {
+          "collectedDateTime": "2026-08-01"
+        },
+        "receivedTime": "2026-08-02"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:44231b84-5809-4b30-b63e-3354630c1e31",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "44231b84-5809-4b30-b63e-3354630c1e31",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Not Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94076-7",
+              "display": "Cancer Signal Status"
+            }
+          ],
+          "text": "Cancer Signal Status"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d"
+        },
+        "valueString": "Cancer Signal Not Detected",
+        "referenceRange": [
+          {
+            "text": "Cancer Signal Not Detected"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:05d03f87-1e8d-4873-8dbd-9489d58492c3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "05d03f87-1e8d-4873-8dbd-9489d58492c3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> None Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94077-5",
+              "display": "Predicted Cancer Signal Origin 1"
+            }
+          ],
+          "text": "Predicted Cancer Signal Origin 1"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d"
+        },
+        "valueString": "None Detected",
+        "referenceRange": [
+          {
+            "text": "None"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c8a1c248-134f-4218-8de9-4d1a63fe9650",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c8a1c248-134f-4218-8de9-4d1a63fe9650",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 8.4 ng/mL</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "cfDNA Concentration"
+            }
+          ],
+          "text": "cfDNA Concentration"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d"
+        },
+        "valueString": "8.4 ng/mL",
+        "referenceRange": [
+          {
+            "text": "5.0 - 25.0 ng/mL"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8c598a69-50ca-4d41-8859-7fe970f4e117",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "8c598a69-50ca-4d41-8859-7fe970f4e117",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.4%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing QC Pass Rate"
+            }
+          ],
+          "text": "Sequencing QC Pass Rate"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d"
+        },
+        "valueString": "99.4%",
+        "referenceRange": [
+          {
+            "text": ">= 95.0%"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0dd6672b-eb6f-41b4-9b3c-b7d2bf51d9a3",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "0dd6672b-eb6f-41b4-9b3c-b7d2bf51d9a3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy. Laboratory</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-MCED-4491"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "94076-7",
+              "display": "Cancer signal methylation analysis in cell-free DNA panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Multi-Cancer Early Detection Screening Report"
+        },
+        "subject": {
+          "reference": "urn:uuid:bde056f0-dd66-4f04-b8cd-48387db6d8e7"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "issued": "2026-08-06",
+        "performer": [
+          {
+            "reference": "urn:uuid:62922eac-074c-43f6-bc35-75bf8bf0f030"
+          },
+          {
+            "reference": "urn:uuid:4f338f0f-7538-4900-97e2-724aab5f79d2"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:069a9e4c-c412-402c-a5ad-67ed46c9f54d"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:44231b84-5809-4b30-b63e-3354630c1e31"
+          },
+          {
+            "reference": "urn:uuid:05d03f87-1e8d-4873-8dbd-9489d58492c3"
+          },
+          {
+            "reference": "urn:uuid:c8a1c248-134f-4218-8de9-4d1a63fe9650"
+          },
+          {
+            "reference": "urn:uuid:8c598a69-50ca-4d41-8859-7fe970f4e117"
+          }
+        ],
+        "conclusion": "No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy. Laboratory\n\nClinical Interpretation: A 'Cancer Signal Not Detected' result indicates that the targeted cell-free DNA methylation signatures associated with 50+ cancer types were not identified at actionable thresholds in this specimen. Routine preventative health examinations and age-appropriate standard screening guidelines (such as colonoscopy, mammography, and cervical cytology) should continue as medically indicated.\n\nMethodology: Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq systems. Epigenetic methylation patterns are evaluated using proprietary machine-learning classification models calibrated across multi-organ tissue datasets.\n\nLimitations: A negative result does not completely eliminate the risk of cancer. Certain indolent tumors or cancers shedding low levels of cfDNA may not be detected. This test is validated for adult screening and is not intended for recurrence monitoring. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}

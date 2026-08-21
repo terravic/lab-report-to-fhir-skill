@@ -1,0 +1,552 @@
+{
+  "resourceType": "Bundle",
+  "id": "d8ce0531-e0a9-4a04-9672-4df734cf70d9",
+  "type": "transaction",
+  "timestamp": "2026-08-21T14:51:54Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "811770cd-4a53-458c-b92e-65b0da8b369a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Harold K. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-5529184"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Harold K. Sample",
+            "family": "Sample",
+            "given": [
+              "Harold",
+              "K."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1964-04-18"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:22077729-0677-4ea1-837e-938345e5aac7",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "22077729-0677-4ea1-837e-938345e5aac7",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Sophia Alvarez</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Sophia Alvarez"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9457896321"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "5b9b353d-ee1a-48e0-8d07-ad0087988cd7",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> New England Cancer Center</p></div>"
+        },
+        "active": true,
+        "name": "New England Cancer Center",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D8874123"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "ba705fee-184d-4f1a-92a8-b402a12aeb41",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-CRC-7731 (Blood / Plasma)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-CRC-7731"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119361006",
+              "display": "Plasma specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Blood / Plasma"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "collection": {
+          "collectedDateTime": "2026-07-28"
+        },
+        "receivedTime": "2026-07-29"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6502be9b-d8e2-4b7c-9de7-a53e9be5af41",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6502be9b-d8e2-4b7c-9de7-a53e9be5af41",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>SEPT9 Methylation:</b> Positive</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "77983-5",
+              "display": "SEPT9 Methylation"
+            }
+          ],
+          "text": "SEPT9 Methylation"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+        },
+        "valueString": "Positive",
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f07a61e2-8212-4629-b7c0-3098b37d046b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f07a61e2-8212-4629-b7c0-3098b37d046b",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>KRAS Mutation Analysis:</b> p.G12D (VAF: 1.8%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "KRAS Mutation Analysis"
+            }
+          ],
+          "text": "KRAS Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+        },
+        "valueString": "p.G12D (VAF: 1.8%)",
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:86034e63-0def-440b-b525-52772005c193",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "86034e63-0def-440b-b525-52772005c193",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRAF Mutation Analysis:</b> Not Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "BRAF Mutation Analysis"
+            }
+          ],
+          "text": "BRAF Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+        },
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:5f69381a-3205-4507-918f-6af9f1513aa1",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "5f69381a-3205-4507-918f-6af9f1513aa1",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Mutation Analysis:</b> p.R273H (VAF: 2.3%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "TP53 Mutation Analysis"
+            }
+          ],
+          "text": "TP53 Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+        },
+        "valueString": "p.R273H (VAF: 2.3%)",
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0875ee34-697e-4c05-87f6-d2089d9f50e3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0875ee34-697e-4c05-87f6-d2089d9f50e3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total ctDNA Fraction:</b> 2.1%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Total ctDNA Fraction"
+            }
+          ],
+          "text": "Total ctDNA Fraction"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+        },
+        "valueString": "2.1%",
+        "referenceRange": [
+          {
+            "text": "< 0.1%"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:24adfce0-ec17-442e-b8af-464ed9a23ff9",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "24adfce0-ec17-442e-b8af-464ed9a23ff9",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Liquid Biopsy Colorectal ctDNA Early Screening Report</h2><p><b>Conclusion:</b> Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-CRC-7731"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "94078-3",
+              "display": "Circulating tumor DNA methylation and somatic mutation analysis panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Liquid Biopsy Colorectal ctDNA Early Screening Report"
+        },
+        "subject": {
+          "reference": "urn:uuid:811770cd-4a53-458c-b92e-65b0da8b369a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "issued": "2026-08-04",
+        "performer": [
+          {
+            "reference": "urn:uuid:22077729-0677-4ea1-837e-938345e5aac7"
+          },
+          {
+            "reference": "urn:uuid:5b9b353d-ee1a-48e0-8d07-ad0087988cd7"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:ba705fee-184d-4f1a-92a8-b402a12aeb41"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:6502be9b-d8e2-4b7c-9de7-a53e9be5af41"
+          },
+          {
+            "reference": "urn:uuid:f07a61e2-8212-4629-b7c0-3098b37d046b"
+          },
+          {
+            "reference": "urn:uuid:86034e63-0def-440b-b525-52772005c193"
+          },
+          {
+            "reference": "urn:uuid:5f69381a-3205-4507-918f-6af9f1513aa1"
+          },
+          {
+            "reference": "urn:uuid:0875ee34-697e-4c05-87f6-d2089d9f50e3"
+          }
+        ],
+        "conclusion": "Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.\n\nClinical Interpretation: The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates the presence of shed colorectal neoplastic DNA. Diagnostic colonoscopy with high-definition mucosal inspection and radiological abdominal evaluation is urgently recommended. Clinical correlation with patient symptoms and family history is required.\n\nMethodology: Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR with fluorescent hybridization probes. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using ultra-deep amplicon NGS (minimum 20,000x coverage depth) on Illumina NextSeq.\n\nLimitations: False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}

@@ -1,0 +1,591 @@
+{
+  "resourceType": "Bundle",
+  "id": "f04aab31-2b94-46da-9685-b0d776bba5a2",
+  "type": "transaction",
+  "timestamp": "2026-08-21T14:51:54Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "68d6331e-761d-4311-84b9-b7ee71184a7a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Brenda S. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-9912048"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Brenda S. Sample",
+            "family": "Sample",
+            "given": [
+              "Brenda",
+              "S."
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1985-09-30"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7b83190c-94a5-4757-ac03-863ec18ccb91",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "7b83190c-94a5-4757-ac03-863ec18ccb91",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Ethan Ross</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Ethan Ross"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9847392015"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "ba8d881c-04ea-4274-9120-83f1dcb7d6c3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Pennsylvania Genetics Institute</p></div>"
+        },
+        "active": true,
+        "name": "Pennsylvania Genetics Institute",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D7654321"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "ad6079ba-f5a0-42b0-bac5-802dd7d4aedd",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-NGS-2098 (Whole Blood)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-NGS-2098"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119297000",
+              "display": "Blood specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Whole Blood"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "collection": {
+          "collectedDateTime": "2026-07-15"
+        },
+        "receivedTime": "2026-07-16"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:78e87633-0ab0-49ce-886c-04d19b83318a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "78e87633-0ab0-49ce-886c-04d19b83318a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA1 Genetic Analysis:</b> Pathogenic - c.5266dupC (p.Gln1756Profs*74)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "BRCA1 Genetic Analysis"
+            }
+          ],
+          "text": "BRCA1 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Pathogenic - c.5266dupC (p.Gln1756Profs*74)",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1f2b0bd7-e5dd-4461-93b3-ad07fe8b74d6",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1f2b0bd7-e5dd-4461-93b3-ad07fe8b74d6",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "BRCA2 Genetic Analysis"
+            }
+          ],
+          "text": "BRCA2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c5de0dc4-2c35-4390-85b9-afdf25861f26",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c5de0dc4-2c35-4390-85b9-afdf25861f26",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>PALB2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "PALB2 Genetic Analysis"
+            }
+          ],
+          "text": "PALB2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:b3cda6d8-ef21-4cb8-a6d1-87482ba244b3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "b3cda6d8-ef21-4cb8-a6d1-87482ba244b3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "TP53 Genetic Analysis"
+            }
+          ],
+          "text": "TP53 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:984ab367-9a54-4861-8415-62e9c9aae70b",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "984ab367-9a54-4861-8415-62e9c9aae70b",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CHEK2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "CHEK2 Genetic Analysis"
+            }
+          ],
+          "text": "CHEK2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1b01b37a-dd00-4028-9075-4862ba92a1a7",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1b01b37a-dd00-4028-9075-4862ba92a1a7",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CDH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "CDH1 Genetic Analysis"
+            }
+          ],
+          "text": "CDH1 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f8229dd9-ae19-430d-8820-18baeaad785c",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "f8229dd9-ae19-430d-8820-18baeaad785c",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Hereditary Cancer Risk 15-Gene NGS Panel</h2><p><b>Conclusion:</b> A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-NGS-2098"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "79207-7",
+              "display": "Hereditary cancer predisposition panel Next generation sequencing",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Hereditary Cancer Risk 15-Gene NGS Panel"
+        },
+        "subject": {
+          "reference": "urn:uuid:68d6331e-761d-4311-84b9-b7ee71184a7a"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "issued": "2026-07-24",
+        "performer": [
+          {
+            "reference": "urn:uuid:7b83190c-94a5-4757-ac03-863ec18ccb91"
+          },
+          {
+            "reference": "urn:uuid:ba8d881c-04ea-4274-9120-83f1dcb7d6c3"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:ad6079ba-f5a0-42b0-bac5-802dd7d4aedd"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:78e87633-0ab0-49ce-886c-04d19b83318a"
+          },
+          {
+            "reference": "urn:uuid:1f2b0bd7-e5dd-4461-93b3-ad07fe8b74d6"
+          },
+          {
+            "reference": "urn:uuid:c5de0dc4-2c35-4390-85b9-afdf25861f26"
+          },
+          {
+            "reference": "urn:uuid:b3cda6d8-ef21-4cb8-a6d1-87482ba244b3"
+          },
+          {
+            "reference": "urn:uuid:984ab367-9a54-4861-8415-62e9c9aae70b"
+          },
+          {
+            "reference": "urn:uuid:1b01b37a-dd00-4028-9075-4862ba92a1a7"
+          }
+        ],
+        "conclusion": "A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.\n\nClinical Interpretation: The BRCA1 c.5266dupC (p.Gln1756Profs*74) variant is a well-characterized founder mutation in the BRCA1 tumor suppressor gene that results in premature protein truncation. This finding confirms a diagnosis of Hereditary Breast and Ovarian Cancer (HBOC) syndrome. High-risk surveillance protocols (e.g. annual breast MRI, risk-reducing salpingo-oophorectomy discussions) and cascade testing for at-risk first-degree relatives are strongly indicated.\n\nMethodology: Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization probes, followed by paired-end NextGen sequencing (Illumina NovaSeq). Copy number variations (CNVs) are called using normalized read-depth algorithms.\n\nLimitations: This assay does not detect deep intronic mutations outside the targeted regions, complex chromosomal rearrangements, or low-level somatic mosaicism. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}
