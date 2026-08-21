@@ -1,8 +1,8 @@
 """
 FHIR Lab Report Visualizer.
 Generates an interactive, production-grade Canvas UI Dashboard from an HL7 FHIR R4 Bundle.
-Includes Light/Dark mode toggle, live drag-and-drop / upload support, discrete biomarker range gauges,
-and interactive synchronized FHIR JSON inspection.
+Includes Light/Dark mode toggle, multi-format client-side parser & file upload (PDF, JSON, TXT, CSV),
+discrete biomarker range gauges, and interactive synchronized FHIR JSON inspection.
 """
 
 import os
@@ -17,6 +17,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HL7 FHIR Clinical Diagnostic Report Dashboard</title>
+  <!-- PDF.js for in-browser client-side PDF text extraction -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    if (typeof pdfjsLib !== 'undefined') {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+    }
+  </script>
   <style>
     :root {
       --bg-main: #f8fafc;
@@ -211,6 +218,19 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       color: var(--text-main);
       font-weight: 600;
       box-shadow: var(--shadow-sm);
+    }
+
+    /* Notification Status Toast */
+    #status-toast {
+      display: none;
+      background-color: var(--primary);
+      color: #ffffff;
+      padding: 8px 16px;
+      font-size: 12px;
+      font-weight: 600;
+      text-align: center;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
     }
 
     /* Main Container with Grid */
@@ -658,6 +678,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 </head>
 <body>
 
+  <!-- Status Toast -->
+  <div id="status-toast"></div>
+
   <!-- Header -->
   <header>
     <div class="brand-section">
@@ -673,8 +696,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       </div>
 
       <button id="btn-theme-toggle" onclick="toggleTheme()">Dark Theme</button>
-      <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileSelect(event)">
-      <button onclick="document.getElementById('file-input').click()">Upload Report</button>
+      <input type="file" id="file-input" accept=".json,.pdf,.txt,.csv" style="display: none;" onchange="handleFileSelect(event)">
+      <button onclick="document.getElementById('file-input').click()">Upload Report (PDF / JSON / TXT)</button>
       <button id="btn-download-json" onclick="downloadBundleJson()">Download JSON</button>
       <button id="btn-copy-json" class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
@@ -684,7 +707,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <main id="main-container">
     
     <div class="drop-overlay" id="drop-overlay">
-      Drop FHIR JSON Report File Here to Inspect
+      Drop Lab Report File (PDF, JSON, TXT) Here to Process & Inspect
     </div>
 
     <!-- Left: Clinical Dashboard -->
@@ -788,6 +811,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     let ACTIVE_BUNDLE = __ACTIVE_BUNDLE_JSON__;
     let currentSelectedResource = null;
 
+    // Toast Notification helper
+    function showToast(message, duration = 3000) {
+      const toast = document.getElementById('status-toast');
+      if (!toast) return;
+      toast.textContent = message;
+      toast.style.display = 'block';
+      setTimeout(() => { toast.style.display = 'none'; }, duration);
+    }
+
     // Theme Management
     function initTheme() {
       const savedTheme = localStorage.getItem('fhir_viewer_theme');
@@ -838,11 +870,265 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       );
     }
 
+    // Client-side Heuristic Text / Lab Parser to FHIR R4 Bundle
+    function parseTextToFhirBundle(rawText, sourceFileName = "Uploaded Report") {
+      const genId = () => 'urn:uuid:' + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const r = Math.random() * 16 | 0, v = c === 'x' ? r : (r & 0x3 | 0x8);
+        return v.toString(16);
+      });
+
+      const patientUuid = genId();
+      const practitionerUuid = genId();
+      const orgUuid = genId();
+      const specimenUuid = genId();
+      const reportUuid = genId();
+
+      // Extract Patient
+      let patName = "Patient Record";
+      let patDob = "";
+      let patGender = "unknown";
+      let patId = "MRN-" + Math.floor(100000 + Math.random() * 900000);
+
+      const nameMatch = rawText.match(/Name:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Provider|DOB|Sex|Gender|Patient ID|MRN|Specimen|Facility)|$|\n)/i);
+      if (nameMatch && nameMatch[1] && !nameMatch[1].toLowerCase().includes("information")) patName = nameMatch[1].trim();
+
+      const dobMatch = rawText.match(/DOB:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Facility|Sex|Gender|Provider|Location|Collection)|$|\n)/i);
+      if (dobMatch) patDob = dobMatch[1].trim();
+
+      const sexMatch = rawText.match(/(?:Sex|Gender):\s*([A-Za-z]+)/i);
+      if (sexMatch) {
+        const s = sexMatch[1].toLowerCase();
+        if (s.startsWith('f')) patGender = 'female';
+        else if (s.startsWith('m')) patGender = 'male';
+        else patGender = 'other';
+      }
+
+      const idMatch = rawText.match(/(?:Patient ID|MRN|Subject ID):\s*([A-Za-z0-9\-]+)/i);
+      if (idMatch) patId = idMatch[1].trim();
+
+      // Extract Provider
+      let provName = "Ordering Physician";
+      let provNpi = "1928374650";
+      const provMatch = rawText.match(/Provider:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Specimen ID|Facility|NPI|Location|DOB|Collection)|$|\n)/i);
+      if (provMatch && provMatch[1] && !provMatch[1].toLowerCase().includes("information")) provName = provMatch[1].trim();
+      const npiMatch = rawText.match(/NPI:\s*([0-9]{10})/i);
+      if (npiMatch) provNpi = npiMatch[1].trim();
+
+      // Extract Facility
+      let facName = "Clinical Diagnostics Laboratory";
+      let cliaId = "00D8874123";
+      const facMatch = rawText.match(/Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:Collection|Location|NPI|Specimen|Report Date)|$|\n)/i);
+      if (facMatch && facMatch[1]) facName = facMatch[1].trim();
+      const cliaMatch = rawText.match(/CLIA(?:\s*ID)?:\s*([A-Za-z0-9]+)/i);
+      if (cliaMatch) cliaId = cliaMatch[1].trim();
+
+      // Extract Specimen
+      let specType = "Biological Specimen";
+      let specId = "SPEC-" + Math.floor(10000 + Math.random() * 90000);
+      let collDate = new Date().toISOString().split('T')[0];
+      const specIdMatch = rawText.match(/(?:Specimen ID|Accession #|Sample ID):\s*([A-Za-z0-9\-]+)/i);
+      if (specIdMatch) specId = specIdMatch[1].trim();
+      const specTypeMatch = rawText.match(/(?:Specimen Type|Sample Type):\s*([A-Za-z0-9\s\/\-]+?)(?=\s+(?:Collection|Received|Volume)|$|\n)/i);
+      if (specTypeMatch) specType = specTypeMatch[1].trim();
+      const collMatch = rawText.match(/(?:Collection Date|Collected):\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Received|Report Date|DOB)|$|\n)/i);
+      if (collMatch) collDate = collMatch[1].trim();
+
+      // Extract Summary & Conclusion
+      let conclusion = "Laboratory diagnostic panel complete.";
+      const summaryMatch = rawText.match(/Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|$)/i);
+      if (summaryMatch && summaryMatch[1]) conclusion = summaryMatch[1].replace(/\n+/g, ' ').trim();
+
+      // Panel Title
+      let panelTitle = "Laboratory Diagnostic Panel";
+      let panelLoinc = "11502-2";
+      if (/galleri|early detection|mced|cancer signal/i.test(rawText)) {
+        panelTitle = "Multi-Cancer Early Detection Panel";
+        panelLoinc = "94076-7";
+      } else if (/prostate|phi|psa/i.test(rawText)) {
+        panelTitle = "Prostate Health Index and Early Cancer Biomarker Panel";
+        panelLoinc = "72305-6";
+      } else if (/colorectal|liquid biopsy|ctdna|sept9/i.test(rawText)) {
+        panelTitle = "Colorectal ctDNA Liquid Biopsy Panel";
+        panelLoinc = "94078-3";
+      } else if (/hereditary|brca|genetic/i.test(rawText)) {
+        panelTitle = "Hereditary Oncology NGS Panel";
+        panelLoinc = "79207-7";
+      }
+
+      // Observations List
+      const observations = [];
+      const obsUuids = [];
+
+      // Check Cancer Signal
+      if (/Cancer Signal Detected/i.test(rawText)) {
+        const obsId = genId();
+        obsUuids.push(obsId);
+        observations.push({
+          resourceType: "Observation",
+          id: obsId,
+          status: "final",
+          code: { coding: [{ system: "http://loinc.org", code: "94076-7", display: "Cancer signal methylation analysis in cell-free DNA" }], text: "Cancer Signal Status" },
+          subject: { reference: patientUuid },
+          valueString: "Cancer Signal Detected",
+          interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: "A", display: "Abnormal" }] }]
+        });
+      } else if (/Cancer Signal Not Detected/i.test(rawText)) {
+        const obsId = genId();
+        obsUuids.push(obsId);
+        observations.push({
+          resourceType: "Observation",
+          id: obsId,
+          status: "final",
+          code: { coding: [{ system: "http://loinc.org", code: "94076-7", display: "Cancer signal methylation analysis in cell-free DNA" }], text: "Cancer Signal Status" },
+          subject: { reference: patientUuid },
+          valueString: "Cancer Signal Not Detected",
+          interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: "N", display: "Normal" }] }]
+        });
+      }
+
+      // Check predicted origins
+      const origRegex = /Origin\s*(\d+):?\s*([A-Za-z\s]+?)\s*(?:\((\d+\%)\)|(\d+\%))/gi;
+      let origMatch;
+      while ((origMatch = origRegex.exec(rawText)) !== null) {
+        const origNum = origMatch[1];
+        const tissue = origMatch[2].trim();
+        const freq = origMatch[3] || origMatch[4] || "";
+        const obsId = genId();
+        obsUuids.push(obsId);
+        observations.push({
+          resourceType: "Observation",
+          id: obsId,
+          status: "final",
+          code: { coding: [{ system: "http://loinc.org", code: "94077-5", display: `Predicted cancer signal origin ${origNum}` }], text: `Predicted Cancer Signal Origin ${origNum}` },
+          subject: { reference: patientUuid },
+          valueString: `${tissue} (${freq})`,
+          interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: "A", display: "Abnormal" }] }]
+        });
+      }
+
+      // Check Table Rows / Quantitative Analytes
+      const lines = rawText.split(/\r?\n/);
+      lines.forEach(line => {
+        const l = line.trim();
+        if (!l || l.length < 5) return;
+
+        // Pattern: [TestName] [LOINC?] [Result] [Units?] [RefRange?] [Flag?]
+        const qMatch = l.match(/^([A-Za-z0-9\%\-\s\(\)\[\]]{3,35})\s+(?:(\d{4,5}\-\d)\s+)?([0-9\.]+)\s*([a-zA-Z\/\%\{\}\^]+)?\s*(<[=\s]*[0-9\.]+|>[=\s]*[0-9\.]+|[0-9\.]+\s*-\s*[0-9\.]+|N\/A)?\s*(High|Low|Normal|Abnormal|H|L|A|N)?$/i);
+        if (qMatch) {
+          const tName = qMatch[1].trim();
+          if (/total|free|prostate|phi|score|antigen|tmb|vaf|mutation|variant|analyte|result|biomarker/i.test(tName)) {
+            const loinc = qMatch[2] || "11502-2";
+            const valNum = parseFloat(qMatch[3]);
+            const unit = qMatch[4] || "";
+            const ref = qMatch[5] || "";
+            const flag = (qMatch[6] || "").toUpperCase();
+
+            let interpCode = "N";
+            let interpDisp = "Normal";
+            if (flag.startsWith("H")) { interpCode = "H"; interpDisp = "High"; }
+            else if (flag.startsWith("L")) { interpCode = "L"; interpDisp = "Low"; }
+            else if (flag.startsWith("A")) { interpCode = "A"; interpDisp = "Abnormal"; }
+
+            const obsId = genId();
+            obsUuids.push(obsId);
+            const obsObj = {
+              resourceType: "Observation",
+              id: obsId,
+              status: "final",
+              code: { coding: [{ system: "http://loinc.org", code: loinc, display: tName }], text: tName },
+              subject: { reference: patientUuid },
+              valueQuantity: { value: valNum, unit: unit, code: unit, system: "http://unitsofmeasure.org" },
+              interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: interpCode, display: interpDisp }] }]
+            };
+            if (ref && ref !== "N/A") {
+              const rr = { text: ref };
+              const rMatch = ref.match(/([0-9\.]+)\s*-\s*([0-9\.]+)/);
+              const lessM = ref.match(/<[=\s]*([0-9\.]+)/);
+              const grtM = ref.match(/>[=\s]*([0-9\.]+)/);
+              if (rMatch) { rr.low = { value: parseFloat(rMatch[1]), unit: unit }; rr.high = { value: parseFloat(rMatch[2]), unit: unit }; }
+              else if (lessM) { rr.high = { value: parseFloat(lessM[1]), unit: unit }; }
+              else if (grtM) { rr.low = { value: parseFloat(grtM[1]), unit: unit }; }
+              obsObj.referenceRange = [rr];
+            }
+            observations.push(obsObj);
+          }
+        }
+      });
+
+      // Assemble FHIR Bundle
+      const bundle = {
+        resourceType: "Bundle",
+        id: "bundle-" + Math.floor(100000 + Math.random() * 900000),
+        type: "transaction",
+        timestamp: new Date().toISOString(),
+        entry: [
+          {
+            fullUrl: patientUuid,
+            resource: {
+              resourceType: "Patient",
+              id: patientUuid.replace('urn:uuid:', ''),
+              name: [{ use: "official", text: patName }],
+              gender: patGender,
+              birthDate: patDob,
+              identifier: [{ system: "urn:oid:medical-record-number", value: patId }]
+            }
+          },
+          {
+            fullUrl: practitionerUuid,
+            resource: {
+              resourceType: "Practitioner",
+              id: practitionerUuid.replace('urn:uuid:', ''),
+              name: [{ use: "official", text: provName }],
+              identifier: [{ system: "http://hl7.org/fhir/sid/us-npi", value: provNpi }]
+            }
+          },
+          {
+            fullUrl: orgUuid,
+            resource: {
+              resourceType: "Organization",
+              id: orgUuid.replace('urn:uuid:', ''),
+              name: facName,
+              identifier: [{ system: "urn:oid:2.16.840.1.113883.4.7", value: cliaId }]
+            }
+          },
+          {
+            fullUrl: specimenUuid,
+            resource: {
+              resourceType: "Specimen",
+              id: specimenUuid.replace('urn:uuid:', ''),
+              type: { text: specType },
+              identifier: [{ value: specId }],
+              collection: { collectedDateTime: collDate }
+            }
+          },
+          ...observations.map(obs => ({
+            fullUrl: obs.id,
+            resource: { ...obs, id: obs.id.replace('urn:uuid:', '') }
+          })),
+          {
+            fullUrl: reportUuid,
+            resource: {
+              resourceType: "DiagnosticReport",
+              id: reportUuid.replace('urn:uuid:', ''),
+              status: "final",
+              code: { coding: [{ system: "http://loinc.org", code: panelLoinc, display: panelTitle }], text: panelTitle },
+              subject: { reference: patientUuid },
+              performer: [{ reference: orgUuid }, { reference: practitionerUuid }],
+              specimen: [{ reference: specimenUuid }],
+              result: obsUuids.map(u => ({ reference: u })),
+              conclusion: conclusion
+            }
+          }
+        ]
+      };
+
+      return bundle;
+    }
+
     // Load Single Bundle into Dashboard
     function renderDashboard(bundle) {
       if (!bundle) return;
       if (!bundle.entry && bundle.resourceType) {
-        // Wrap standalone resource in a bundle container
         bundle = { resourceType: 'Bundle', type: 'collection', entry: [{ resource: bundle }] };
       }
       ACTIVE_BUNDLE = bundle;
@@ -1233,23 +1519,75 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
     }
 
-    // Drag and Drop & File Upload
+    // Drag and Drop & Multi-format File Upload (PDF, JSON, TXT, CSV)
     function handleFileSelect(e) {
       const file = e.target.files && e.target.files[0];
       if (file) processUploadedFile(file);
     }
 
-    function processUploadedFile(file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        try {
-          const parsed = JSON.parse(event.target.result);
-          renderDashboard(parsed);
-        } catch (err) {
-          alert('Error parsing uploaded JSON file: ' + err.message);
+    async function processUploadedFile(file) {
+      const fileName = file.name.toLowerCase();
+      showToast(`Processing file: ${file.name}...`);
+
+      if (fileName.endsWith('.json')) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const parsed = JSON.parse(event.target.result);
+            renderDashboard(parsed);
+            showToast(`Loaded FHIR JSON bundle: ${file.name}`);
+          } catch (err) {
+            alert('Error parsing uploaded JSON file: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      } else if (fileName.endsWith('.pdf')) {
+        if (typeof pdfjsLib === 'undefined') {
+          alert('PDF parsing requires pdf.js library. For CLI processing run:\npython3 scripts/visualize.py ' + file.name);
+          return;
         }
-      };
-      reader.readAsText(file);
+        try {
+          const arrayBuffer = await file.arrayBuffer();
+          const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+          const pdf = await loadingTask.promise;
+          let fullText = '';
+          for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+            const page = await pdf.getPage(pageNum);
+            const textContent = await page.getTextContent();
+            let lastY = null;
+            let pageText = '';
+            textContent.items.forEach(item => {
+              if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
+                pageText += '\n';
+              } else if (pageText.length > 0 && !pageText.endsWith('\n') && !pageText.endsWith(' ')) {
+                pageText += ' ';
+              }
+              pageText += item.str;
+              lastY = item.transform[5];
+            });
+            fullText += pageText + '\n\n';
+          }
+          const bundle = parseTextToFhirBundle(fullText, file.name);
+          renderDashboard(bundle);
+          showToast(`Extracted and converted PDF report: ${file.name}`);
+        } catch (err) {
+          alert('Error extracting text from PDF in browser: ' + err.message + '\n\nYou can also convert using the CLI: python3 scripts/visualize.py path/to/report.pdf');
+        }
+      } else {
+        // Plain text, CSV, markdown, or log files
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          try {
+            const rawText = event.target.result;
+            const bundle = parseTextToFhirBundle(rawText, file.name);
+            renderDashboard(bundle);
+            showToast(`Extracted and converted text report: ${file.name}`);
+          } catch (err) {
+            alert('Error converting raw text to FHIR: ' + err.message);
+          }
+        };
+        reader.readAsText(file);
+      }
     }
 
     window.addEventListener('dragover', (e) => {
