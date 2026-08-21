@@ -309,11 +309,11 @@ class LabReportParser:
             "conclusion": None
         }
         
-        res_match = re.search(r'Result:\s*(Cancer Signal (?:Detected|Not Detected)|Positive(?:\s*\([^\)]+\))?|Negative(?:\s*\([^\)]+\))?|Normal|Abnormal|Elevated Risk(?:\s*\([^\)]+\))?|Pathogenic Variant Identified)', self.raw_text, re.IGNORECASE)
+        res_match = re.search(r'(?:Result|Test Result Summary):\s*(Cancer Signal (?:Detected|Not Detected)|Positive(?:\s*\([^\)]+\))?|Negative(?:\s*\([^\)]+\))?|Normal|Abnormal|Elevated Risk(?:\s*\([^\)]+\))?|Pathogenic Variant Identified|Patient has an elevated [^\n\.]+)', self.raw_text, re.IGNORECASE)
         if res_match:
             summary["result_text"] = res_match.group(1).strip()
             
-        narr_match = re.search(r'Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Observations|Quantitative and Qualitative|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|$)', self.raw_text, re.IGNORECASE)
+        narr_match = re.search(r'Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|$)', self.raw_text, re.IGNORECASE)
         if narr_match:
             summary["conclusion"] = " ".join([l.strip() for l in narr_match.group(1).split("\n") if l.strip()])
             

@@ -31,7 +31,10 @@ def test_generate_report_specific_canvas_cancer_report():
         assert 'id="clinical-dashboard"' in content
         assert 'id="fhir-inspector"' in content
         assert 'id="biomarkers-list"' in content
-        assert "synthetic-banner" in content
+        assert 'id="btn-theme-toggle"' in content
+        assert 'id="biomarker-search"' in content
+        assert 'id="file-input"' in content
+        assert "synthetic-banner" not in content
 
         # Verify no hardcoded multi-report preset selector
         assert 'id="preset-selector"' not in content

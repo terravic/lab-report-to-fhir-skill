@@ -3,9 +3,10 @@ FHIR Builder Module.
 Constructs valid HL7 FHIR R4 JSON resources and Bundles from structured laboratory data.
 """
 
-from typing import Dict, Any, List, Optional
+import re
 import uuid
 from datetime import datetime, timezone
+from typing import Dict, Any, List, Optional
 
 
 def generate_uuid() -> str:
@@ -354,13 +355,28 @@ class FHIRBundleBuilder:
                     })
                 obs_resource["component"] = components
 
-            # Add Reference Range
+            # Add Reference Range with parsed low/high quantities if numeric
             if item.get("reference_range"):
-                obs_resource["referenceRange"] = [
-                    {
-                        "text": item["reference_range"]
-                    }
-                ]
+                ref_text = str(item["reference_range"])
+                ref_obj: Dict[str, Any] = {"text": ref_text}
+                unit_str = item.get("unit") or ""
+                
+                # Range pattern: "0.0 - 4.0"
+                range_match = re.search(r'([0-9\.]+)\s*-\s*([0-9\.]+)', ref_text)
+                # Less than pattern: "< 27.0" or "<= 27.0"
+                less_match = re.search(r'<[=\s]*([0-9\.]+)', ref_text)
+                # Greater than pattern: "> 25.0" or ">= 25.0"
+                greater_match = re.search(r'>[=\s]*([0-9\.]+)', ref_text)
+                
+                if range_match:
+                    ref_obj["low"] = {"value": float(range_match.group(1)), "unit": unit_str}
+                    ref_obj["high"] = {"value": float(range_match.group(2)), "unit": unit_str}
+                elif less_match:
+                    ref_obj["high"] = {"value": float(less_match.group(1)), "unit": unit_str}
+                elif greater_match:
+                    ref_obj["low"] = {"value": float(greater_match.group(1)), "unit": unit_str}
+                    
+                obs_resource["referenceRange"] = [ref_obj]
                 
             # Add Interpretation Flag
             interp_code = item.get("interpretation")

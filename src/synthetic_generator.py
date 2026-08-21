@@ -111,8 +111,7 @@ def build_synthetic_mced_negative_pdf(output_path: str):
     )
     
     story = []
-    story.append(get_synthetic_notice_table())
-    story.append(Spacer(1, 6))
+    # Running footer contains synthetic test notice
     
     # Header
     story.append(Paragraph("PACIFIC PRECISION GENOMICS LAB (SYNTHETIC FACILITY)", ParagraphStyle('LabName', fontName='Helvetica-Bold', fontSize=13, textColor=colors.HexColor("#1A365D"))))
@@ -220,8 +219,7 @@ def build_synthetic_colorectal_ctdna_pdf(output_path: str):
     banner_pos = ParagraphStyle('BannerPos', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#9B2C2C"))
 
     story = []
-    story.append(get_synthetic_notice_table())
-    story.append(Spacer(1, 6))
+    # Running footer contains synthetic test notice
     
     story.append(Paragraph("BEACON ONCOLOGY REFERENCE LABORATORY (SYNTHETIC FACILITY)", ParagraphStyle('LabB', fontName='Helvetica-Bold', fontSize=13, textColor=colors.HexColor("#742A2A"))))
     story.append(Paragraph("450 Synthetic Technology Parkway, Cambridge, MA 02100 | CLIA ID: 00D8874123 | Director: Dr. Arthur Sterling, MD, FCAP (Synthetic)", sub_title_style))
@@ -328,8 +326,7 @@ def build_synthetic_hereditary_ngs_pdf(output_path: str):
     banner_alert = ParagraphStyle('BannerAlert', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#9B2C2C"))
 
     story = []
-    story.append(get_synthetic_notice_table())
-    story.append(Spacer(1, 6))
+    # Running footer contains synthetic test notice
     
     story.append(Paragraph("GENOMEPATH CLINICAL DIAGNOSTICS (SYNTHETIC FACILITY)", ParagraphStyle('LabG', fontName='Helvetica-Bold', fontSize=13, textColor=colors.HexColor("#2C5282"))))
     story.append(Paragraph("3600 Synthetic Boulevard, Suite 500, Philadelphia, PA 19100 | CLIA ID: 00D7654321 | Director: Dr. Sarah Jenkins, MD, FCAP (Synthetic)", sub_title_style))
@@ -437,8 +434,7 @@ def build_synthetic_prostate_phi_pdf(output_path: str):
     banner_alert = ParagraphStyle('BannerWarn', parent=styles['Normal'], fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#9C4221"))
 
     story = []
-    story.append(get_synthetic_notice_table())
-    story.append(Spacer(1, 6))
+    # Running footer contains synthetic test notice
     
     story.append(Paragraph("APEX UROLOGIC REFERENCE LABORATORY (SYNTHETIC FACILITY)", ParagraphStyle('LabA', fontName='Helvetica-Bold', fontSize=13, textColor=colors.HexColor("#234E52"))))
     story.append(Paragraph("7700 Synthetic Parkway, Suite 300, Minneapolis, MN 55400 | CLIA ID: 00D1122334 | Director: Dr. Keith Carlson, MD, FCAP (Synthetic)", sub_title_style))

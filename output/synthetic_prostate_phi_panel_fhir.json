@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "afd3e627-6da4-4a79-95f5-febac6907910",
+  "id": "4b2d89e3-060b-4aae-b68f-16288b637946",
   "type": "transaction",
-  "timestamp": "2026-08-21T15:16:45Z",
+  "timestamp": "2026-08-21T15:56:31Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1",
+      "fullUrl": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733",
       "resource": {
         "resourceType": "Patient",
-        "id": "4ee3eafa-467e-46fa-ac93-acd1b9d607d1",
+        "id": "4f6bc2c5-832b-4d33-b70e-dd7293c6f733",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Arthur B. Sample</p></div>"
@@ -50,10 +50,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:8352e53c-5e9b-4b6c-84b6-e0eb5466dad5",
+      "fullUrl": "urn:uuid:439c8bef-9fc7-4163-80cf-ffa2fd6bef2a",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "8352e53c-5e9b-4b6c-84b6-e0eb5466dad5",
+        "id": "439c8bef-9fc7-4163-80cf-ffa2fd6bef2a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. David Reynolds</p></div>"
@@ -78,10 +78,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784",
+      "fullUrl": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd",
       "resource": {
         "resourceType": "Organization",
-        "id": "f69e7525-9a7f-4734-b6ef-171b938a8784",
+        "id": "f778df35-3908-4028-bf6b-c82a136155bd",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Northstar Urologic Clinic</p></div>"
@@ -101,10 +101,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1",
+      "fullUrl": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78",
       "resource": {
         "resourceType": "Specimen",
-        "id": "f45ead98-425f-4336-bf00-9749443415e1",
+        "id": "8f759dab-be94-4881-b5e7-1c689445ce78",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-PHI-8821 (Serum)</p></div>"
@@ -127,7 +127,7 @@
           "text": "Serum"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "collection": {
           "collectedDateTime": "2026-08-10"
@@ -140,10 +140,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:32bba1c6-2f3e-40ac-b437-f6a8025c624f",
+      "fullUrl": "urn:uuid:fd03522c-0369-499e-8ccb-cabebe0f6dd9",
       "resource": {
         "resourceType": "Observation",
-        "id": "32bba1c6-2f3e-40ac-b437-f6a8025c624f",
+        "id": "fd03522c-0369-499e-8ccb-cabebe0f6dd9",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total PSA:</b> 5.6</p></div>"
@@ -171,16 +171,16 @@
           "text": "Total PSA"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "performer": [
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+          "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
         },
         "valueQuantity": {
           "value": 5.6,
@@ -190,7 +190,15 @@
         },
         "referenceRange": [
           {
-            "text": "0.0 - 4.0"
+            "text": "0.0 - 4.0",
+            "low": {
+              "value": 0.0,
+              "unit": "ng/mL"
+            },
+            "high": {
+              "value": 4.0,
+              "unit": "ng/mL"
+            }
           }
         ],
         "interpretation": [
@@ -211,10 +219,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:5bdb5632-b8df-428d-8035-8061e0d882fd",
+      "fullUrl": "urn:uuid:7e7292e7-6852-4dd1-b1a5-1526e7208a21",
       "resource": {
         "resourceType": "Observation",
-        "id": "5bdb5632-b8df-428d-8035-8061e0d882fd",
+        "id": "7e7292e7-6852-4dd1-b1a5-1526e7208a21",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Free PSA:</b> 0.58</p></div>"
@@ -242,16 +250,16 @@
           "text": "Free PSA"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "performer": [
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+          "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
         },
         "valueQuantity": {
           "value": 0.58,
@@ -282,10 +290,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:919c63d2-4bdd-4983-a862-8c459161e6ca",
+      "fullUrl": "urn:uuid:5ec1d307-aa75-4404-b5f0-277b38eeef8a",
       "resource": {
         "resourceType": "Observation",
-        "id": "919c63d2-4bdd-4983-a862-8c459161e6ca",
+        "id": "5ec1d307-aa75-4404-b5f0-277b38eeef8a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>% Free PSA:</b> 10.4</p></div>"
@@ -313,16 +321,16 @@
           "text": "% Free PSA"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "performer": [
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+          "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
         },
         "valueQuantity": {
           "value": 10.4,
@@ -332,7 +340,11 @@
         },
         "referenceRange": [
           {
-            "text": "> 25.0 %"
+            "text": "> 25.0 %",
+            "low": {
+              "value": 25.0,
+              "unit": "%"
+            }
           }
         ],
         "interpretation": [
@@ -353,10 +365,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:eb0c7c37-ffd3-46e7-9924-1920e703a6c5",
+      "fullUrl": "urn:uuid:3b74e98b-faef-4d7a-9345-30bc68a3ea73",
       "resource": {
         "resourceType": "Observation",
-        "id": "eb0c7c37-ffd3-46e7-9924-1920e703a6c5",
+        "id": "3b74e98b-faef-4d7a-9345-30bc68a3ea73",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>[-2]proPSA:</b> 19.2</p></div>"
@@ -384,16 +396,16 @@
           "text": "[-2]proPSA"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "performer": [
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+          "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
         },
         "valueQuantity": {
           "value": 19.2,
@@ -424,10 +436,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:38ac64c9-84d9-4764-a73d-8e745f63ab5e",
+      "fullUrl": "urn:uuid:8e3c7a1c-94a1-41fd-b0f5-80db9ff28837",
       "resource": {
         "resourceType": "Observation",
-        "id": "38ac64c9-84d9-4764-a73d-8e745f63ab5e",
+        "id": "8e3c7a1c-94a1-41fd-b0f5-80db9ff28837",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Prostate Health Index (phi):</b> 47.8</p></div>"
@@ -455,16 +467,16 @@
           "text": "Prostate Health Index (phi)"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "performer": [
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+          "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
         },
         "valueQuantity": {
           "value": 47.8,
@@ -474,7 +486,11 @@
         },
         "referenceRange": [
           {
-            "text": "< 27.0 (Low Risk)"
+            "text": "< 27.0 (Low Risk)",
+            "high": {
+              "value": 27.0,
+              "unit": "{score}"
+            }
           }
         ],
         "interpretation": [
@@ -495,13 +511,13 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a111b433-ce37-46ee-9565-0769335d2bf1",
+      "fullUrl": "urn:uuid:ccc867b2-5ae4-48b6-b5e5-83cf9a80a14d",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "a111b433-ce37-46ee-9565-0769335d2bf1",
+        "id": "ccc867b2-5ae4-48b6-b5e5-83cf9a80a14d",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Prostate Health Index and Early Cancer Biomarker Panel</h2><p><b>Conclusion:</b> Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy. Quantitative Immunoassay Biomarkers Biomarker / Assay LOINC Result Units Reference Range Flag Total PSA 2857-1 5.6 ng/mL 0.0 - 4.0 High (H) Free PSA 10886-0 0.58 ng/mL N/A Normal % Free PSA 19195-7 10.4 % > 25.0 % Low (L) [-2]proPSA 72304-9 19.2 pg/mL N/A Normal Prostate Health Index (phi) 72305-6 47.8 {score} < 27.0 (Low Risk) High (H)</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Prostate Health Index and Early Cancer Biomarker Panel</h2><p><b>Conclusion:</b> Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.</p></div>"
         },
         "identifier": [
           {
@@ -532,41 +548,41 @@
           "text": "Prostate Health Index and Early Cancer Biomarker Panel"
         },
         "subject": {
-          "reference": "urn:uuid:4ee3eafa-467e-46fa-ac93-acd1b9d607d1"
+          "reference": "urn:uuid:4f6bc2c5-832b-4d33-b70e-dd7293c6f733"
         },
         "effectiveDateTime": "2026-08-10",
         "issued": "2026-08-12",
         "performer": [
           {
-            "reference": "urn:uuid:8352e53c-5e9b-4b6c-84b6-e0eb5466dad5"
+            "reference": "urn:uuid:439c8bef-9fc7-4163-80cf-ffa2fd6bef2a"
           },
           {
-            "reference": "urn:uuid:f69e7525-9a7f-4734-b6ef-171b938a8784"
+            "reference": "urn:uuid:f778df35-3908-4028-bf6b-c82a136155bd"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:f45ead98-425f-4336-bf00-9749443415e1"
+            "reference": "urn:uuid:8f759dab-be94-4881-b5e7-1c689445ce78"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:32bba1c6-2f3e-40ac-b437-f6a8025c624f"
+            "reference": "urn:uuid:fd03522c-0369-499e-8ccb-cabebe0f6dd9"
           },
           {
-            "reference": "urn:uuid:5bdb5632-b8df-428d-8035-8061e0d882fd"
+            "reference": "urn:uuid:7e7292e7-6852-4dd1-b1a5-1526e7208a21"
           },
           {
-            "reference": "urn:uuid:919c63d2-4bdd-4983-a862-8c459161e6ca"
+            "reference": "urn:uuid:5ec1d307-aa75-4404-b5f0-277b38eeef8a"
           },
           {
-            "reference": "urn:uuid:eb0c7c37-ffd3-46e7-9924-1920e703a6c5"
+            "reference": "urn:uuid:3b74e98b-faef-4d7a-9345-30bc68a3ea73"
           },
           {
-            "reference": "urn:uuid:38ac64c9-84d9-4764-a73d-8e745f63ab5e"
+            "reference": "urn:uuid:8e3c7a1c-94a1-41fd-b0f5-80db9ff28837"
           }
         ],
-        "conclusion": "Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy. Quantitative Immunoassay Biomarkers Biomarker / Assay LOINC Result Units Reference Range Flag Total PSA 2857-1 5.6 ng/mL 0.0 - 4.0 High (H) Free PSA 10886-0 0.58 ng/mL N/A Normal % Free PSA 19195-7 10.4 % > 25.0 % Low (L) [-2]proPSA 72304-9 19.2 pg/mL N/A Normal Prostate Health Index (phi) 72305-6 47.8 {score} < 27.0 (Low Risk) High (H)\n\nClinical Interpretation: The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides strong clinical justification for mpMRI and targeted prostate biopsy.\n\nMethodology: Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using Beckman Coulter Access chemiluminescent immunoassays calibrated against WHO standards. The phi score is derived mathematically.\n\nLimitations: phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
+        "conclusion": "Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.\n\nClinical Interpretation: The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides strong clinical justification for mpMRI and targeted prostate biopsy.\n\nMethodology: Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using Beckman Coulter Access chemiluminescent immunoassays calibrated against WHO standards. The phi score is derived mathematically.\n\nLimitations: phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"
       },
       "request": {
         "method": "POST",

@@ -1,7 +1,8 @@
 """
 FHIR Lab Report Visualizer.
-Generates an interactive, report-specific Canvas UI Dashboard from a single HL7 FHIR R4 Bundle.
-This UI is generated after extracting information from a specific lab report, visualizing that report only.
+Generates an interactive, production-grade Canvas UI Dashboard from an HL7 FHIR R4 Bundle.
+Includes Light/Dark mode toggle, live drag-and-drop / upload support, discrete biomarker range gauges,
+and interactive synchronized FHIR JSON inspection.
 """
 
 import os
@@ -11,7 +12,7 @@ from typing import Dict, Any, Optional
 
 
 HTML_TEMPLATE = r"""<!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -34,24 +35,71 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       --success: #16a34a;
       --success-bg: #dcfce7;
       --success-border: #86efac;
+      --success-text: #14532d;
       
       --danger: #dc2626;
       --danger-bg: #fee2e2;
       --danger-border: #fca5a5;
+      --danger-text: #7f1d1d;
       
       --warning: #d97706;
       --warning-bg: #fef3c7;
       --warning-border: #fcd34d;
+      --warning-text: #78350f;
       
       --info: #2563eb;
       --info-bg: #dbeafe;
       --info-border: #93c5fd;
+
+      --inspector-bg: #0f172a;
+      --inspector-header-bg: #1e293b;
+      --inspector-border: #334155;
+      --inspector-text: #f8fafc;
 
       --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --radius: 8px;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0b0f19;
+      --bg-card: #131b2e;
+      --bg-subtle: #1e293b;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --text-light: #64748b;
+      --border-color: #27354f;
+      --border-focus: #38bdf8;
+      
+      --primary: #0284c7;
+      --primary-dark: #0ea5e9;
+      --primary-light: #082f49;
+      
+      --success: #22c55e;
+      --success-bg: #052e16;
+      --success-border: #15803d;
+      --success-text: #86efac;
+      
+      --danger: #ef4444;
+      --danger-bg: #450a0a;
+      --danger-border: #991b1b;
+      --danger-text: #fca5a5;
+      
+      --warning: #f59e0b;
+      --warning-bg: #451a03;
+      --warning-border: #92400e;
+      --warning-text: #fde68a;
+      
+      --info: #3b82f6;
+      --info-bg: #172554;
+      --info-border: #1d4ed8;
+
+      --inspector-bg: #070b14;
+      --inspector-header-bg: #0f172a;
+      --inspector-border: #1e293b;
+      --inspector-text: #f8fafc;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -66,19 +114,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       flex-direction: column;
       height: 100vh;
       overflow: hidden;
-    }
-
-    /* Top Synthetic Notice */
-    .synthetic-banner {
-      background-color: #fff1f2;
-      color: #9f1239;
-      border-bottom: 1px solid #fecdd3;
-      padding: 6px 16px;
-      font-size: 12px;
-      font-weight: 600;
-      text-align: center;
-      letter-spacing: 0.02em;
-      flex-shrink: 0;
+      transition: background-color 0.2s ease, color 0.2s ease;
     }
 
     /* App Header */
@@ -107,12 +143,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     .report-badge {
       background-color: var(--primary-light);
-      color: var(--primary-dark);
+      color: var(--primary);
       font-size: 11px;
       font-weight: 600;
       padding: 3px 8px;
       border-radius: 4px;
-      border: 1px solid #bae6fd;
+      border: 1px solid var(--border-color);
     }
 
     .controls-section {
@@ -167,10 +203,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       padding: 4px 10px;
       font-size: 12px;
       border-radius: 6px;
+      color: var(--text-muted);
     }
 
     .view-toggle button.active {
       background-color: var(--bg-card);
+      color: var(--text-main);
       font-weight: 600;
       box-shadow: var(--shadow-sm);
     }
@@ -183,6 +221,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       overflow: hidden;
       background-color: var(--bg-main);
       min-height: 0;
+      position: relative;
     }
 
     main.view-clinical-only {
@@ -213,8 +252,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     /* FHIR Inspector Column */
     #fhir-inspector {
       overflow-y: hidden;
-      background-color: #0f172a;
-      color: #f8fafc;
+      background-color: var(--inspector-bg);
+      color: var(--inspector-text);
       display: flex;
       flex-direction: column;
       height: 100%;
@@ -245,19 +284,19 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .result-banner.status-abnormal, .result-banner.status-pathogenic {
       background-color: var(--danger-bg);
       border-color: var(--danger-border);
-      color: #7f1d1d;
+      color: var(--danger-text);
     }
 
     .result-banner.status-normal {
       background-color: var(--success-bg);
       border-color: var(--success-border);
-      color: #14532d;
+      color: var(--success-text);
     }
 
     .result-banner.status-elevated {
       background-color: var(--warning-bg);
       border-color: var(--warning-border);
-      color: #78350f;
+      color: var(--warning-text);
     }
 
     .result-title {
@@ -345,6 +384,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       border: 1px solid var(--border-color);
     }
 
+    /* Search & Filter Controls */
+    .filter-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .search-input {
+      flex: 1;
+      font-family: var(--font-sans);
+      font-size: 13px;
+      padding: 6px 12px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-main);
+    }
+    .search-input:focus {
+      outline: none;
+      border-color: var(--border-focus);
+    }
+
     /* Section Title */
     .section-title {
       font-size: 13px;
@@ -403,11 +464,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .biomarker-code-badge {
       font-family: var(--font-mono);
       font-size: 11px;
-      background-color: #f1f5f9;
-      color: #475569;
+      background-color: var(--bg-subtle);
+      color: var(--text-muted);
       padding: 2px 6px;
       border-radius: 4px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--border-color);
     }
 
     .biomarker-result-val {
@@ -444,7 +505,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     .gauge-bar-track {
       height: 8px;
-      background: linear-gradient(to right, #86efac 0%, #86efac 65%, #fca5a5 65%, #fca5a5 100%);
       border-radius: 4px;
       position: relative;
     }
@@ -459,6 +519,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       border-radius: 3px;
       transform: translateX(-50%);
       box-shadow: 0 1px 3px rgba(0,0,0,0.3);
+    }
+
+    [data-theme="dark"] .gauge-pointer {
+      background-color: #ffffff;
+      border: 1px solid #000000;
     }
 
     .gauge-labels {
@@ -477,15 +542,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       padding: 14px 16px;
       font-size: 13px;
       line-height: 1.6;
-      color: #334155;
+      color: var(--text-main);
       cursor: pointer;
     }
 
     /* FHIR Inspector Header */
     .inspector-header {
-      background-color: #1e293b;
+      background-color: var(--inspector-header-bg);
       padding: 10px 16px;
-      border-bottom: 1px solid #334155;
+      border-bottom: 1px solid var(--inspector-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -509,17 +574,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       gap: 4px;
       overflow-x: auto;
       padding: 8px 16px;
-      background-color: #1e293b;
-      border-bottom: 1px solid #334155;
+      background-color: var(--inspector-header-bg);
+      border-bottom: 1px solid var(--inspector-border);
       flex-shrink: 0;
     }
 
     .tab-btn {
       font-family: var(--font-mono);
       font-size: 11px;
-      background-color: #0f172a;
+      background-color: var(--inspector-bg);
       color: #94a3b8;
-      border: 1px solid #334155;
+      border: 1px solid var(--inspector-border);
       padding: 4px 10px;
       border-radius: 4px;
       white-space: nowrap;
@@ -541,7 +606,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       font-family: var(--font-mono);
       font-size: 12px;
       line-height: 1.6;
-      background-color: #0f172a;
+      background-color: var(--inspector-bg);
     }
 
     pre {
@@ -556,6 +621,27 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .json-number { color: #f59e0b; }
     .json-boolean { color: #ec4899; font-weight: 600; }
     .json-null { color: #94a3b8; font-style: italic; }
+
+    /* Drag and Drop Overlay */
+    .drop-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(2, 132, 199, 0.15);
+      backdrop-filter: blur(2px);
+      border: 3px dashed var(--primary);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 50;
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--primary);
+      pointer-events: none;
+    }
+
+    .drag-active .drop-overlay {
+      display: flex;
+    }
 
     /* Responsive */
     @media (max-width: 900px) {
@@ -572,11 +658,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 </head>
 <body>
 
-  <!-- Top Synthetic Notice -->
-  <div class="synthetic-banner">
-    100% SYNTHETIC CLINICAL TEST RECORD - ZERO PROTECTED HEALTH INFORMATION (NO PHI) - EXTRACTED & CONVERTED REPORT
-  </div>
-
   <!-- Header -->
   <header>
     <div class="brand-section">
@@ -591,6 +672,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <button id="btn-view-json" onclick="setViewMode('json')">FHIR JSON</button>
       </div>
 
+      <button id="btn-theme-toggle" onclick="toggleTheme()">Dark Theme</button>
+      <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileSelect(event)">
+      <button onclick="document.getElementById('file-input').click()">Upload Report</button>
       <button id="btn-download-json" onclick="downloadBundleJson()">Download JSON</button>
       <button id="btn-copy-json" class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
@@ -599,6 +683,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <!-- Main Content -->
   <main id="main-container">
     
+    <div class="drop-overlay" id="drop-overlay">
+      Drop FHIR JSON Report File Here to Inspect
+    </div>
+
     <!-- Left: Clinical Dashboard -->
     <section id="clinical-dashboard">
       
@@ -656,6 +744,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <span class="fhir-pill" id="obs-count-badge">0 Observations</span>
       </div>
 
+      <div class="filter-bar">
+        <input type="text" class="search-input" id="biomarker-search" placeholder="Filter biomarkers, analytes, or LOINC codes..." oninput="filterBiomarkers()">
+      </div>
+
       <div class="biomarkers-container" id="biomarkers-list">
         <!-- Dynamically Populated -->
       </div>
@@ -693,9 +785,34 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   <script>
     // Embedded Active Report FHIR JSON Bundle
-    const ACTIVE_BUNDLE = __ACTIVE_BUNDLE_JSON__;
-
+    let ACTIVE_BUNDLE = __ACTIVE_BUNDLE_JSON__;
     let currentSelectedResource = null;
+
+    // Theme Management
+    function initTheme() {
+      const savedTheme = localStorage.getItem('fhir_viewer_theme');
+      if (savedTheme) {
+        setTheme(savedTheme);
+      } else if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        setTheme('dark');
+      } else {
+        setTheme('light');
+      }
+    }
+
+    function setTheme(theme) {
+      document.documentElement.setAttribute('data-theme', theme);
+      localStorage.setItem('fhir_viewer_theme', theme);
+      const btn = document.getElementById('btn-theme-toggle');
+      if (btn) {
+        btn.textContent = theme === 'dark' ? 'Light Theme' : 'Dark Theme';
+      }
+    }
+
+    function toggleTheme() {
+      const current = document.documentElement.getAttribute('data-theme') || 'light';
+      setTheme(current === 'dark' ? 'light' : 'dark');
+    }
 
     // Syntax Highlight JSON
     function syntaxHighlightJson(jsonObj) {
@@ -723,9 +840,14 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     // Load Single Bundle into Dashboard
     function renderDashboard(bundle) {
-      if (!bundle || !bundle.entry) return;
+      if (!bundle) return;
+      if (!bundle.entry && bundle.resourceType) {
+        // Wrap standalone resource in a bundle container
+        bundle = { resourceType: 'Bundle', type: 'collection', entry: [{ resource: bundle }] };
+      }
+      ACTIVE_BUNDLE = bundle;
 
-      const resources = bundle.entry.map(e => e.resource).filter(Boolean);
+      const resources = (bundle.entry || []).map(e => e.resource).filter(Boolean);
       
       const diagReport = resources.find(r => r.resourceType === 'DiagnosticReport') || {};
       const patient = resources.find(r => r.resourceType === 'Patient') || {};
@@ -734,20 +856,36 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const specimen = resources.find(r => r.resourceType === 'Specimen') || {};
       const observations = resources.filter(r => r.resourceType === 'Observation');
 
-      // 1. Diagnostic Banner
-      const conclusion = diagReport.conclusion || (diagReport.code && diagReport.code.text) || 'Diagnostic Report';
-      const isPathogenic = /positive|pathogenic|detected|elevated/i.test(conclusion) && !/not detected|negative/i.test(conclusion);
-      const isNormal = /not detected|negative|normal/i.test(conclusion);
+      // 1. Diagnostic Banner Status Evaluation
+      const conclusion = (diagReport.conclusion || (diagReport.code && diagReport.code.text) || 'Diagnostic Report').trim();
+      const firstSentence = conclusion.split('.')[0] || conclusion;
       
+      const hasAbnormalObs = observations.some(obs => {
+        const interpCode = (obs.interpretation && obs.interpretation[0] && obs.interpretation[0].coding && obs.interpretation[0].coding[0] && obs.interpretation[0].coding[0].code) || '';
+        return ['A', 'H', 'L', 'POS', 'DET', 'AA', 'HH', 'LL'].includes(interpCode.toUpperCase());
+      });
+
+      const isPathogenicOrDetected = /cancer signal detected|pathogenic variant|positive/i.test(firstSentence) || /cancer signal detected|pathogenic variant/i.test(conclusion);
+      const isElevatedRisk = /elevated prostate health index|elevated risk|elevated probability|high risk|elevated/i.test(firstSentence) || /elevated/i.test(conclusion);
+
       const banner = document.getElementById('diagnostic-banner');
       const bannerTitle = document.getElementById('banner-title');
       const bannerSubtitle = document.getElementById('banner-subtitle');
       const bannerFlag = document.getElementById('banner-flag');
 
-      banner.className = 'result-banner ' + (isNormal ? 'status-normal' : (isPathogenic ? 'status-abnormal' : 'status-elevated'));
+      if (isPathogenicOrDetected) {
+        banner.className = 'result-banner status-abnormal';
+        bannerFlag.textContent = 'Abnormal / Pathogenic';
+      } else if (isElevatedRisk || hasAbnormalObs) {
+        banner.className = 'result-banner status-elevated';
+        bannerFlag.textContent = 'Elevated Risk / Abnormal Finding';
+      } else {
+        banner.className = 'result-banner status-normal';
+        bannerFlag.textContent = 'Normal / Negative';
+      }
+
       bannerTitle.textContent = (diagReport.code && diagReport.code.text) ? diagReport.code.text : 'Laboratory Diagnostic Panel';
-      bannerSubtitle.textContent = conclusion.length > 130 ? conclusion.substring(0, 130) + '...' : conclusion;
-      bannerFlag.textContent = isNormal ? 'Normal / Negative' : (isPathogenic ? 'Abnormal / Pathogenic' : 'Elevated Risk');
+      bannerSubtitle.textContent = firstSentence.length > 130 ? firstSentence.substring(0, 130) + '...' : firstSentence;
 
       // 2. Demographics Cards
       const patName = (patient.name && patient.name[0] && patient.name[0].text) || 'Unknown Patient';
@@ -804,27 +942,69 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         const row = document.createElement('div');
         row.className = 'biomarker-row';
         row.id = `obs-card-${obs.id}`;
+        row.setAttribute('data-search-text', `${obsName} ${loincCode} ${displayVal} ${interpText}`.toLowerCase());
         row.onclick = () => inspectResourceObject(obs, `Observation: ${obsName}`);
 
         let rangeGaugeHtml = '';
-        if (obs.referenceRange && obs.referenceRange[0] && numVal !== null) {
-          const rr = obs.referenceRange[0];
-          const low = rr.low ? rr.low.value : 0;
-          const high = rr.high ? rr.high.value : (numVal * 1.5);
-          
-          let pct = 50;
-          if (high > low) {
-            pct = Math.max(5, Math.min(95, ((numVal - low) / (high - low)) * 65));
+        if (numVal !== null) {
+          const rr = (obs.referenceRange && obs.referenceRange[0]) || {};
+          let low = rr.low ? rr.low.value : null;
+          let high = rr.high ? rr.high.value : null;
+          const refText = rr.text || '';
+
+          if (high === null) {
+            const lessM = refText.match(/<[=\s]*([0-9\.]+)/);
+            if (lessM) high = parseFloat(lessM[1]);
           }
-          if (interpCode === 'H') pct = Math.max(72, Math.min(96, 65 + ((numVal - high) / high) * 30));
+          if (low === null) {
+            const grtM = refText.match(/>[=\s]*([0-9\.]+)/);
+            if (grtM) low = parseFloat(grtM[1]);
+          }
+          if (low === null && high === null) {
+            const rangeM = refText.match(/([0-9\.]+)\s*-\s*([0-9\.]+)/);
+            if (rangeM) {
+              low = parseFloat(rangeM[1]);
+              high = parseFloat(rangeM[2]);
+            }
+          }
+
+          let pct = 50;
+          let trackGradient = 'linear-gradient(to right, #86efac 0%, #86efac 65%, #fca5a5 65%, #fca5a5 100%)';
+
+          if (interpCode === 'H') {
+            if (high !== null && high > 0) {
+              const ratio = (numVal - high) / high;
+              pct = Math.min(95, Math.max(72, 70 + ratio * 25));
+            } else {
+              pct = 85;
+            }
+          } else if (interpCode === 'L') {
+            trackGradient = 'linear-gradient(to right, #fca5a5 0%, #fca5a5 35%, #86efac 35%, #86efac 100%)';
+            if (low !== null && low > 0) {
+              const ratio = (low - numVal) / low;
+              pct = Math.max(5, Math.min(30, 30 - ratio * 20));
+            } else {
+              pct = 15;
+            }
+          } else {
+            if (low !== null && high !== null && high > low) {
+              pct = Math.max(10, Math.min(60, 10 + ((numVal - low) / (high - low)) * 50));
+            } else if (high !== null) {
+              pct = Math.max(10, Math.min(55, (numVal / high) * 50));
+            } else {
+              pct = 40;
+            }
+          }
+
+          const refDisplay = refText || (low !== null && high !== null ? `${low} - ${high} ${unit}` : (high !== null ? `< ${high} ${unit}` : (low !== null ? `> ${low} ${unit}` : 'Reference Range N/A')));
 
           rangeGaugeHtml = `
             <div class="range-gauge">
-              <div class="gauge-bar-track">
+              <div class="gauge-bar-track" style="background: ${trackGradient};">
                 <div class="gauge-pointer" style="left: ${pct}%;"></div>
               </div>
               <div class="gauge-labels">
-                <span>Ref: ${rr.text || `${low} - ${high} ${unit}`}</span>
+                <span>Ref: ${refDisplay}</span>
                 <span>Result: ${numVal} ${unit}</span>
               </div>
             </div>
@@ -857,6 +1037,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       inspectResource('DiagnosticReport');
     }
 
+    // Filter Biomarkers
+    function filterBiomarkers() {
+      const q = (document.getElementById('biomarker-search').value || '').toLowerCase();
+      document.querySelectorAll('.biomarker-row').forEach(row => {
+        const text = row.getAttribute('data-search-text') || '';
+        row.style.display = text.includes(q) ? 'flex' : 'none';
+      });
+    }
+
     // Resource Navigation Tabs
     function buildResourceTabs(bundle) {
       const tabsBar = document.getElementById('resource-tabs-bar');
@@ -870,7 +1059,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       btnAll.onclick = () => inspectBundle();
       tabsBar.appendChild(btnAll);
 
-      bundle.entry.forEach(e => {
+      (bundle.entry || []).forEach(e => {
         const r = e.resource;
         if (!r) return;
         const btn = document.createElement('button');
@@ -1044,8 +1233,47 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
     }
 
-    // Initialize with the single extracted report bundle
+    // Drag and Drop & File Upload
+    function handleFileSelect(e) {
+      const file = e.target.files && e.target.files[0];
+      if (file) processUploadedFile(file);
+    }
+
+    function processUploadedFile(file) {
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          const parsed = JSON.parse(event.target.result);
+          renderDashboard(parsed);
+        } catch (err) {
+          alert('Error parsing uploaded JSON file: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    window.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      document.body.classList.add('drag-active');
+    });
+
+    window.addEventListener('dragleave', (e) => {
+      if (e.clientX === 0 || e.clientY === 0) {
+        document.body.classList.remove('drag-active');
+      }
+    });
+
+    window.addEventListener('drop', (e) => {
+      e.preventDefault();
+      document.body.classList.remove('drag-active');
+      if (e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0]) {
+        processUploadedFile(e.dataTransfer.files[0]);
+      }
+    });
+
+    // Initialize with the active report bundle and theme
     window.addEventListener('DOMContentLoaded', () => {
+      initTheme();
       renderDashboard(ACTIVE_BUNDLE);
     });
   </script>
@@ -1056,7 +1284,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
 def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html") -> str:
     """
-    Generates a dedicated, single-report Canvas UI Dashboard from an extracted HL7 FHIR Bundle.
+    Generates a dedicated, report-specific Canvas UI Dashboard from an extracted HL7 FHIR Bundle.
     
     Args:
         bundle: The extracted and converted FHIR R4 Bundle dictionary for this report.

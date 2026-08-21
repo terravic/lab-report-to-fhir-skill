@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "9477733d-b6be-4ae1-9916-52248da7c1fb",
+  "id": "f5e679ad-3c30-4d7e-8bc3-b8bff7d6659e",
   "type": "transaction",
-  "timestamp": "2026-08-21T15:16:44Z",
+  "timestamp": "2026-08-21T15:56:30Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1",
+      "fullUrl": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17",
       "resource": {
         "resourceType": "Patient",
-        "id": "168fb90c-6d14-4c11-afa1-eabd43d849e1",
+        "id": "fa2197c1-bb5b-45d5-a3e6-aab1deea3b17",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Brenda S. Sample</p></div>"
@@ -50,10 +50,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:352e7f23-a49d-4b09-8dec-b6b5904451df",
+      "fullUrl": "urn:uuid:0c9c7929-29c5-4eac-99db-9a257e4daf84",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "352e7f23-a49d-4b09-8dec-b6b5904451df",
+        "id": "0c9c7929-29c5-4eac-99db-9a257e4daf84",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Ethan Ross</p></div>"
@@ -78,10 +78,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8",
+      "fullUrl": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1",
       "resource": {
         "resourceType": "Organization",
-        "id": "528d176b-5a04-483f-b7bd-0d59bfcdd4b8",
+        "id": "99316aa0-d82d-4be2-be39-e858beac88c1",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Pennsylvania Genetics Institute</p></div>"
@@ -101,10 +101,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a",
+      "fullUrl": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed",
       "resource": {
         "resourceType": "Specimen",
-        "id": "db7ec6be-38f5-4fff-a150-68283e3da81a",
+        "id": "6587964f-0e40-49e0-af9c-4a2b906e50ed",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-NGS-2098 (Whole Blood)</p></div>"
@@ -127,7 +127,7 @@
           "text": "Whole Blood"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "collection": {
           "collectedDateTime": "2026-07-15"
@@ -140,10 +140,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:566189f5-1c33-498c-b5c0-69e594ae0654",
+      "fullUrl": "urn:uuid:8443d68d-198d-4062-b31b-3a4cd48fea94",
       "resource": {
         "resourceType": "Observation",
-        "id": "566189f5-1c33-498c-b5c0-69e594ae0654",
+        "id": "8443d68d-198d-4062-b31b-3a4cd48fea94",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA1 Genetic Analysis:</b> Pathogenic - c.5266dupC (p.Gln1756Profs*74)</p></div>"
@@ -171,16 +171,16 @@
           "text": "BRCA1 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Pathogenic - c.5266dupC (p.Gln1756Profs*74)",
         "interpretation": [
@@ -201,10 +201,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:17892d68-04db-4bd8-9039-34e35ca04f3c",
+      "fullUrl": "urn:uuid:85a7a0a0-3107-4f0c-aeee-91f4b194011a",
       "resource": {
         "resourceType": "Observation",
-        "id": "17892d68-04db-4bd8-9039-34e35ca04f3c",
+        "id": "85a7a0a0-3107-4f0c-aeee-91f4b194011a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
@@ -232,16 +232,16 @@
           "text": "BRCA2 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Negative / No Pathogenic Variant",
         "interpretation": [
@@ -262,10 +262,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3f7dc624-3faa-46d9-bdf7-19cf044888d5",
+      "fullUrl": "urn:uuid:0b40ca16-bd26-4cad-8cc0-cd2571d9e315",
       "resource": {
         "resourceType": "Observation",
-        "id": "3f7dc624-3faa-46d9-bdf7-19cf044888d5",
+        "id": "0b40ca16-bd26-4cad-8cc0-cd2571d9e315",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>PALB2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
@@ -293,16 +293,16 @@
           "text": "PALB2 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Negative / No Pathogenic Variant",
         "interpretation": [
@@ -323,10 +323,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:46888088-b1df-4d9e-8190-561ac6b86fd9",
+      "fullUrl": "urn:uuid:78c3ef0c-f5d4-47e8-afce-ea5925cccb2a",
       "resource": {
         "resourceType": "Observation",
-        "id": "46888088-b1df-4d9e-8190-561ac6b86fd9",
+        "id": "78c3ef0c-f5d4-47e8-afce-ea5925cccb2a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
@@ -354,16 +354,16 @@
           "text": "TP53 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Negative / No Pathogenic Variant",
         "interpretation": [
@@ -384,10 +384,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9668a75d-a07f-425e-b135-4d78af35d07f",
+      "fullUrl": "urn:uuid:5d3ba019-cc8c-4b3d-9751-7646c6059321",
       "resource": {
         "resourceType": "Observation",
-        "id": "9668a75d-a07f-425e-b135-4d78af35d07f",
+        "id": "5d3ba019-cc8c-4b3d-9751-7646c6059321",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CHEK2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
@@ -415,16 +415,16 @@
           "text": "CHEK2 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Negative / No Pathogenic Variant",
         "interpretation": [
@@ -445,10 +445,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:f5ecfc91-036c-4b7e-93df-0aa150aa0c60",
+      "fullUrl": "urn:uuid:e18a6695-a791-45fa-b50a-d76d0b5f85d5",
       "resource": {
         "resourceType": "Observation",
-        "id": "f5ecfc91-036c-4b7e-93df-0aa150aa0c60",
+        "id": "e18a6695-a791-45fa-b50a-d76d0b5f85d5",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CDH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
@@ -476,16 +476,16 @@
           "text": "CDH1 Genetic Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "performer": [
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+          "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
         },
         "valueString": "Negative / No Pathogenic Variant",
         "interpretation": [
@@ -506,10 +506,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:91aabb26-b9c7-4eb6-975f-66c557747b52",
+      "fullUrl": "urn:uuid:044a5bed-303b-4a00-b89e-26b8455c4dcf",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "91aabb26-b9c7-4eb6-975f-66c557747b52",
+        "id": "044a5bed-303b-4a00-b89e-26b8455c4dcf",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Hereditary Cancer Risk 15-Gene NGS Panel</h2><p><b>Conclusion:</b> A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.</p></div>"
@@ -543,41 +543,41 @@
           "text": "Hereditary Cancer Risk 15-Gene NGS Panel"
         },
         "subject": {
-          "reference": "urn:uuid:168fb90c-6d14-4c11-afa1-eabd43d849e1"
+          "reference": "urn:uuid:fa2197c1-bb5b-45d5-a3e6-aab1deea3b17"
         },
         "effectiveDateTime": "2026-07-15",
         "issued": "2026-07-24",
         "performer": [
           {
-            "reference": "urn:uuid:352e7f23-a49d-4b09-8dec-b6b5904451df"
+            "reference": "urn:uuid:0c9c7929-29c5-4eac-99db-9a257e4daf84"
           },
           {
-            "reference": "urn:uuid:528d176b-5a04-483f-b7bd-0d59bfcdd4b8"
+            "reference": "urn:uuid:99316aa0-d82d-4be2-be39-e858beac88c1"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:db7ec6be-38f5-4fff-a150-68283e3da81a"
+            "reference": "urn:uuid:6587964f-0e40-49e0-af9c-4a2b906e50ed"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:566189f5-1c33-498c-b5c0-69e594ae0654"
+            "reference": "urn:uuid:8443d68d-198d-4062-b31b-3a4cd48fea94"
           },
           {
-            "reference": "urn:uuid:17892d68-04db-4bd8-9039-34e35ca04f3c"
+            "reference": "urn:uuid:85a7a0a0-3107-4f0c-aeee-91f4b194011a"
           },
           {
-            "reference": "urn:uuid:3f7dc624-3faa-46d9-bdf7-19cf044888d5"
+            "reference": "urn:uuid:0b40ca16-bd26-4cad-8cc0-cd2571d9e315"
           },
           {
-            "reference": "urn:uuid:46888088-b1df-4d9e-8190-561ac6b86fd9"
+            "reference": "urn:uuid:78c3ef0c-f5d4-47e8-afce-ea5925cccb2a"
           },
           {
-            "reference": "urn:uuid:9668a75d-a07f-425e-b135-4d78af35d07f"
+            "reference": "urn:uuid:5d3ba019-cc8c-4b3d-9751-7646c6059321"
           },
           {
-            "reference": "urn:uuid:f5ecfc91-036c-4b7e-93df-0aa150aa0c60"
+            "reference": "urn:uuid:e18a6695-a791-45fa-b50a-d76d0b5f85d5"
           }
         ],
         "conclusion": "A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.\n\nClinical Interpretation: The BRCA1 c.5266dupC (p.Gln1756Profs*74) variant is a well-characterized founder mutation in the BRCA1 tumor suppressor gene that results in premature protein truncation. This finding confirms a diagnosis of Hereditary Breast and Ovarian Cancer (HBOC) syndrome. High-risk surveillance protocols (e.g. annual breast MRI, risk-reducing salpingo-oophorectomy discussions) and cascade testing for at-risk first-degree relatives are strongly indicated.\n\nMethodology: Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization probes, followed by paired-end NextGen sequencing (Illumina NovaSeq). Copy number variations (CNVs) are called using normalized read-depth algorithms.\n\nLimitations: This assay does not detect deep intronic mutations outside the targeted regions, complex chromosomal rearrangements, or low-level somatic mosaicism. SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI Page 1 of 1"

@@ -38,7 +38,9 @@ This toolkit is designed for healthcare interoperability workflows, facilitating
 
 ## Synthetic Data Notice
 
-All sample laboratory reports, PDF files in the `reports/` directory, test fixtures, and output FHIR JSON bundles provided in this project are 100% synthetic. They contain zero real patient Protected Health Information (PHI) and zero Personally Identifiable Information (PII). All patient names, medical record numbers (MRNs), dates of birth, physician identities, National Provider Identifiers (NPIs), laboratory names, CLIA certificate IDs, and diagnostic measurements are fictitious, simulated values created solely for software testing and validation.
+The sample laboratory PDF reports provided in the `reports/` directory and test fixtures are 100% synthetic and contain zero real patient Protected Health Information (PHI) or Personally Identifiable Information (PII). All names, dates of birth, medical record numbers (MRNs), provider identities, laboratory credentials, and diagnostic measurements in the sample files are simulated values created exclusively for development and testing.
+
+The conversion engine, FHIR JSON output structures, and interactive Canvas UI visualizer do not state or label data as synthetic, ensuring that when users process real laboratory reports, all generated outputs and dashboards maintain authentic, production-grade clinical interoperability standards.
 
 ---
 
@@ -258,7 +260,7 @@ The Canvas UI displays information **exclusively for the specific lab report bei
 
 ```text
 +---------------------------------------------------------------------------------------------------------+
-| [SYNTHETIC TEST RECORD - ZERO PHI]  Report: Patient Jane Q. Sample (MRN: SYN-MRN-9928341)  [Split|Clin|JSON] |
+| HL7 FHIR Clinical Diagnostic Report  [Patient: Jane Q. Sample | MRN: SYN-MRN-9928341]  [Theme] [Upload] |
 +----------------------------------------------------+----------------------------------------------------+
 |  CLINICAL DIAGNOSTIC DASHBOARD                     |  INTERACTIVE FHIR RESOURCE INSPECTOR               |
 |                                                    |                                                    |
@@ -270,35 +272,42 @@ The Canvas UI displays information **exclusively for the specific lab report bei
 |  SPECIMEN: Blood / Plasma (ID: SYN-SPEC-992834-X)  |  | |   "code": {                                |  |
 |  FACILITY: Apex Precision Diagnostics              |  | |     "coding": [{                           |  |
 |                                                    |  | |       "system": "http://loinc.org",        |  |
-|  OBSERVATIONS & GAUGES:                            |  | |       "code": "94076-7",                   |  |
-|  - Cancer Signal Status: Detected [Abnormal]       |  | |       "display": "Cancer Signal Status"    |  |
-|  - Origin 1: Lung (85% prob)                       |  | |     }]                                     |  |
-|  - Total PSA: 5.6 ng/mL [HIGH]                     |  | |   },                                       |  |
-|    [=== Normal ===|=== High * ===]                 |  | |   "interpretation": [{ "code": "A" }]     |  |
-|                                                    |  | | }                                            |  |
-|  CLINICAL CONCLUSION & RECOMMENDATIONS:            |  |  +----------------------------------------------+  |
-|  "A cancer signal was detected in this sample..."  |  |  [ Copy Resource JSON ] [ Download Bundle ]    |  |
+|  FILTER: [ Search biomarkers or LOINC codes... ]   |  | |       "code": "94076-7",                   |  |
+|                                                    |  | |       "display": "Cancer Signal Status"    |  |
+|  OBSERVATIONS & GAUGES:                            |  | |     }]                                     |  |
+|  - Cancer Signal Status: Detected [Abnormal]       |  | |   },                                       |  |
+|  - Origin 1: Lung (85% prob)                       |  | |   "interpretation": [{ "code": "A" }]     |  |
+|  - Total PSA: 5.6 ng/mL [HIGH]                     |  | | }                                            |  |
+|    [=== Normal ===|=== High * ===]                 |  |  +----------------------------------------------+  |
+|                                                    |  |  [ Copy JSON ] [ Download Bundle ]              |  |
+|  CLINICAL CONCLUSION & RECOMMENDATIONS:            |  |                                                    |
+|  "A cancer signal was detected in this sample..."  |  |                                                    |
 +----------------------------------------------------+----------------------------------------------------+
 ```
 
 ### Key Features of the Canvas UI:
 
-1. **Dedicated Single-Report Focus**:
-   - The UI is constructed dynamically after the skill extracts and converts the target lab report.
-   - It displays only the demographics, discrete analytes, and clinical narrative belonging to that specific report.
+1. **Light / Dark Mode Theme Toggle**:
+   - Header toggle button allows users to switch between high-clarity Light Mode and low-glare Dark Mode.
+   - Automatically detects OS system preferences (`prefers-color-scheme`) and persists user choices via `localStorage`.
 
-2. **Dual-Perspective Split Screen**:
-   - **Clinical Dashboard (Left)**: Human-friendly layout with color-coded diagnostic banners, structured demographic cards, biomarker findings, and narrative impressions.
+2. **Real Report Upload & Drag-and-Drop Dropzone**:
+   - While test data is synthetic, the UI is built for real production workflows. Users can click **Upload Report** or drag-and-drop any standard HL7 FHIR JSON bundle directly onto the dashboard to inspect new patient records immediately.
+
+3. **Dual-Perspective Split Screen**:
+   - **Clinical Dashboard (Left)**: Human-friendly layout with color-coded diagnostic severity banners, structured demographic cards, biomarker findings, visual range gauges, and narrative impressions.
    - **FHIR Resource Inspector (Right)**: Syntax-highlighted JSON viewer with tabbed resource navigation (`Bundle`, `Patient`, `Observation`, `DiagnosticReport`, `Specimen`, `Practitioner`, `Organization`).
 
-3. **Click-to-Inspect Synchronized Interaction**:
-   - Clicking on any element in the clinical dashboard (such as the Patient card, a biomarker row, or an abnormal flag) immediately focuses the inspector on that specific underlying FHIR resource.
-   - The active element is highlighted with a distinct border in both panels.
+4. **Biomarker Search & Live Filtering**:
+   - Built-in search bar allows instant filtering across analyte names, qualitative classifications, and standard LOINC codes.
 
-4. **Visual Biomarker Range Gauges**:
+5. **Click-to-Inspect Synchronized Interaction**:
+   - Clicking on any element in the clinical dashboard (such as the Patient card, a biomarker row, or an abnormal flag) immediately focuses the inspector on that specific underlying FHIR resource.
+
+6. **Visual Biomarker Range Gauges**:
    - Quantitative analytes display horizontal meters marking reference intervals (Low, Normal, Elevated) with an indicator pointer showing exactly where the patient's value lies.
 
-5. **JSON Export & Clipboard Actions**:
+7. **JSON Export & Clipboard Actions**:
    - Includes one-click **Copy JSON** and **Download Bundle JSON** controls for seamless integration with downstream systems.
 
 ---
@@ -492,7 +501,8 @@ This repository and all included assets are fully compliant with healthcare priv
 1. **100% Synthetic Data**: All files in `reports/` (including `synthetic_cancer_lab_report.pdf`, `synthetic_mced_negative.pdf`, `synthetic_colorectal_ctdna.pdf`, `synthetic_hereditary_ngs_panel.pdf`, and `synthetic_prostate_phi_panel.pdf`), unit test fixtures, and sample JSON files in `output/` contain exclusively synthetic, computer-generated clinical data.
 2. **No Real Patients or Individuals**: All patient names (e.g., Jane Q. Sample, Robert T. Sample, Harold K. Sample, Brenda S. Sample, Arthur B. Sample), dates of birth, medical record numbers (MRNs), and demographic profiles are completely fabricated and do not represent any real individual, living or deceased.
 3. **Fictitious Providers and Facilities**: All clinician names, National Provider Identifiers (NPIs), laboratory names, CLIA certificate IDs, and physical facility addresses are fictitious demonstration placeholders.
-4. **Safety and Interoperability Testing**: The sample reports are provided strictly for developing, testing, and benchmarking automated HL7 FHIR conversion algorithms and AI agent skills without risk of data exposure.
+4. **Safety and Interoperability Testing**: The sample test reports in `reports/` are provided strictly for developing, testing, and benchmarking automated HL7 FHIR conversion algorithms and AI agent skills without risk of data exposure.
+5. **Clean Production Outputs**: The conversion pipeline, output FHIR JSON structures, and Canvas UI visualizer do not inject synthetic disclaimers into generated records, ensuring authentic presentation when processing real clinical documents.
 
 ---
 
