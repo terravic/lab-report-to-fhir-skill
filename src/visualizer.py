@@ -1,7 +1,7 @@
 """
 FHIR Lab Report Visualizer.
-Generates an interactive, responsive Canvas UI Dashboard from HL7 FHIR R4 Bundles.
-Supports dual clinical dashboard and raw FHIR JSON inspection with synchronized element highlighting.
+Generates an interactive, report-specific Canvas UI Dashboard from a single HL7 FHIR R4 Bundle.
+This UI is generated after extracting information from a specific lab report, visualizing that report only.
 """
 
 import os
@@ -15,7 +15,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>HL7 FHIR Clinical Diagnostic Dashboard & Inspector</title>
+  <title>HL7 FHIR Clinical Diagnostic Report Dashboard</title>
   <style>
     :root {
       --bg-main: #f8fafc;
@@ -25,7 +25,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       --text-muted: #64748b;
       --text-light: #94a3b8;
       --border-color: #e2e8f0;
-      --border-focus: #3b82f6;
+      --border-focus: #0284c7;
       
       --primary: #0284c7;
       --primary-dark: #0369a1;
@@ -68,7 +68,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       overflow: hidden;
     }
 
-    /* Top Notice Banner */
+    /* Top Synthetic Notice */
     .synthetic-banner {
       background-color: #fff1f2;
       color: #9f1239;
@@ -104,12 +104,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       color: var(--text-main);
     }
 
-    .brand-badge {
+    .report-badge {
       background-color: var(--primary-light);
       color: var(--primary-dark);
       font-size: 11px;
       font-weight: 600;
-      padding: 2px 8px;
+      padding: 3px 8px;
       border-radius: 4px;
       border: 1px solid #bae6fd;
     }
@@ -121,13 +121,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       flex-wrap: wrap;
     }
 
-    .select-label {
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-muted);
-    }
-
-    select, button {
+    button {
       font-family: var(--font-sans);
       font-size: 13px;
       padding: 6px 12px;
@@ -139,10 +133,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       transition: all 0.15s ease;
     }
 
-    select:focus, button:focus {
+    button:focus {
       outline: none;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
     }
 
     button:hover {
@@ -223,27 +217,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       height: 100%;
     }
 
-    /* Cards */
-    .card {
-      background-color: var(--bg-card);
-      border: 1px solid var(--border-color);
-      border-radius: var(--radius);
-      padding: 16px;
-      box-shadow: var(--shadow-sm);
-      transition: border-color 0.15s ease, box-shadow 0.15s ease;
-      cursor: pointer;
-    }
-
-    .card:hover {
-      border-color: #94a3b8;
-      box-shadow: var(--shadow-md);
-    }
-
-    .card.active-resource {
-      border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
-    }
-
     /* Diagnostic Result Banner Card */
     .result-banner {
       padding: 16px 20px;
@@ -254,6 +227,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       gap: 16px;
       border: 1px solid transparent;
       cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .result-banner:hover {
+      box-shadow: var(--shadow-md);
+    }
+
+    .result-banner.active-resource {
+      box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.4);
     }
 
     .result-banner.status-abnormal, .result-banner.status-pathogenic {
@@ -321,7 +303,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     .info-card.active-resource {
       border-color: var(--primary);
-      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.2);
+      box-shadow: 0 0 0 2px rgba(2, 132, 199, 0.25);
     }
 
     .info-card-header {
@@ -361,7 +343,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     /* Section Title */
     .section-title {
-      font-size: 14px;
+      font-size: 13px;
       font-weight: 700;
       color: var(--text-main);
       text-transform: uppercase;
@@ -492,6 +474,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       font-size: 13px;
       line-height: 1.6;
       color: #334155;
+      cursor: pointer;
     }
 
     /* FHIR Inspector Header */
@@ -567,27 +550,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .json-boolean { color: #ec4899; font-weight: 600; }
     .json-null { color: #94a3b8; font-style: italic; }
 
-    /* Drag & Drop Overlay */
-    .dropzone-overlay {
-      display: none;
-      position: fixed;
-      inset: 0;
-      background-color: rgba(15, 23, 42, 0.85);
-      z-index: 1000;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      color: #ffffff;
-      font-size: 20px;
-      font-weight: 700;
-      border: 4px dashed #38bdf8;
-      pointer-events: none;
-    }
-
-    body.drag-over .dropzone-overlay {
-      display: flex;
-    }
-
     /* Responsive */
     @media (max-width: 900px) {
       main {
@@ -605,35 +567,24 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   <!-- Top Synthetic Notice -->
   <div class="synthetic-banner">
-    100% SYNTHETIC CLINICAL TEST RECORD - ZERO PROTECTED HEALTH INFORMATION (NO PHI) - FOR TESTING AND INTEROPERABILITY ONLY
+    100% SYNTHETIC CLINICAL TEST RECORD - ZERO PROTECTED HEALTH INFORMATION (NO PHI) - EXTRACTED & CONVERTED REPORT
   </div>
 
   <!-- Header -->
   <header>
     <div class="brand-section">
-      <span class="brand-title">HL7 FHIR Lab Report Dashboard</span>
-      <span class="brand-badge">FHIR R4</span>
+      <span class="brand-title">HL7 FHIR Clinical Diagnostic Report</span>
+      <span class="report-badge" id="header-patient-tag">Processed Lab Report</span>
     </div>
 
     <div class="controls-section">
-      <span class="select-label">Preset Report:</span>
-      <select id="preset-selector" onchange="loadPresetReport(this.value)">
-        <option value="synthetic_cancer_lab_report">MCED Cancer Signal Detected (Jane Q. Sample)</option>
-        <option value="synthetic_mced_negative">MCED Signal Not Detected (Robert T. Sample)</option>
-        <option value="synthetic_colorectal_ctdna">Colorectal ctDNA Liquid Biopsy (Harold K. Sample)</option>
-        <option value="synthetic_hereditary_ngs_panel">Hereditary Cancer 15-Gene NGS (Brenda S. Sample)</option>
-        <option value="synthetic_prostate_phi_panel">Prostate Health Index Panel (Arthur B. Sample)</option>
-      </select>
-
-      <input type="file" id="file-input" accept=".json" style="display: none;" onchange="handleFileSelect(event)">
-      <button onclick="document.getElementById('file-input').click()">Upload Custom JSON</button>
-
       <div class="view-toggle">
         <button id="btn-view-split" class="active" onclick="setViewMode('split')">Split View</button>
         <button id="btn-view-clinical" onclick="setViewMode('clinical')">Clinical</button>
         <button id="btn-view-json" onclick="setViewMode('json')">FHIR JSON</button>
       </div>
 
+      <button onclick="downloadBundleJson()">Download JSON</button>
       <button class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
   </header>
@@ -647,10 +598,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       <!-- Diagnostic Result Banner -->
       <div id="diagnostic-banner" class="result-banner status-abnormal" onclick="inspectResource('DiagnosticReport')">
         <div>
-          <div class="result-title" id="banner-title">Cancer Signal Detected</div>
-          <div class="result-subtitle" id="banner-subtitle">Next-Generation Sequencing cfDNA Methylation Profiling</div>
+          <div class="result-title" id="banner-title">Diagnostic Test Result</div>
+          <div class="result-subtitle" id="banner-subtitle">Clinical Diagnostic Panel</div>
         </div>
-        <div class="tag-badge" id="banner-flag">Abnormal Finding</div>
+        <div class="tag-badge" id="banner-flag">Finding</div>
       </div>
 
       <!-- Patient & Facility Demographics Grid -->
@@ -660,8 +611,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>Patient Demographics</span>
             <span class="fhir-pill">Patient</span>
           </div>
-          <div class="info-card-value" id="patient-name">Jane Q. Sample</div>
-          <div class="info-card-sub" id="patient-details">DOB: 1972-05-12 (Female) | ID: P-44556677</div>
+          <div class="info-card-value" id="patient-name">Patient Name</div>
+          <div class="info-card-sub" id="patient-details">DOB: N/A | MRN: N/A</div>
         </div>
 
         <div class="info-card" id="card-specimen" onclick="inspectResource('Specimen')">
@@ -669,8 +620,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>Specimen Tracking</span>
             <span class="fhir-pill">Specimen</span>
           </div>
-          <div class="info-card-value" id="specimen-type">Blood / Plasma (cfDNA)</div>
-          <div class="info-card-sub" id="specimen-details">ID: SYN-992834-X | Collected: 2026-08-07</div>
+          <div class="info-card-value" id="specimen-type">Biological Specimen</div>
+          <div class="info-card-sub" id="specimen-details">ID: N/A | Collected: N/A</div>
         </div>
 
         <div class="info-card" id="card-provider" onclick="inspectResource('Practitioner')">
@@ -678,8 +629,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>Ordering Clinician</span>
             <span class="fhir-pill">Practitioner</span>
           </div>
-          <div class="info-card-value" id="provider-name">Dr. Avery Sterling</div>
-          <div class="info-card-sub" id="provider-details">NPI: 1234567890 | Aurora Health Institute</div>
+          <div class="info-card-value" id="provider-name">Ordering Physician</div>
+          <div class="info-card-sub" id="provider-details">NPI: N/A</div>
         </div>
 
         <div class="info-card" id="card-organization" onclick="inspectResource('Organization')">
@@ -687,15 +638,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
             <span>Testing Facility</span>
             <span class="fhir-pill">Organization</span>
           </div>
-          <div class="info-card-value" id="org-name">Nexus Precision Diagnostics</div>
-          <div class="info-card-sub" id="org-details">CLIA ID: 00D1234567 | Fictional Heights, CA</div>
+          <div class="info-card-value" id="org-name">Testing Laboratory</div>
+          <div class="info-card-sub" id="org-details">CLIA ID: N/A</div>
         </div>
       </div>
 
       <!-- Biomarkers & Test Findings -->
       <div class="section-title">
         <span>Discrete Biomarkers & Observations</span>
-        <span class="fhir-pill" id="obs-count-badge">3 Observations</span>
+        <span class="fhir-pill" id="obs-count-badge">0 Observations</span>
       </div>
 
       <div class="biomarkers-container" id="biomarkers-list">
@@ -707,7 +658,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         <span>Clinical Interpretation & Diagnostic Conclusion</span>
       </div>
       <div class="narrative-box" id="clinical-narrative" onclick="inspectResource('DiagnosticReport')">
-        A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.
+        Clinical interpretation text.
       </div>
 
     </section>
@@ -733,16 +684,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
   </main>
 
-  <!-- Drag & Drop Visual Overlay -->
-  <div class="dropzone-overlay">
-    Drop any FHIR R4 JSON Bundle file here to inspect
-  </div>
-
   <script>
-    // Embedded Default Datasets
-    const PRESET_DATASETS = __PRESET_DATASETS_PLACEHOLDER__;
+    // Embedded Active Report FHIR JSON Bundle
+    const ACTIVE_BUNDLE = __ACTIVE_BUNDLE_JSON__;
 
-    let currentBundle = null;
     let currentSelectedResource = null;
 
     // Syntax Highlight JSON
@@ -768,9 +713,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       );
     }
 
-    // Load Bundle into Dashboard
-    function loadBundle(bundle) {
-      currentBundle = bundle;
+    // Load Single Bundle into Dashboard
+    function renderDashboard(bundle) {
       if (!bundle || !bundle.entry) return;
 
       const resources = bundle.entry.map(e => e.resource).filter(Boolean);
@@ -794,7 +738,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       banner.className = 'result-banner ' + (isNormal ? 'status-normal' : (isPathogenic ? 'status-abnormal' : 'status-elevated'));
       bannerTitle.textContent = (diagReport.code && diagReport.code.text) ? diagReport.code.text : 'Laboratory Diagnostic Panel';
-      bannerSubtitle.textContent = conclusion.length > 120 ? conclusion.substring(0, 120) + '...' : conclusion;
+      bannerSubtitle.textContent = conclusion.length > 130 ? conclusion.substring(0, 130) + '...' : conclusion;
       bannerFlag.textContent = isNormal ? 'Normal / Negative' : (isPathogenic ? 'Abnormal / Pathogenic' : 'Elevated Risk');
 
       // 2. Demographics Cards
@@ -804,6 +748,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const patMrn = (patient.identifier && patient.identifier[0] && patient.identifier[0].value) || 'N/A';
       document.getElementById('patient-name').textContent = patName;
       document.getElementById('patient-details').textContent = `DOB: ${patDob} (${patGender}) | MRN: ${patMrn}`;
+      document.getElementById('header-patient-tag').textContent = `Patient: ${patName} (${patMrn})`;
 
       const specType = (specimen.type && specimen.type.text) || 'Biological Specimen';
       const specId = (specimen.identifier && specimen.identifier[0] && specimen.identifier[0].value) || 'N/A';
@@ -934,17 +879,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     function inspectBundle() {
-      currentSelectedResource = currentBundle;
+      currentSelectedResource = ACTIVE_BUNDLE;
       document.getElementById('inspected-resource-type').textContent = 'Bundle';
-      document.getElementById('inspected-resource-id').textContent = currentBundle.id || 'Transaction';
-      document.getElementById('json-display').innerHTML = syntaxHighlightJson(currentBundle);
+      document.getElementById('inspected-resource-id').textContent = ACTIVE_BUNDLE.id || 'Transaction';
+      document.getElementById('json-display').innerHTML = syntaxHighlightJson(ACTIVE_BUNDLE);
       setActiveTab('Bundle');
       clearActiveCards();
     }
 
     function inspectResource(type) {
-      if (!currentBundle || !currentBundle.entry) return;
-      const entry = currentBundle.entry.find(e => e.resource && e.resource.resourceType === type);
+      if (!ACTIVE_BUNDLE || !ACTIVE_BUNDLE.entry) return;
+      const entry = ACTIVE_BUNDLE.entry.find(e => e.resource && e.resource.resourceType === type);
       if (entry) {
         inspectResourceObject(entry.resource, type);
       }
@@ -1003,63 +948,19 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       });
     }
 
-    function loadPresetReport(presetKey) {
-      if (PRESET_DATASETS[presetKey]) {
-        loadBundle(PRESET_DATASETS[presetKey]);
-      }
+    function downloadBundleJson() {
+      const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(ACTIVE_BUNDLE, null, 2));
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", "fhir_bundle.json");
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
     }
 
-    function handleFileSelect(event) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        try {
-          const parsed = JSON.parse(e.target.result);
-          loadBundle(parsed);
-        } catch (err) {
-          alert('Error parsing JSON file: ' + err.message);
-        }
-      };
-      reader.readAsText(file);
-    }
-
-    // Drag and drop listeners
-    window.addEventListener('dragover', (e) => {
-      e.preventDefault();
-      document.body.classList.add('drag-over');
-    });
-
-    window.addEventListener('dragleave', (e) => {
-      if (e.clientX <= 0 || e.clientY <= 0) {
-        document.body.classList.remove('drag-over');
-      }
-    });
-
-    window.addEventListener('drop', (e) => {
-      e.preventDefault();
-      document.body.classList.remove('drag-over');
-      if (e.dataTransfer.files.length > 0) {
-        const file = e.dataTransfer.files[0];
-        const reader = new FileReader();
-        reader.onload = (event) => {
-          try {
-            const parsed = JSON.parse(event.target.result);
-            loadBundle(parsed);
-          } catch (err) {
-            alert('Error parsing dropped JSON: ' + err.message);
-          }
-        };
-        reader.readAsText(file);
-      }
-    });
-
-    // Initialize with first preset
+    // Initialize with the single extracted report bundle
     window.addEventListener('DOMContentLoaded', () => {
-      const initialKey = Object.keys(PRESET_DATASETS)[0];
-      if (initialKey) {
-        loadBundle(PRESET_DATASETS[initialKey]);
-      }
+      renderDashboard(ACTIVE_BUNDLE);
     });
   </script>
 </body>
@@ -1067,47 +968,19 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 """
 
 
-def load_all_preset_bundles(output_dir: str = "output") -> Dict[str, Any]:
-    """Loads all existing output FHIR bundles for embedding into the visualizer."""
-    presets = {}
-    preset_files = [
-        ("synthetic_cancer_lab_report", os.path.join(output_dir, "synthetic_cancer_lab_report_fhir.json")),
-        ("synthetic_mced_negative", os.path.join(output_dir, "synthetic_mced_negative_fhir.json")),
-        ("synthetic_colorectal_ctdna", os.path.join(output_dir, "synthetic_colorectal_ctdna_fhir.json")),
-        ("synthetic_hereditary_ngs_panel", os.path.join(output_dir, "synthetic_hereditary_ngs_panel_fhir.json")),
-        ("synthetic_prostate_phi_panel", os.path.join(output_dir, "synthetic_prostate_phi_panel_fhir.json")),
-    ]
-
-    for key, path in preset_files:
-        if os.path.exists(path):
-            try:
-                with open(path, "r", encoding="utf-8") as f:
-                    presets[key] = json.load(f)
-            except Exception:
-                pass
-    return presets
-
-
-def generate_html_dashboard(bundle: Optional[Dict[str, Any]] = None, output_html_path: str = "ui/fhir_viewer.html", presets: Optional[Dict[str, Any]] = None) -> str:
+def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html") -> str:
     """
-    Generates a standalone HTML file containing the interactive FHIR dashboard and inspector.
+    Generates a dedicated, single-report Canvas UI Dashboard from an extracted HL7 FHIR Bundle.
     
     Args:
-        bundle: Optional single FHIR bundle to load as the primary dataset.
+        bundle: The extracted and converted FHIR R4 Bundle dictionary for this report.
         output_html_path: Destination path for the generated HTML file.
-        presets: Optional dictionary of pre-loaded bundles.
         
     Returns:
         Absolute path to the created HTML file.
     """
-    if presets is None:
-        presets = load_all_preset_bundles()
-
-    if bundle is not None:
-        presets["active_custom_report"] = bundle
-
-    presets_json_str = json.dumps(presets, indent=None)
-    rendered_html = HTML_TEMPLATE.replace("__PRESET_DATASETS_PLACEHOLDER__", presets_json_str)
+    bundle_json_str = json.dumps(bundle, indent=None)
+    rendered_html = HTML_TEMPLATE.replace("__ACTIVE_BUNDLE_JSON__", bundle_json_str)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_html_path)), exist_ok=True)
     with open(output_html_path, "w", encoding="utf-8") as f:

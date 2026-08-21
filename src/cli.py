@@ -83,10 +83,14 @@ def process_directory(input_dir: str, output_dir: str, bundle_type: str = "trans
         else:
             print(f"  [FAILED]  {os.path.basename(item['file'])}: {item['error']}")
 
-    if view:
-        html_path = generate_html_dashboard()
-        print(f"Generated Canvas UI dashboard with batch results at: {html_path}")
-        open_in_browser(html_path)
+    if view and summary:
+        first_success = next((s for s in summary if s["status"] == "SUCCESS"), None)
+        if first_success:
+            with open(first_success["output"], "r", encoding="utf-8") as f:
+                first_bundle = json.load(f)
+            html_path = generate_html_dashboard(bundle=first_bundle)
+            print(f"Generated Canvas UI dashboard for {os.path.basename(first_success['file'])} at: {html_path}")
+            open_in_browser(html_path)
 
 
 def main():

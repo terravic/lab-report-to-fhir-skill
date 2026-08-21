@@ -252,11 +252,13 @@ When the agent finishes processing, it will present two sections:
 
 ## Interactive Canvas UI & Visual Dashboard
 
-To significantly enhance user experience, this skill includes a rich, self-contained single-page Canvas application (`ui/fhir_viewer.html`) designed for native iframe rendering in agent harnesses (Gemini Enterprise App, Antigravity, Spark) or direct browser viewing.
+To significantly enhance user experience, this skill dynamically generates a dedicated, report-specific Canvas UI application (`ui/fhir_viewer.html`) after extracting clinical data from a laboratory report.
+
+The Canvas UI displays information **exclusively for the specific lab report being processed**—without mixing in other reports—allowing clinicians and analysts to review the patient's findings, reference ranges, and underlying FHIR resources in a clear, distraction-free environment.
 
 ```text
 +---------------------------------------------------------------------------------------------------------+
-| [SYNTHETIC TEST RECORD - ZERO PHI]  Preset: [MCED Cancer Signal Detected v]  [Split | Clinical | JSON]  |
+| [SYNTHETIC TEST RECORD - ZERO PHI]  Report: Patient Jane Q. Sample (MRN: SYN-MRN-9928341)  [Split|Clin|JSON] |
 +----------------------------------------------------+----------------------------------------------------+
 |  CLINICAL DIAGNOSTIC DASHBOARD                     |  INTERACTIVE FHIR RESOURCE INSPECTOR               |
 |                                                    |                                                    |
@@ -265,8 +267,8 @@ To significantly enhance user experience, this skill includes a rich, self-conta
 |  +----------------------------------------------+  |  | {                                            |  |
 |                                                    |  | |   "resourceType": "Observation",           |  |
 |  PATIENT: Jane Q. Sample (DOB: 1972-05-12, Female) |  | |   "id": "obs-94076-7",                     |  |
-|  SPECIMEN: Blood / Plasma (ID: SYN-992834-X)       |  | |   "code": {                                |  |
-|  FACILITY: Nexus Precision Diagnostics             |  | |     "coding": [{                           |  |
+|  SPECIMEN: Blood / Plasma (ID: SYN-SPEC-992834-X)  |  | |   "code": {                                |  |
+|  FACILITY: Apex Precision Diagnostics              |  | |     "coding": [{                           |  |
 |                                                    |  | |       "system": "http://loinc.org",        |  |
 |  OBSERVATIONS & GAUGES:                            |  | |       "code": "94076-7",                   |  |
 |  - Cancer Signal Status: Detected [Abnormal]       |  | |       "display": "Cancer Signal Status"    |  |
@@ -275,38 +277,41 @@ To significantly enhance user experience, this skill includes a rich, self-conta
 |    [=== Normal ===|=== High * ===]                 |  | |   "interpretation": [{ "code": "A" }]     |  |
 |                                                    |  | | }                                            |  |
 |  CLINICAL CONCLUSION & RECOMMENDATIONS:            |  |  +----------------------------------------------+  |
-|  "A cancer signal was detected in this sample..."  |  |  [ Copy Resource JSON ]                         |  |
+|  "A cancer signal was detected in this sample..."  |  |  [ Copy Resource JSON ] [ Download Bundle ]    |  |
 +----------------------------------------------------+----------------------------------------------------+
 ```
 
 ### Key Features of the Canvas UI:
 
-1. **Dual-Perspective Split Screen**:
-   - **Clinical Dashboard (Left)**: Human-friendly layout with color-coded diagnostic banners, structured demographic cards, biomarker findings, and narrative impressions.
-   - **FHIR Resource Inspector (Right)**: Syntax-highlighted JSON viewer with tabbed resource navigation and formatted code indentation.
+1. **Dedicated Single-Report Focus**:
+   - The UI is constructed dynamically after the skill extracts and converts the target lab report.
+   - It displays only the demographics, discrete analytes, and clinical narrative belonging to that specific report.
 
-2. **Click-to-Inspect Synchronized Interaction**:
+2. **Dual-Perspective Split Screen**:
+   - **Clinical Dashboard (Left)**: Human-friendly layout with color-coded diagnostic banners, structured demographic cards, biomarker findings, and narrative impressions.
+   - **FHIR Resource Inspector (Right)**: Syntax-highlighted JSON viewer with tabbed resource navigation (`Bundle`, `Patient`, `Observation`, `DiagnosticReport`, `Specimen`, `Practitioner`, `Organization`).
+
+3. **Click-to-Inspect Synchronized Interaction**:
    - Clicking on any element in the clinical dashboard (such as the Patient card, a biomarker row, or an abnormal flag) immediately focuses the inspector on that specific underlying FHIR resource.
    - The active element is highlighted with a distinct border in both panels.
 
-3. **Visual Biomarker Range Gauges**:
+4. **Visual Biomarker Range Gauges**:
    - Quantitative analytes display horizontal meters marking reference intervals (Low, Normal, Elevated) with an indicator pointer showing exactly where the patient's value lies.
 
-4. **Preset Selector & Live Drag-and-Drop**:
-   - Instant dropdown switching between all 5 synthetic oncology panels.
-   - Live drag-and-drop zone allowing users to drop any custom `.json` FHIR bundle directly onto the browser window to visualize it instantly.
+5. **JSON Export & Clipboard Actions**:
+   - Includes one-click **Copy JSON** and **Download Bundle JSON** controls for seamless integration with downstream systems.
 
 ---
 
 ### How to Launch and Use the Visualizer
 
-#### Method 1: Launch via Python CLI
+#### Method 1: Extract and View a Lab Report
 ```bash
-# Open visualizer for a specific FHIR bundle:
-python3 scripts/visualize.py output/synthetic_cancer_lab_report_fhir.json
+# Extract data from a PDF report and build the dedicated Canvas UI dashboard:
+python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
 
-# Or convert a PDF report and open the visualizer immediately:
-python3 scripts/visualize.py reports/synthetic_colorectal_ctdna.pdf
+# Or build the dedicated Canvas UI dashboard from a converted FHIR JSON bundle:
+python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
 ```
 
 #### Method 2: Convert and View in One Step

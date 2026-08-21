@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "077c84d1-f584-4f65-a47c-a4d57f2c188f",
+  "id": "338d216e-671f-4f3b-a2c7-8090e9250a51",
   "type": "transaction",
-  "timestamp": "2026-08-21T14:51:54Z",
+  "timestamp": "2026-08-21T15:16:44Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df",
+      "fullUrl": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f",
       "resource": {
         "resourceType": "Patient",
-        "id": "741f0c04-1f31-42a0-978e-e2c02f9a49df",
+        "id": "55b338d2-c122-4b6b-b220-1d9e1204ed5f",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"
@@ -50,10 +50,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6f8ada8e-abf5-4fa9-b34a-4e415aabe663",
+      "fullUrl": "urn:uuid:0dfb7251-3024-49e2-b883-40139c571148",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "6f8ada8e-abf5-4fa9-b34a-4e415aabe663",
+        "id": "0dfb7251-3024-49e2-b883-40139c571148",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling</p></div>"
@@ -78,10 +78,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6cf46800-babc-4320-954d-2898f298f1e1",
+      "fullUrl": "urn:uuid:ccb85c1c-bae3-46d2-8d52-edd2e8be3f49",
       "resource": {
         "resourceType": "Organization",
-        "id": "6cf46800-babc-4320-954d-2898f298f1e1",
+        "id": "ccb85c1c-bae3-46d2-8d52-edd2e8be3f49",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Aurora Health Institute</p></div>"
@@ -107,10 +107,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779",
+      "fullUrl": "urn:uuid:21ebba28-ad05-4fc9-ab24-9fa72f1483e4",
       "resource": {
         "resourceType": "Specimen",
-        "id": "eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779",
+        "id": "21ebba28-ad05-4fc9-ab24-9fa72f1483e4",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"
@@ -133,7 +133,7 @@
           "text": "Blood / Plasma"
         },
         "subject": {
-          "reference": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df"
+          "reference": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f"
         },
         "collection": {
           "collectedDateTime": "2026-08-07"
@@ -146,10 +146,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:e95057bc-8f6a-40c8-af48-24fddc8ff7c0",
+      "fullUrl": "urn:uuid:f7229f99-4798-4fff-ab43-298d45bc5974",
       "resource": {
         "resourceType": "Observation",
-        "id": "e95057bc-8f6a-40c8-af48-24fddc8ff7c0",
+        "id": "f7229f99-4798-4fff-ab43-298d45bc5974",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"
@@ -177,16 +177,16 @@
           "text": "Cancer Signal Status"
         },
         "subject": {
-          "reference": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df"
+          "reference": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:6cf46800-babc-4320-954d-2898f298f1e1"
+            "reference": "urn:uuid:ccb85c1c-bae3-46d2-8d52-edd2e8be3f49"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779"
+          "reference": "urn:uuid:21ebba28-ad05-4fc9-ab24-9fa72f1483e4"
         },
         "valueString": "Cancer Signal Detected",
         "referenceRange": [
@@ -212,10 +212,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:0e4656a4-04c1-4dd4-a9b9-1a6737bde661",
+      "fullUrl": "urn:uuid:41fc6b3f-8753-47dd-aa46-4dafaefc620e",
       "resource": {
         "resourceType": "Observation",
-        "id": "0e4656a4-04c1-4dd4-a9b9-1a6737bde661",
+        "id": "41fc6b3f-8753-47dd-aa46-4dafaefc620e",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"
@@ -243,16 +243,16 @@
           "text": "Predicted Cancer Signal Origin 1"
         },
         "subject": {
-          "reference": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df"
+          "reference": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:6cf46800-babc-4320-954d-2898f298f1e1"
+            "reference": "urn:uuid:ccb85c1c-bae3-46d2-8d52-edd2e8be3f49"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779"
+          "reference": "urn:uuid:21ebba28-ad05-4fc9-ab24-9fa72f1483e4"
         },
         "valueString": "Lung (85%)",
         "component": [
@@ -287,10 +287,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:c41599ff-dc7b-4336-9da5-e3e86fd8cb26",
+      "fullUrl": "urn:uuid:b351c924-ddf2-428a-9353-75e64abf3af4",
       "resource": {
         "resourceType": "Observation",
-        "id": "c41599ff-dc7b-4336-9da5-e3e86fd8cb26",
+        "id": "b351c924-ddf2-428a-9353-75e64abf3af4",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"
@@ -318,16 +318,16 @@
           "text": "Predicted Cancer Signal Origin 2"
         },
         "subject": {
-          "reference": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df"
+          "reference": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:6cf46800-babc-4320-954d-2898f298f1e1"
+            "reference": "urn:uuid:ccb85c1c-bae3-46d2-8d52-edd2e8be3f49"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779"
+          "reference": "urn:uuid:21ebba28-ad05-4fc9-ab24-9fa72f1483e4"
         },
         "valueString": "Pancreas (12%)",
         "component": [
@@ -362,10 +362,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:53b7a2e5-db54-400c-b9e9-9d4a53078d93",
+      "fullUrl": "urn:uuid:53c7f11b-85a4-483a-b745-904f09823c69",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "53b7a2e5-db54-400c-b9e9-9d4a53078d93",
+        "id": "53c7f11b-85a4-483a-b745-904f09823c69",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Synthetic Lab Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"
@@ -399,32 +399,32 @@
           "text": "Synthetic Lab Report"
         },
         "subject": {
-          "reference": "urn:uuid:741f0c04-1f31-42a0-978e-e2c02f9a49df"
+          "reference": "urn:uuid:55b338d2-c122-4b6b-b220-1d9e1204ed5f"
         },
         "effectiveDateTime": "2026-08-07",
         "issued": "2026-08-14",
         "performer": [
           {
-            "reference": "urn:uuid:6f8ada8e-abf5-4fa9-b34a-4e415aabe663"
+            "reference": "urn:uuid:0dfb7251-3024-49e2-b883-40139c571148"
           },
           {
-            "reference": "urn:uuid:6cf46800-babc-4320-954d-2898f298f1e1"
+            "reference": "urn:uuid:ccb85c1c-bae3-46d2-8d52-edd2e8be3f49"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:eb44b1aa-48d5-45fc-9ec4-de1fb8f9a779"
+            "reference": "urn:uuid:21ebba28-ad05-4fc9-ab24-9fa72f1483e4"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:e95057bc-8f6a-40c8-af48-24fddc8ff7c0"
+            "reference": "urn:uuid:f7229f99-4798-4fff-ab43-298d45bc5974"
           },
           {
-            "reference": "urn:uuid:0e4656a4-04c1-4dd4-a9b9-1a6737bde661"
+            "reference": "urn:uuid:41fc6b3f-8753-47dd-aa46-4dafaefc620e"
           },
           {
-            "reference": "urn:uuid:c41599ff-dc7b-4336-9da5-e3e86fd8cb26"
+            "reference": "urn:uuid:b351c924-ddf2-428a-9353-75e64abf3af4"
           }
         ],
         "conclusion": "A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The \"Cancer Signal Detected\" result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins Lung and Pancreas) should guide the subsequent diagnostic workup. It is recommended that the healthcare provider initiate targeted clinical evaluations, which may include: \u25cf High-resolution imaging (e.g., CT, MRI, or PET-CT( of the chest and abdomen. \u25cf Specialist consultation with oncology or pulmonology. \u25cf Tissue biopsy if a suspicious lesion is identified via imaging.\n\nMethodology: This test utilizes next-generation sequencing NGS( to analyze specific methylation patterns of cell-free DNA (cfDNA) in the blood. The Galleri test uses a machine-learning algorithm to identify patterns characteristic of over 50 types of cancer and to predict the most likely organ of origin.\n\nLimitations: \u25cf A \"Cancer Signal Detected\" result is not a definitive diagnosis and can be a false positive. \u25cf A \"Cancer Signal Not Detected\" result does not rule out the presence of cancer. --- PAGE BREAK --- \u25cf This test is intended for use in adults at elevated risk for cancer, such as those aged 50 or older. \u25cf The test does not detect all cancers and is not a replacement for standard-of-care screenings (e.g., mammography, colonoscopy)."

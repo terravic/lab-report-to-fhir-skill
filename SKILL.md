@@ -43,20 +43,22 @@ To validate generated bundles against FHIR R4 schema and referential integrity r
 python3 scripts/validate.py -i "output/"
 ```
 
-### Mode 2: Interactive Canvas UI Dashboard (Recommended for User Interfaces)
-To provide the user with a visual, interactive clinical dashboard featuring dual-pane FHIR JSON inspection:
+### Mode 2: Interactive Report-Specific Canvas UI Dashboard (Recommended for User Interfaces)
+When a user asks to view or visualize a laboratory report in an interactive dashboard:
+1. **Extract and Convert**: The agent first extracts clinical entities and observations from the specified report and converts them into an HL7 FHIR R4 Bundle.
+2. **Generate Report-Specific Canvas UI**: The agent then generates a dedicated Canvas UI HTML file (`ui/fhir_viewer.html`) displaying the extracted data for **that single report only** (no clutter from unrelated reports).
 
 ```bash
-# Launch interactive visual dashboard for a specific converted FHIR bundle:
-python3 scripts/visualize.py output/synthetic_cancer_lab_report_fhir.json
+# Extract data from a PDF report and build the dedicated Canvas UI dashboard:
+python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
 
-# Or directly convert a PDF and launch the visual dashboard:
-python3 scripts/visualize.py reports/synthetic_colorectal_ctdna.pdf
+# Or build the dedicated Canvas UI dashboard from a converted FHIR JSON bundle:
+python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
 ```
 
 In agent harnesses supporting iframe or Canvas HTML rendering (such as Gemini Enterprise App, Spark, and Antigravity):
-- Point the user to the self-contained Canvas UI file at `ui/fhir_viewer.html`.
-- The dashboard allows users to click on any patient card, biomarker gauge, or observation row to instantly view its underlying HL7 FHIR R4 JSON definition.
+- Point the user to or render the self-contained Canvas UI file at `ui/fhir_viewer.html`.
+- The dashboard allows users to click on any patient card, biomarker gauge, or observation row from that report to instantly view its underlying HL7 FHIR R4 JSON definition.
 
 ### Mode 3: Direct Agent Extraction and Mapping (For Text Inputs)
 When the user pastes raw lab text or asks for on-the-fly mapping without disk access:
