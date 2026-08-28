@@ -46,13 +46,13 @@ def main():
         print(f"Error: Unsupported file format '{ext}'. Expected .json or .pdf.", file=sys.stderr)
         sys.exit(1)
 
-    html_path = generate_html_dashboard(bundle=bundle, output_html_path=args.output, include_sample_presets=True)
+    html_path = generate_html_dashboard(bundle=bundle, output_html_path=args.output)
     print(f"Generated report-specific Web UI dashboard at: {html_path}")
 
     # Also sync to skills directory if default
     if args.output == "ui/fhir_viewer.html":
         skills_ui_path = "skills/lab-report-to-fhir/ui/fhir_viewer.html"
-        generate_html_dashboard(bundle=bundle, output_html_path=skills_ui_path, include_sample_presets=True)
+        generate_html_dashboard(bundle=bundle, output_html_path=skills_ui_path)
 
     if not args.no_open:
         print("Opening in default web browser...")

@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "1fba24d5-04e8-4e24-ab52-fd75b2b5bafd",
+  "id": "7f19f5b1-7d17-41a2-9dc8-9e05de2c49b0",
   "type": "transaction",
-  "timestamp": "2026-08-28T19:56:44Z",
+  "timestamp": "2026-08-28T20:50:24Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d",
+      "fullUrl": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37",
       "resource": {
         "resourceType": "Patient",
-        "id": "d57056da-2249-4f81-8ffd-776024cf105d",
+        "id": "b9125b74-f88b-4936-8efa-5fdc66c78a37",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Robert T. Sample</p></div>"
@@ -50,10 +50,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a1f05590-3c4b-40bf-b6ac-9470d46b4091",
+      "fullUrl": "urn:uuid:c182ed27-83fb-42d2-85f3-ea9af1b240c8",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "a1f05590-3c4b-40bf-b6ac-9470d46b4091",
+        "id": "c182ed27-83fb-42d2-85f3-ea9af1b240c8",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Marcus Vance, MD</p></div>"
@@ -78,10 +78,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5",
+      "fullUrl": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8",
       "resource": {
         "resourceType": "Organization",
-        "id": "7cf4c65b-722c-4be8-b830-e3d4c375c8f5",
+        "id": "833be419-7385-4eae-a624-d30951f313a8",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> PACIFIC PRECISION GENOMICS LAB</p></div>"
@@ -111,10 +111,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7",
+      "fullUrl": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6",
       "resource": {
         "resourceType": "Specimen",
-        "id": "ad076b8e-6f82-486d-bf64-584608f922f7",
+        "id": "fa1f1992-a602-4822-a6d7-7102263263d6",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-MCED-4491 (Blood / Plasma)</p></div>"
@@ -137,7 +137,7 @@
           "text": "Blood / Plasma"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "collection": {
           "collectedDateTime": "2026-08-01",
@@ -163,10 +163,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:0edf53b8-354e-429c-b476-2784d902efed",
+      "fullUrl": "urn:uuid:dd2a0e48-f4a8-4ae7-b799-0f8060c02d2c",
       "resource": {
         "resourceType": "Observation",
-        "id": "0edf53b8-354e-429c-b476-2784d902efed",
+        "id": "dd2a0e48-f4a8-4ae7-b799-0f8060c02d2c",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Not Detected</p></div>"
@@ -194,16 +194,16 @@
           "text": "Cancer Signal Status"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "Cancer Signal Not Detected",
         "referenceRange": [
@@ -229,10 +229,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:73a7f0a9-14ba-4a14-be6a-e65e60fb25d9",
+      "fullUrl": "urn:uuid:0f313604-effc-4030-ab54-48101f0c4800",
       "resource": {
         "resourceType": "Observation",
-        "id": "73a7f0a9-14ba-4a14-be6a-e65e60fb25d9",
+        "id": "0f313604-effc-4030-ab54-48101f0c4800",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> None Detected</p></div>"
@@ -260,16 +260,16 @@
           "text": "Predicted Cancer Signal Origin 1"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "None Detected",
         "referenceRange": [
@@ -295,10 +295,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:8aea770c-e3a9-463a-bd45-fee81c43c2aa",
+      "fullUrl": "urn:uuid:f615202f-13aa-4cd1-8700-52304ec1d2f2",
       "resource": {
         "resourceType": "Observation",
-        "id": "8aea770c-e3a9-463a-bd45-fee81c43c2aa",
+        "id": "f615202f-13aa-4cd1-8700-52304ec1d2f2",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 8.4 ng/mL</p></div>"
@@ -326,16 +326,16 @@
           "text": "cfDNA Concentration"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "8.4 ng/mL",
         "referenceRange": [
@@ -369,10 +369,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:4cd2fc42-ce0a-4e3d-a77b-c82fc0bc514e",
+      "fullUrl": "urn:uuid:8d9ea5a1-4eba-4781-af8f-341cbf150830",
       "resource": {
         "resourceType": "Observation",
-        "id": "4cd2fc42-ce0a-4e3d-a77b-c82fc0bc514e",
+        "id": "8d9ea5a1-4eba-4781-af8f-341cbf150830",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Bisulfite Conversion Efficiency:</b> 99.8%</p></div>"
@@ -400,16 +400,16 @@
           "text": "Bisulfite Conversion Efficiency"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "99.8%",
         "referenceRange": [
@@ -439,10 +439,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:a8a1316c-0449-4ad5-8bc7-221c0aca1693",
+      "fullUrl": "urn:uuid:336358e8-f106-44bd-be84-3c3b10081cba",
       "resource": {
         "resourceType": "Observation",
-        "id": "a8a1316c-0449-4ad5-8bc7-221c0aca1693",
+        "id": "336358e8-f106-44bd-be84-3c3b10081cba",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 31,200x</p></div>"
@@ -470,16 +470,16 @@
           "text": "Sequencing Coverage Depth"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "31,200x",
         "referenceRange": [
@@ -509,10 +509,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:9750ab7d-5d2f-42f9-a373-cb13ba7c9231",
+      "fullUrl": "urn:uuid:544a8690-0729-4869-9175-f38bff28ac4b",
       "resource": {
         "resourceType": "Observation",
-        "id": "9750ab7d-5d2f-42f9-a373-cb13ba7c9231",
+        "id": "544a8690-0729-4869-9175-f38bff28ac4b",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.4%</p></div>"
@@ -540,16 +540,16 @@
           "text": "Sequencing QC Pass Rate"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "performer": [
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+          "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
         },
         "valueString": "99.4%",
         "referenceRange": [
@@ -579,10 +579,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:41f5f8ae-0f5d-4512-9be3-63111a6f9e07",
+      "fullUrl": "urn:uuid:e89d5849-66aa-4cab-8b56-ce6b82b935ad",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "41f5f8ae-0f5d-4512-9be3-63111a6f9e07",
+        "id": "e89d5849-66aa-4cab-8b56-ce6b82b935ad",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.</p></div>"
@@ -616,41 +616,41 @@
           "text": "Multi-Cancer Early Detection Screening Report"
         },
         "subject": {
-          "reference": "urn:uuid:d57056da-2249-4f81-8ffd-776024cf105d"
+          "reference": "urn:uuid:b9125b74-f88b-4936-8efa-5fdc66c78a37"
         },
         "effectiveDateTime": "2026-08-01",
         "issued": "2026-08-06",
         "performer": [
           {
-            "reference": "urn:uuid:a1f05590-3c4b-40bf-b6ac-9470d46b4091"
+            "reference": "urn:uuid:c182ed27-83fb-42d2-85f3-ea9af1b240c8"
           },
           {
-            "reference": "urn:uuid:7cf4c65b-722c-4be8-b830-e3d4c375c8f5"
+            "reference": "urn:uuid:833be419-7385-4eae-a624-d30951f313a8"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:ad076b8e-6f82-486d-bf64-584608f922f7"
+            "reference": "urn:uuid:fa1f1992-a602-4822-a6d7-7102263263d6"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:0edf53b8-354e-429c-b476-2784d902efed"
+            "reference": "urn:uuid:dd2a0e48-f4a8-4ae7-b799-0f8060c02d2c"
           },
           {
-            "reference": "urn:uuid:73a7f0a9-14ba-4a14-be6a-e65e60fb25d9"
+            "reference": "urn:uuid:0f313604-effc-4030-ab54-48101f0c4800"
           },
           {
-            "reference": "urn:uuid:8aea770c-e3a9-463a-bd45-fee81c43c2aa"
+            "reference": "urn:uuid:f615202f-13aa-4cd1-8700-52304ec1d2f2"
           },
           {
-            "reference": "urn:uuid:4cd2fc42-ce0a-4e3d-a77b-c82fc0bc514e"
+            "reference": "urn:uuid:8d9ea5a1-4eba-4781-af8f-341cbf150830"
           },
           {
-            "reference": "urn:uuid:a8a1316c-0449-4ad5-8bc7-221c0aca1693"
+            "reference": "urn:uuid:336358e8-f106-44bd-be84-3c3b10081cba"
           },
           {
-            "reference": "urn:uuid:9750ab7d-5d2f-42f9-a373-cb13ba7c9231"
+            "reference": "urn:uuid:544a8690-0729-4869-9175-f38bff28ac4b"
           }
         ],
         "conclusion": "No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.\n\nClinical Interpretation: A 'Cancer Signal Not Detected' result indicates that the targeted cell-free DNA methylation signatures associated with 50+ cancer types were not identified at actionable thresholds in this specimen. Recommended next steps include: \u2022 Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated. \u2022 Follow-up: Regular annual wellness examinations with primary care physician.\n\nRecommended Next Steps:\n\u2022 Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated.\n\u2022 Follow-up: Regular annual wellness examinations with primary care physician.\n\nMethodology: Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are evaluated using machine-learning classification models calibrated across multi-organ tissue datasets.\n\nLimitations: A negative result does not eliminate the risk of cancer. Certain indolent tumors or cancers shedding low levels of cfDNA may not be detected.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D9981245"

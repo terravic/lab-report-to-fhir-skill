@@ -173,22 +173,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       flex-wrap: wrap;
     }
 
-    .sample-select {
-      font-family: var(--font-sans);
-      font-size: 12px;
-      padding: 5px 10px;
-      border-radius: var(--radius);
-      border: 1px solid var(--border-color);
-      background-color: var(--bg-card);
-      color: var(--text-main);
-      cursor: pointer;
-      font-weight: 500;
-    }
-    .sample-select:focus {
-      outline: none;
-      border-color: var(--border-focus);
-    }
-
     button {
       font-family: var(--font-sans);
       font-size: 12px;
@@ -906,16 +890,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     </div>
 
     <div class="controls-section">
-      <!-- Sample Selector -->
-      <select id="sample-select" class="sample-select" onchange="switchSample(this.value)">
-        <option value="active">Active Converted Report</option>
-        <option value="cancer_positive">1. MCED Detected (Lung & Pancreas)</option>
-        <option value="mced_negative">2. MCED Negative Baseline</option>
-        <option value="colorectal_ctdna">3. Colorectal ctDNA Liquid Biopsy</option>
-        <option value="hereditary_ngs">4. Hereditary Cancer 15-Gene Panel</option>
-        <option value="prostate_phi">5. Prostate Health Index (phi) Panel</option>
-      </select>
-
       <div class="view-toggle">
         <button id="btn-view-split" class="active" onclick="setViewMode('split')">Split View</button>
         <button id="btn-view-clinical" onclick="setViewMode('clinical')">Clinical</button>
@@ -1146,19 +1120,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           return '<span class="' + cls + '">' + match + '</span>';
         }
       );
-    }
-
-    // Switch between sample presets
-    function switchSample(sampleKey) {
-      if (sampleKey === 'active') {
-        renderDashboard(ACTIVE_BUNDLE);
-        showToast('Viewing active converted report.');
-        return;
-      }
-      if (SAMPLE_PRESETS[sampleKey]) {
-        renderDashboard(SAMPLE_PRESETS[sampleKey]);
-        showToast(`Loaded preset sample: ${sampleKey.replace('_', ' ').toUpperCase()}`);
-      }
     }
 
     // Client-side Heuristic Text / Lab Parser to FHIR R4 Bundle
@@ -2022,63 +1983,35 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
     });
 
-    // Preset Sample Bundles
-    const SAMPLE_PRESETS = __SAMPLE_PRESETS_JSON__;
-
-    // Initialize with the active report bundle and theme
-    window.addEventListener('DOMContentLoaded', () => {
+    function startApp() {
       initTheme();
       renderDashboard(ACTIVE_BUNDLE);
-    });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', startApp);
+    } else {
+      startApp();
+    }
   </script>
 </body>
 </html>
 """
 
 
-def load_all_sample_presets() -> Dict[str, Any]:
-    """Preloads all 5 sample synthetic reports as converted FHIR bundles."""
-    presets = {}
-    preset_map = {
-        "cancer_positive": "reports/synthetic_cancer_lab_report.pdf",
-        "mced_negative": "reports/synthetic_mced_negative.pdf",
-        "colorectal_ctdna": "reports/synthetic_colorectal_ctdna.pdf",
-        "hereditary_ngs": "reports/synthetic_hereditary_ngs_panel.pdf",
-        "prostate_phi": "reports/synthetic_prostate_phi_panel.pdf"
-    }
-    for key, path in preset_map.items():
-        if os.path.exists(path):
-            try:
-                from src.parser import parse_lab_report_file
-                from src.fhir_builder import convert_parsed_data_to_fhir
-                data = parse_lab_report_file(path)
-                presets[key] = convert_parsed_data_to_fhir(data)
-            except Exception:
-                pass
-    return presets
-
-
-def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html", sample_presets: Optional[Dict[str, Any]] = None, include_sample_presets: bool = False) -> str:
+def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html") -> str:
     """
-    Generates a dedicated, report-specific Web UI Dashboard from an extracted HL7 FHIR Bundle.
+    Generates a dedicated Web UI Dashboard from an extracted HL7 FHIR Bundle.
     
     Args:
         bundle: The extracted and converted FHIR R4 Bundle dictionary for this report.
         output_html_path: Destination path for the generated HTML file.
-        sample_presets: Optional dictionary of pre-converted sample bundles for the selector.
-        include_sample_presets: Whether to preload all 5 sample bundles if sample_presets is None.
         
     Returns:
         Absolute path to the created HTML file.
     """
-    if sample_presets is None and include_sample_presets:
-        sample_presets = load_all_sample_presets()
-
     bundle_json_str = json.dumps(bundle, indent=None)
-    presets_json_str = json.dumps(sample_presets or {}, indent=None)
-    
     rendered_html = HTML_TEMPLATE.replace("__ACTIVE_BUNDLE_JSON__", bundle_json_str)
-    rendered_html = rendered_html.replace("__SAMPLE_PRESETS_JSON__", presets_json_str)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_html_path)), exist_ok=True)
     with open(output_html_path, "w", encoding="utf-8") as f:

@@ -31,13 +31,17 @@ def test_generate_report_specific_web_ui_cancer_report():
         assert 'id="clinical-dashboard"' in content
         assert 'id="fhir-inspector"' in content
         assert 'id="biomarkers-list"' in content
+        assert 'id="recommendations-list"' in content
         assert 'id="btn-theme-toggle"' in content
         assert 'id="biomarker-search"' in content
         assert 'id="file-input"' in content
         assert "synthetic-banner" not in content
 
-        # Verify no hardcoded multi-report preset selector
+        # Verify no sample selector dropdown or presets in UI
+        assert 'id="sample-select"' not in content
         assert 'id="preset-selector"' not in content
+        assert 'SAMPLE_PRESETS' not in content
+        assert 'switchSample' not in content
 
 
 def test_generate_report_specific_web_ui_colorectal_report():
@@ -57,9 +61,10 @@ def test_generate_report_specific_web_ui_colorectal_report():
         assert "Harold K. Sample" in content
         assert "SEPT9" in content
         assert "KRAS" in content
-        # Verify it does not contain other patients
+        # Verify it does not contain other patients or dropdowns
         assert "Jane Q. Sample" not in content
         assert "Brenda S. Sample" not in content
+        assert 'id="sample-select"' not in content
 
 
 def test_generate_report_specific_web_ui_prostate_report():
@@ -80,3 +85,4 @@ def test_generate_report_specific_web_ui_prostate_report():
         assert "Prostate Health Index" in content
         assert 'class="gauge-bar-track"' in content
         assert "Jane Q. Sample" not in content
+        assert 'id="sample-select"' not in content

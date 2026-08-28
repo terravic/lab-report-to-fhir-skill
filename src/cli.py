@@ -41,8 +41,14 @@ def process_single_file(pdf_path: str, output_path: str = None, bundle_type: str
                 json.dump(bundle, f, indent=2)
         print(f"Saved FHIR Bundle to: {output_path}")
 
+    # Generate dedicated Web UI Dashboard for this processed report
+    html_path = generate_html_dashboard(bundle=bundle, output_html_path="ui/fhir_viewer.html")
+    generate_html_dashboard(bundle=bundle, output_html_path="skills/lab-report-to-fhir/ui/fhir_viewer.html")
+    if output_path:
+        base_name = os.path.splitext(os.path.basename(output_path))[0].replace("_fhir", "")
+        generate_html_dashboard(bundle=bundle, output_html_path=f"ui/{base_name}.html")
+
     if view:
-        html_path = generate_html_dashboard(bundle=bundle)
         print(f"Generated Web UI dashboard at: {html_path}")
         open_in_browser(html_path)
         
