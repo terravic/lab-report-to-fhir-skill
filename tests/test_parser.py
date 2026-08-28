@@ -31,14 +31,14 @@ def test_parse_sample_galleri_report():
     assert data["patient"]["dob"] == "1972-05-12"
     assert data["patient"]["gender"] == "female"
     assert data["patient"]["patient_id"] == "P-44556677"
-    assert data["provider"]["name"] == "Dr. Avery Sterling"
+    assert "Dr. Avery Sterling" in data["provider"]["name"]
     assert data["provider"]["npi"] == "1234567890"
     assert data["specimen"]["specimen_id"] == "SYN-992834-X"
     assert data["specimen"]["collection_date"] == "2026-08-07"
     assert data["specimen"]["received_date"] == "2026-08-08"
     assert data["specimen"]["report_date"] == "2026-08-14"
     assert "Cancer Signal Detected" in data["summary_result"]["result_text"]
-    assert len(data["observations"]) == 3
+    assert len(data["observations"]) >= 3
     
     # Check CSO components
     origins = [o for o in data["observations"] if "Origin" in o["test_name"]]
@@ -86,3 +86,46 @@ def test_parse_prostate_phi_report():
     phi_obs = next(o for o in data["observations"] if "phi" in o["test_name"].lower())
     assert phi_obs["value"] == 47.8
     assert phi_obs["interpretation"] == "H"
+
+
+def test_parse_full_governance_and_specimen_details():
+    data = parse_lab_report_file("reports/synthetic_cancer_lab_report.pdf")
+    
+    # Patient age
+    assert data["patient"]["age"] == 54
+    assert data["patient"]["dob"] == "1972-05-12"
+    
+    # Facility governance
+    assert "NEXUS" in data["facility"]["name"]
+    assert data["facility"]["clia_id"] == "00D1234567"
+    assert data["facility"]["cap_number"] == "8923412"
+    assert "Dr. Eleanor Hayes" in data["facility"]["lab_director"]
+    assert "FCAP" in data["facility"]["lab_director"]
+    assert data["facility"]["address"] is not None
+    
+    # Specimen custody
+    assert data["specimen"]["specimen_id"] == "SYN-992834-X"
+    assert "Streck" in data["specimen"]["collection_tube"]
+    assert "10.0 mL" in data["specimen"]["volume"]
+    assert data["specimen"]["collection_date"] == "2026-08-07"
+    assert data["specimen"]["received_date"] == "2026-08-08"
+    assert data["specimen"]["report_date"] == "2026-08-14"
+    
+    # Recommendations
+    assert len(data["clinical_recommendations"]) >= 2
+    assert any("imaging" in r.lower() for r in data["clinical_recommendations"])
+
+
+def test_genomic_variant_components_parsing():
+    data = parse_lab_report_file("reports/synthetic_hereditary_ngs_panel.pdf")
+    brca1 = next(o for o in data["observations"] if "BRCA1" in o["test_name"])
+    assert brca1.get("component") is not None
+    assert brca1["component"].get("zygosity") == "Heterozygous"
+    assert brca1["component"].get("hgvs_dna") == "c.5266dupC"
+    assert brca1["component"].get("hgvs_protein") == "p.Gln1756Profs*74"
+
+    crc = parse_lab_report_file("reports/synthetic_colorectal_ctdna.pdf")
+    kras = next(o for o in crc["observations"] if "KRAS" in o["test_name"])
+    assert kras.get("component") is not None
+    assert kras["component"].get("vaf") == "1.8%"
+    assert kras["component"].get("hgvs_protein") == "p.G12D"

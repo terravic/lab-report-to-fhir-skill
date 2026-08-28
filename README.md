@@ -17,7 +17,7 @@ This toolkit is designed for healthcare interoperability workflows, facilitating
    - [Step-by-Step Walkthrough in an Agent Chat](#step-by-step-walkthrough-in-an-agent-chat)
    - [Exact Prompts to Use (What to Ask)](#exact-prompts-to-use-what-to-ask)
    - [Understanding the Results You Get Back](#understanding-the-results-you-get-back)
-4. [Interactive Canvas UI & Visual Dashboard](#interactive-canvas-ui--visual-dashboard)
+4. [Interactive Web UI & Visual Dashboard](#interactive-web-ui--visual-dashboard)
    - [Dual-Perspective Interface](#dual-perspective-interface)
    - [Click-to-Inspect FHIR Exploration](#click-to-inspect-fhir-exploration)
    - [Visual Biomarker Range Gauges](#visual-biomarker-range-gauges)
@@ -40,7 +40,7 @@ This toolkit is designed for healthcare interoperability workflows, facilitating
 
 The sample laboratory PDF reports provided in the `reports/` directory and test fixtures are 100% synthetic and contain zero real patient Protected Health Information (PHI) or Personally Identifiable Information (PII). All names, dates of birth, medical record numbers (MRNs), provider identities, laboratory credentials, and diagnostic measurements in the sample files are simulated values created exclusively for development and testing.
 
-The conversion engine, FHIR JSON output structures, and interactive Canvas UI visualizer do not state or label data as synthetic, ensuring that when users process real laboratory reports, all generated outputs and dashboards maintain authentic, production-grade clinical interoperability standards.
+The conversion engine, FHIR JSON output structures, and interactive Web UI visualizer do not state or label data as synthetic, ensuring that when users process real laboratory reports, all generated outputs and dashboards maintain authentic, production-grade clinical interoperability standards.
 
 ---
 
@@ -53,10 +53,10 @@ This project provides:
 - **Clinical Entity and Biomarker Parser**: Parses patient demographics, ordering providers, CLIA-certified testing laboratories, specimen chain of custody, quantitative measurements, qualitative variant classifications, and clinical narratives.
 - **HL7 FHIR R4 Constructor**: Assembles standard FHIR resources and transaction bundles with full cross-resource referential integrity (`urn:uuid:` references).
 - **Referential and Schema Validator**: Verifies resource constraints, required elements, and internal reference targets.
-- **Interactive Canvas UI Visualizer**: A rich, dual-perspective clinical dashboard and interactive FHIR inspector designed for native iframe rendering in agent harnesses (Gemini Enterprise App, Antigravity, Spark).
+- **Interactive Web UI Visualizer**: A rich, dual-perspective clinical dashboard and interactive FHIR inspector designed for web browsers and agent environments.
 - **Multi-Platform Agent Skill (`SKILL.md`)**: Enables conversational AI assistants to autonomously parse, validate, convert, and visualize lab reports.
 
-![Clinical Informatics Workflow and Canvas UI Dashboard](assets/workflow_overview.png)
+![Clinical Informatics Workflow and Web UI Dashboard](assets/workflow_overview.png)
 
 ```text
 +-----------------------+     +--------------------------+     +--------------------------+
@@ -67,11 +67,11 @@ This project provides:
                                            |                   |  - Specimen              |
                                            v                   |  - Practitioner / Org    |
                               +--------------------------+     +--------------------------+
-                              |  Canvas UI Dashboard     |                  |
+                              |  Web UI Dashboard        |                  |
                               |  - Clinical View & Gauges|                  v
                               |  - Click-to-Inspect FHIR |     +--------------------------+
                               +--------------------------+     |  EHR / FHIR Server       |
-                                                               |  (Epic, Cerner, GCP)     |
+                                                               |  (Epic, Cerner, Cloud)   |
                                                                +--------------------------+
 ```
 
@@ -82,13 +82,18 @@ This project provides:
 ```text
 .
 ├── LICENSE                                    # Apache 2.0 open-source license
-├── README.md                                  # Comprehensive documentation
+├── README.md                                  # Comprehensive documentation and non-technical guide
 ├── SKILL.md                                   # Root Agent Skill entrypoint
 ├── requirements.txt                           # Python dependencies
 ├── assets/                                    # Documentation diagrams and UI assets
 │   └── workflow_overview.png                  # Clinical workflow architecture diagram
-├── ui/                                        # Canvas UI single-file web application
-│   └── fhir_viewer.html                       # Interactive clinical dashboard & FHIR inspector
+├── ui/                                        # Web UI single-file web application
+│   ├── fhir_viewer.html                       # Interactive clinical dashboard & FHIR inspector
+│   ├── synthetic_cancer_lab_report.html       # Standalone dashboard for MCED positive report
+│   ├── synthetic_mced_negative.html           # Standalone dashboard for MCED negative report
+│   ├── synthetic_colorectal_ctdna.html        # Standalone dashboard for Colorectal ctDNA report
+│   ├── synthetic_hereditary_ngs_panel.html    # Standalone dashboard for Hereditary NGS panel
+│   └── synthetic_prostate_phi_panel.html      # Standalone dashboard for Prostate phi panel
 ├── reports/                                   # Synthetic early cancer detection PDF reports
 │   ├── synthetic_cancer_lab_report.pdf        # Multi-Cancer Early Detection (Positive / Lung & Pancreas)
 │   ├── synthetic_mced_negative.pdf            # Multi-Cancer Early Detection (Negative Baseline)
@@ -96,28 +101,31 @@ This project provides:
 │   ├── synthetic_hereditary_ngs_panel.pdf     # 15-Gene Hereditary Oncology NGS Panel (BRCA1 Pathogenic)
 │   └── synthetic_prostate_phi_panel.pdf       # Prostate Health Index (phi) Biomarker Panel
 ├── output/                                    # Generated FHIR R4 JSON bundles
-│   ├── synthetic_cancer_lab_report_fhir.json
-│   ├── synthetic_mced_negative_fhir.json
-│   ├── synthetic_colorectal_ctdna_fhir.json
-│   ├── synthetic_hereditary_ngs_panel_fhir.json
-│   └── synthetic_prostate_phi_panel_fhir.json
+│   ├── all_sample_bundles.json                # Aggregate bundle collection of all test reports
+│   ├── synthetic_cancer_lab_report_fhir.json  # FHIR R4 bundle for MCED positive report
+│   ├── synthetic_mced_negative_fhir.json      # FHIR R4 bundle for MCED negative report
+│   ├── synthetic_colorectal_ctdna_fhir.json   # FHIR R4 bundle for Colorectal ctDNA report
+│   ├── synthetic_hereditary_ngs_panel_fhir.json # FHIR R4 bundle for Hereditary NGS report
+│   └── synthetic_prostate_phi_panel_fhir.json # FHIR R4 bundle for Prostate phi report
 ├── src/                                       # Core Python processing library
 │   ├── __init__.py
-│   ├── cli.py                                 # CLI interface
+│   ├── cli.py                                 # Command Line Interface runner
 │   ├── extractor.py                           # PDF text, table, and layout extraction
 │   ├── parser.py                              # Clinical entity and tabular parser
 │   ├── fhir_builder.py                        # HL7 FHIR R4 resource and bundle constructor
 │   ├── fhir_validator.py                      # FHIR schema and referential validator
-│   ├── visualizer.py                          # Canvas HTML dashboard generator
+│   ├── visualizer.py                          # Web UI HTML dashboard generator
 │   └── synthetic_generator.py                 # Clinical synthetic PDF report generator
 ├── scripts/                                   # Direct execution runner scripts
 │   ├── convert.py                             # Conversion script
 │   ├── validate.py                            # Bundle validation script
-│   ├── visualize.py                           # Canvas UI launcher and HTML generator
+│   ├── visualize.py                           # Web UI launcher and HTML generator
 │   └── generate_reports.py                    # Synthetic report generation script
 ├── skills/
 │   └── lab-report-to-fhir/
 │       ├── SKILL.md                           # Skill definition
+│       ├── assets/
+│       │   └── workflow_overview.png          # Workflow architecture diagram
 │       ├── references/
 │       │   ├── loinc_snomed_mapping.md        # LOINC & SNOMED CT reference tables
 │       │   ├── fhir_r4_schemas.md             # FHIR R4 JSON schema models
@@ -126,22 +134,22 @@ This project provides:
 │       │   ├── convert.py                     # Skill execution runner
 │       │   └── visualize.py                   # Skill visualizer runner
 │       └── ui/
-│           └── fhir_viewer.html               # Packaged Canvas UI application
+│           └── fhir_viewer.html               # Packaged Web UI application
 └── tests/                                     # Automated test suite (pytest)
     ├── __init__.py
-    ├── test_extractor.py
-    ├── test_parser.py
-    ├── test_fhir_builder.py
-    ├── test_fhir_validator.py
-    ├── test_visualizer.py
-    └── test_cli.py
+    ├── test_extractor.py                      # PDF extraction and cleaning tests
+    ├── test_parser.py                         # Clinical parsing and normalization tests
+    ├── test_fhir_builder.py                   # FHIR resource and bundle construction tests
+    ├── test_fhir_validator.py                 # Schema and reference validation tests
+    ├── test_visualizer.py                     # Dashboard HTML generation tests
+    └── test_cli.py                            # End-to-end CLI workflow tests
 ```
 
 ---
 
 ## Non-Technical User Guide: How to Use This Skill
 
-This section provides clear, non-technical instructions for clinical coordinators, health informatics analysts, compliance specialists, and general users who want to use this skill inside conversational AI agent interfaces (such as Gemini Enterprise App, Antigravity, ChatGPT Enterprise, or custom agent apps).
+This section provides clear, non-technical instructions for clinical coordinators, health informatics analysts, compliance specialists, and general users who want to use this skill inside conversational AI agent interfaces (such as conversational AI assistants, web interfaces, or custom agent applications).
 
 ---
 
@@ -189,7 +197,7 @@ If you do not have a PDF file on hand, this repository includes 5 ready-to-use s
 Follow these four steps to convert any lab report:
 
 #### Step 1: Open Your AI Chat Interface
-Open Gemini Enterprise App, Antigravity, or your organization's AI chat assistant where the skill is enabled.
+Open your AI chat assistant, web application, or interface where the skill is enabled.
 
 #### Step 2: Attach or Upload Your PDF Report
 Click the attachment icon (paperclip or plus sign) in your chat input box, select your lab report PDF file (for example, `reports/synthetic_cancer_lab_report.pdf`), and confirm the upload.
@@ -231,8 +239,8 @@ If you do not have a PDF and only have text from an email or note, paste the tex
 > - TP53 Genetic Analysis: Negative / No Pathogenic Variant, Normal
 > Conclusion: Heterozygous pathogenic founder mutation in BRCA1 confirming HBOC syndrome."
 
-#### Scenario 5: Requesting an Interactive Visual Canvas Dashboard
-> "Please convert the attached report ('reports/synthetic_prostate_phi_panel.pdf') into FHIR and launch the interactive Canvas UI visual dashboard so I can review the findings and click on the biomarkers to inspect their raw FHIR JSON."
+#### Scenario 5: Requesting an Interactive Visual Web Dashboard
+> "Please convert the attached report ('reports/synthetic_prostate_phi_panel.pdf') into FHIR and launch the interactive Web UI visual dashboard so I can review the findings and click on the biomarkers to inspect their raw FHIR JSON."
 
 ---
 
@@ -252,11 +260,11 @@ When the agent finishes processing, it will present two sections:
 
 ---
 
-## Interactive Canvas UI & Visual Dashboard
+## Interactive Web UI & Visual Dashboard
 
-To significantly enhance user experience, this skill dynamically generates a dedicated, report-specific Canvas UI application (`ui/fhir_viewer.html`) after extracting clinical data from a laboratory report.
+To significantly enhance user experience, this skill dynamically generates a dedicated, report-specific Web UI application (`ui/fhir_viewer.html`) after extracting clinical data from a laboratory report.
 
-The Canvas UI displays information **exclusively for the specific lab report being processed**—without mixing in other reports—allowing clinicians and analysts to review the patient's findings, reference ranges, and underlying FHIR resources in a clear, distraction-free environment.
+The Web UI displays information **exclusively for the specific lab report being processed**—without mixing in other reports—allowing clinicians and analysts to review the patient's findings, reference ranges, and underlying FHIR resources in a clear, distraction-free environment.
 
 ```text
 +---------------------------------------------------------------------------------------------------------+
@@ -285,7 +293,7 @@ The Canvas UI displays information **exclusively for the specific lab report bei
 +----------------------------------------------------+----------------------------------------------------+
 ```
 
-### Key Features of the Canvas UI:
+### Key Features of the Web UI Dashboard:
 
 1. **Light / Dark Mode Theme Toggle**:
    - Header toggle button allows users to switch between high-clarity Light Mode and low-glare Dark Mode.
@@ -316,10 +324,10 @@ The Canvas UI displays information **exclusively for the specific lab report bei
 
 #### Method 1: Extract and View a Lab Report
 ```bash
-# Extract data from a PDF report and build the dedicated Canvas UI dashboard:
+# Extract data from a PDF report and build the dedicated Web UI dashboard:
 python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
 
-# Or build the dedicated Canvas UI dashboard from a converted FHIR JSON bundle:
+# Or build the dedicated Web UI dashboard from a converted FHIR JSON bundle:
 python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
 ```
 
@@ -502,7 +510,7 @@ This repository and all included assets are fully compliant with healthcare priv
 2. **No Real Patients or Individuals**: All patient names (e.g., Jane Q. Sample, Robert T. Sample, Harold K. Sample, Brenda S. Sample, Arthur B. Sample), dates of birth, medical record numbers (MRNs), and demographic profiles are completely fabricated and do not represent any real individual, living or deceased.
 3. **Fictitious Providers and Facilities**: All clinician names, National Provider Identifiers (NPIs), laboratory names, CLIA certificate IDs, and physical facility addresses are fictitious demonstration placeholders.
 4. **Safety and Interoperability Testing**: The sample test reports in `reports/` are provided strictly for developing, testing, and benchmarking automated HL7 FHIR conversion algorithms and AI agent skills without risk of data exposure.
-5. **Clean Production Outputs**: The conversion pipeline, output FHIR JSON structures, and Canvas UI visualizer do not inject synthetic disclaimers into generated records, ensuring authentic presentation when processing real clinical documents.
+5. **Clean Production Outputs**: The conversion pipeline, output FHIR JSON structures, and Web UI visualizer do not inject synthetic disclaimers into generated records, ensuring authentic presentation when processing real clinical documents.
 
 ---
 

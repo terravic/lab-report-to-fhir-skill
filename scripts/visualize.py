@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-CLI script to extract and generate the interactive, report-specific Canvas UI Dashboard for a lab report.
+CLI script to extract and generate the interactive, report-specific Web UI Dashboard for a lab report.
 Usage:
     python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
     python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
@@ -21,7 +21,7 @@ from src.fhir_builder import convert_parsed_data_to_fhir
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Generate report-specific Canvas UI Dashboard from a lab report PDF or FHIR JSON.")
+    parser = argparse.ArgumentParser(description="Generate report-specific Web UI Dashboard from a lab report PDF or FHIR JSON.")
     parser.add_argument("input_file", nargs="?", default="reports/synthetic_cancer_lab_report.pdf", help="Path to input lab report PDF or FHIR JSON file (default: reports/synthetic_cancer_lab_report.pdf).")
     parser.add_argument("-o", "--output", default="ui/fhir_viewer.html", help="Path to output HTML dashboard (default: ui/fhir_viewer.html).")
     parser.add_argument("--no-open", action="store_true", help="Generate HTML without launching web browser.")
@@ -46,13 +46,13 @@ def main():
         print(f"Error: Unsupported file format '{ext}'. Expected .json or .pdf.", file=sys.stderr)
         sys.exit(1)
 
-    html_path = generate_html_dashboard(bundle=bundle, output_html_path=args.output)
-    print(f"Generated report-specific Canvas UI dashboard at: {html_path}")
+    html_path = generate_html_dashboard(bundle=bundle, output_html_path=args.output, include_sample_presets=True)
+    print(f"Generated report-specific Web UI dashboard at: {html_path}")
 
     # Also sync to skills directory if default
     if args.output == "ui/fhir_viewer.html":
         skills_ui_path = "skills/lab-report-to-fhir/ui/fhir_viewer.html"
-        generate_html_dashboard(bundle=bundle, output_html_path=skills_ui_path)
+        generate_html_dashboard(bundle=bundle, output_html_path=skills_ui_path, include_sample_presets=True)
 
     if not args.no_open:
         print("Opening in default web browser...")

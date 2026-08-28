@@ -19,7 +19,7 @@ def test_extract_text_from_pdf():
     assert os.path.exists(pdf_path), "Sample report must exist"
     text = extract_text_from_pdf(pdf_path)
     assert len(text) > 0
-    assert "Synthetic Lab Report" in text
+    assert "Multi-Cancer Early Detection" in text or "NEXUS PRECISION" in text
     assert "Jane Q. Sample" in text
     assert "Cancer Signal Detected" in text
 

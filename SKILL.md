@@ -4,12 +4,12 @@ description: >-
   Extracts clinical entities and key-value pairs from laboratory report PDFs or unstructured lab text,
   converts them into standard HL7 FHIR Release 4 (R4) JSON resources (Patient, Observation,
   DiagnosticReport, Specimen, Practitioner, Organization, transaction Bundle) for EHR interoperability,
-  and renders interactive Canvas UI clinical dashboards with live FHIR JSON inspection.
+  and renders interactive Web UI clinical dashboards with live FHIR JSON inspection.
 ---
 
 # Lab Report to HL7 FHIR Conversion Skill
 
-This skill teaches the agent how to process unstructured or semi-structured laboratory diagnostic reports (PDF files, OCR scans, or text excerpts), convert them into standard HL7 FHIR Release 4 (R4) JSON resources, and render interactive Canvas UI dashboards for clinical review and JSON inspection.
+This skill teaches the agent how to process unstructured or semi-structured laboratory diagnostic reports (PDF files, OCR scans, or text excerpts), convert them into standard HL7 FHIR Release 4 (R4) JSON resources, and render interactive Web UI dashboards for clinical review and JSON inspection.
 
 ---
 
@@ -19,7 +19,7 @@ Activate this skill when:
 - The user provides or asks to process a laboratory report PDF file.
 - The user asks to convert unstructured lab results into HL7 FHIR JSON objects.
 - The user wants to map oncology screening panels (e.g. Multi-Cancer Early Detection, Liquid Biopsy ctDNA, Hereditary NGS genetics, Prostate Biomarkers) or clinical chemistry panels into standard `DiagnosticReport` and `Observation` resources for Electronic Health Record (EHR) integration (such as Epic, Cerner, or cloud FHIR stores).
-- The user requests an interactive visual dashboard, Canvas UI, or click-to-inspect FHIR visualization.
+- The user requests an interactive visual dashboard, Web UI, or click-to-inspect FHIR visualization.
 
 ---
 
@@ -43,21 +43,21 @@ To validate generated bundles against FHIR R4 schema and referential integrity r
 python3 scripts/validate.py -i "output/"
 ```
 
-### Mode 2: Interactive Report-Specific Canvas UI Dashboard (Recommended for User Interfaces)
+### Mode 2: Interactive Report-Specific Web UI Dashboard (Recommended for User Interfaces)
 When a user asks to view or visualize a laboratory report in an interactive dashboard:
 1. **Extract and Convert**: The agent first extracts clinical entities and observations from the specified report and converts them into an HL7 FHIR R4 Bundle.
-2. **Generate Report-Specific Canvas UI**: The agent then generates a dedicated Canvas UI HTML file (`ui/fhir_viewer.html`) displaying the extracted data for **that single report only** (no clutter from unrelated reports).
+2. **Generate Report-Specific Web UI**: The agent then generates a dedicated Web UI HTML file (`ui/fhir_viewer.html`) displaying the extracted data for **that single report only** (no clutter from unrelated reports).
 
 ```bash
-# Extract data from a PDF report and build the dedicated Canvas UI dashboard:
+# Extract data from a PDF report and build the dedicated Web UI dashboard:
 python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
 
-# Or build the dedicated Canvas UI dashboard from a converted FHIR JSON bundle:
+# Or build the dedicated Web UI dashboard from a converted FHIR JSON bundle:
 python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
 ```
 
-In agent harnesses supporting iframe or Canvas HTML rendering (such as Gemini Enterprise App, Spark, and Antigravity):
-- Point the user to or render the self-contained Canvas UI file at `ui/fhir_viewer.html`.
+In agent harnesses and web interfaces supporting HTML dashboard rendering:
+- Point the user to or render the self-contained Web UI file at `ui/fhir_viewer.html`.
 - The dashboard allows users to click on any patient card, biomarker gauge, or observation row from that report to instantly view its underlying HL7 FHIR R4 JSON definition.
 
 ### Mode 3: Direct Agent Extraction and Mapping (For Text Inputs)
@@ -91,4 +91,4 @@ When the user pastes raw lab text or asks for on-the-fly mapping without disk ac
 - [LOINC and SNOMED CT Ontology Mapping](skills/lab-report-to-fhir/references/loinc_snomed_mapping.md)
 - [HL7 FHIR R4 Resource Schemas](skills/lab-report-to-fhir/references/fhir_r4_schemas.md)
 - [EHR Integration Guide (Epic, Cerner, Cloud FHIR Stores)](skills/lab-report-to-fhir/references/ehr_integration_guide.md)
-- [Interactive Canvas UI Application](ui/fhir_viewer.html)
+- [Interactive Web UI Application](ui/fhir_viewer.html)

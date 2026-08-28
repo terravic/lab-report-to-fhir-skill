@@ -17,7 +17,7 @@ def normalize_date(date_str: str) -> Optional[str]:
     if not date_str:
         return None
         
-    date_str = date_str.strip().rstrip('.,;')
+    date_str = re.sub(r'\(Age\s*\d+\)', '', str(date_str)).strip().rstrip('.,;')
     
     formats = [
         "%Y-%m-%d",
@@ -114,6 +114,7 @@ class LabReportParser:
             "summary_result": self._extract_summary_result(),
             "observations": self._extract_observations(),
             "clinical_interpretation": self._extract_interpretation(),
+            "clinical_recommendations": self._extract_recommendations(),
             "methodology": self._extract_methodology(),
             "limitations": self._extract_limitations(),
             "raw_text": self.raw_text
@@ -122,13 +123,13 @@ class LabReportParser:
         
     def _extract_report_title(self) -> str:
         """Extracts the lab report title or panel name."""
-        for line in self.lines[:10]:
+        for line in self.lines[:12]:
             line_clean = line.strip()
             if any(term in line_clean.lower() for term in [
-                "synthetic lab report", "cancer detection", "galleri", "diagnostic report",
+                "multi-cancer early detection", "cancer detection", "galleri", "diagnostic report",
                 "liquid biopsy", "genetic test", "hereditary cancer", "pathology report",
                 "laboratory report", "prostate health index", "ctdna panel", "early detection",
-                "screening report"
+                "screening report", "ngs panel"
             ]):
                 return line_clean
         return "Laboratory Diagnostic Report"
@@ -148,19 +149,23 @@ class LabReportParser:
         patient: Dict[str, Any] = {
             "name": None,
             "dob": None,
+            "age": None,
             "gender": "unknown",
             "patient_id": None
         }
         
         table_name = self._extract_from_tables(r'Name:\s*([A-Za-z\s\.\,\-]+?)(?:\n|$)')
-        table_dob = self._extract_from_tables(r'DOB:\s*([A-Za-z0-9\/\,\s\-]+?)(?:\n|$)')
+        table_dob_raw = self._extract_from_tables(r'DOB:\s*([A-Za-z0-9\/\,\s\-\(\)Age]+?)(?:\n|$)')
         table_sex = self._extract_from_tables(r'Sex:\s*([A-Za-z]+)')
         table_pid = self._extract_from_tables(r'Patient ID:\s*([A-Za-z0-9\-]+)')
         
         if table_name:
             patient["name"] = table_name
-        if table_dob:
-            patient["dob"] = normalize_date(table_dob) or table_dob
+        if table_dob_raw:
+            patient["dob"] = normalize_date(table_dob_raw)
+            age_m = re.search(r'\(Age\s*(\d+)\)', table_dob_raw, re.IGNORECASE)
+            if age_m:
+                patient["age"] = int(age_m.group(1))
         if table_sex:
             patient["gender"] = normalize_gender(table_sex)
         if table_pid:
@@ -170,13 +175,24 @@ class LabReportParser:
             name_match = re.search(r'Name:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Provider|DOB|Sex|Gender|Patient ID|MRN|Specimen|Facility)|$|\n)', self.raw_text, re.IGNORECASE)
             if name_match:
                 cand = name_match.group(1).strip()
-                if cand and not cand.lower().startswith("information"):
+                if cand and not cand.lower().startswith("demographics") and not cand.lower().startswith("information"):
                     patient["name"] = cand
                     
         if not patient["dob"]:
-            dob_match = re.search(r'DOB:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Facility|Sex|Gender|Provider|Location|Collection)|$|\n)', self.raw_text, re.IGNORECASE)
+            dob_match = re.search(r'DOB:\s*([A-Za-z0-9\/\,\s\-\(\)Age]+?)(?=\s+(?:Facility|Sex|Gender|Provider|Location|Collection)|$|\n)', self.raw_text, re.IGNORECASE)
             if dob_match:
-                patient["dob"] = normalize_date(dob_match.group(1)) or dob_match.group(1).strip()
+                raw_dob_str = dob_match.group(1).strip()
+                patient["dob"] = normalize_date(raw_dob_str)
+                age_m = re.search(r'\(Age\s*(\d+)\)', raw_dob_str, re.IGNORECASE)
+                if age_m:
+                    patient["age"] = int(age_m.group(1))
+
+        if patient["age"] is None and patient["dob"]:
+            try:
+                birth_year = int(patient["dob"].split("-")[0])
+                patient["age"] = max(0, 2026 - birth_year)
+            except Exception:
+                pass
 
         if patient["gender"] == "unknown":
             sex_match = re.search(r'Sex:\s*([A-Za-z]+)', self.raw_text, re.IGNORECASE)
@@ -191,89 +207,132 @@ class LabReportParser:
         return patient
 
     def _extract_provider_info(self) -> Dict[str, Any]:
-        """Extracts ordering provider / physician information."""
+        """Extracts ordering provider / clinician information."""
         provider: Dict[str, Any] = {
             "name": None,
-            "npi": None
+            "npi": None,
+            "facility": None,
+            "location": None
         }
         
         table_prov = self._extract_from_tables(r'Provider:\s*([A-Za-z\s\.\,\-]+?)(?:\n|$)')
         table_npi = self._extract_from_tables(r'NPI:\s*([0-9]{10})')
+        table_fac = self._extract_from_tables(r'Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?:\n|$)')
+        table_loc = self._extract_from_tables(r'Location:\s*([A-Za-z0-9\s\.\,\-]+?)(?:\n|$)')
         
         if table_prov:
             provider["name"] = table_prov
         if table_npi:
             provider["npi"] = table_npi
+        if table_fac:
+            provider["facility"] = table_fac
+        if table_loc:
+            provider["location"] = table_loc
             
         if not provider["name"]:
             prov_match = re.search(r'Provider:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Specimen ID|Facility|NPI|Location|DOB|Collection)|$|\n)', self.raw_text, re.IGNORECASE)
             if prov_match:
                 cand = prov_match.group(1).strip()
-                if cand and not cand.lower().startswith("information"):
+                if cand and not cand.lower().startswith("information") and not cand.lower().startswith("clinician"):
                     provider["name"] = cand
                     
         if not provider["npi"]:
             npi_match = re.search(r'NPI:\s*([0-9]{10})', self.raw_text, re.IGNORECASE)
             if npi_match:
                 provider["npi"] = npi_match.group(1).strip()
+
+        if not provider["facility"]:
+            fac_match = re.search(r'Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:NPI|Location|Collection|Specimen)|$|\n)', self.raw_text, re.IGNORECASE)
+            if fac_match:
+                provider["facility"] = fac_match.group(1).strip()
+
+        if not provider["location"]:
+            loc_match = re.search(r'Location:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:Specimen|Report Date|NPI)|$|\n)', self.raw_text, re.IGNORECASE)
+            if loc_match:
+                provider["location"] = loc_match.group(1).strip()
                 
         return provider
 
     def _extract_facility_info(self) -> Dict[str, Any]:
-        """Extracts testing facility, address, and CLIA certification."""
+        """Extracts performing testing laboratory, address, CLIA ID, CAP accreditation, and medical director."""
         facility: Dict[str, Any] = {
             "name": None,
             "clia_id": None,
+            "cap_number": None,
             "address": None,
-            "lab_director": None
+            "lab_director": None,
+            "electronic_signature": "Electronically Signed"
         }
         
-        table_fac = self._extract_from_tables(r'Facility:\s*([\s\S]+?)(?=$|\n\n)')
-        if table_fac:
-            facility["name"] = " ".join([l.strip() for l in table_fac.split('\n') if l.strip()])
-            
+        # Testing laboratory name from top header line
+        for line in self.lines[:4]:
+            if any(k in line.lower() for k in ["laboratory", "lab", "diagnostics", "genomics", "reference"]):
+                clean_line = re.sub(r'\(SYNTHETIC[^\)]*\)', '', line, flags=re.IGNORECASE).strip()
+                facility["name"] = clean_line
+                break
+                
         if not facility["name"]:
-            fac_match = re.search(r'Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:Collection|Location|NPI|Specimen|Report Date)|$|\n)', self.raw_text, re.IGNORECASE)
-            if fac_match:
-                facility["name"] = fac_match.group(1).strip()
+            facility["name"] = "Clinical Diagnostic Laboratory"
             
-        clia_match = re.search(r'CLIA(?:\s*ID)?:\s*([A-Za-z0-9]+)', self.raw_text, re.IGNORECASE)
+        clia_match = re.search(r'CLIA(?:\s*ID)?:\s*([0-9A-Za-z]+)', self.raw_text, re.IGNORECASE)
         if clia_match:
             facility["clia_id"] = clia_match.group(1).strip()
             
-        lab_addr_match = re.search(r'Laboratory Address:\s*([\s\S]+?)(?=CLIA|Laboratory Director|$)', self.raw_text, re.IGNORECASE)
-        if lab_addr_match:
-            facility["address"] = " ".join([line.strip() for line in lab_addr_match.group(1).split("\n") if line.strip()])
-            
-        dir_match = re.search(r'Director:\s*([A-Za-z\s\.\,\-]+?)(?=\s*(?:Electronic Signature|Date|CLIA)|$|\n)', self.raw_text, re.IGNORECASE)
+        cap_match = re.search(r'CAP(?:\s*Accr)?:\s*([0-9]+)', self.raw_text, re.IGNORECASE)
+        if cap_match:
+            facility["cap_number"] = cap_match.group(1).strip()
+
+        collapsed_text = re.sub(r'\s+', ' ', self.raw_text)
+        dir_match = re.search(r'(?:Lab\s+Director|Director|Laboratory\s+Director):\s*([A-Za-z\s\.\,\-]+?)(?=\s*(?:\(Synthetic\)|Electronic Signature|Date|CLIA\b|CAP\s*(?:Accr|#|ID|Accreditation)|\bCAP\b|\||$))', collapsed_text, re.IGNORECASE)
         if dir_match:
-            facility["lab_director"] = dir_match.group(1).strip()
+            dir_str = dir_match.group(1).strip().rstrip(',;| ')
+            facility["lab_director"] = dir_str
+            
+        # Address extraction from header or footer
+        addr_match = re.search(r'([0-9]+\s+[A-Za-z0-9\s\.\,]+(?:Way|Parkway|Boulevard|Street|Avenue|Drive|Road|Suite|Blvd|Pkwy)[A-Za-z0-9\s\.\,]+,\s*[A-Z]{2}\s+[0-9]{5})', self.raw_text)
+        if addr_match:
+            facility["address"] = addr_match.group(1).strip()
+        else:
+            lab_addr_match = re.search(r'Laboratory Address:\s*([\s\S]+?)(?=CLIA|Laboratory Director|Date|$)', self.raw_text, re.IGNORECASE)
+            if lab_addr_match:
+                facility["address"] = " ".join([line.strip() for line in lab_addr_match.group(1).split("\n") if line.strip()])
             
         return facility
 
     def _extract_specimen_info(self) -> Dict[str, Any]:
-        """Extracts specimen ID, collection date, received date, report date, and type."""
+        """Extracts specimen ID, collection date, received date, report date, type, tube, and volume."""
         specimen: Dict[str, Any] = {
             "specimen_id": None,
             "collection_date": None,
             "received_date": None,
             "report_date": None,
-            "specimen_type": "Blood / Plasma"
+            "specimen_type": "Blood / Plasma",
+            "collection_tube": None,
+            "volume": None
         }
         
         table_sid = self._extract_from_tables(r'Specimen ID:\s*([A-Za-z0-9\-]+)')
         table_coll = self._extract_from_tables(r'Collection Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?:\n|$)')
         table_rec = self._extract_from_tables(r'Received Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?:\n|$)')
         table_rep = self._extract_from_tables(r'Report Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?:\n|$)')
+        table_type = self._extract_from_tables(r'Specimen Type:\s*([A-Za-z0-9\s\/\-]+?)(?:\n|$)')
+        table_tube = self._extract_from_tables(r'Tube:\s*([A-Za-z0-9\s\/\-\(\)\.]+?)(?:\n|$)')
         
         if table_sid:
             specimen["specimen_id"] = table_sid
         if table_coll:
-            specimen["collection_date"] = normalize_date(table_coll) or table_coll
+            specimen["collection_date"] = normalize_date(table_coll)
         if table_rec:
-            specimen["received_date"] = normalize_date(table_rec) or table_rec
+            specimen["received_date"] = normalize_date(table_rec)
         if table_rep:
-            specimen["report_date"] = normalize_date(table_rep) or table_rep
+            specimen["report_date"] = normalize_date(table_rep)
+        if table_type:
+            specimen["specimen_type"] = table_type
+        if table_tube:
+            specimen["collection_tube"] = table_tube
+            vol_m = re.search(r'([0-9\.]+\s*mL)', table_tube, re.IGNORECASE)
+            if vol_m:
+                specimen["volume"] = vol_m.group(1)
             
         if not specimen["specimen_id"]:
             spec_id_match = re.search(r'Specimen ID:\s*([A-Za-z0-9\-]+)', self.raw_text, re.IGNORECASE)
@@ -283,19 +342,27 @@ class LabReportParser:
         if not specimen["collection_date"]:
             coll_match = re.search(r'Collection Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Sex|Received|Report|Specimen)|$|\n)', self.raw_text, re.IGNORECASE)
             if coll_match:
-                specimen["collection_date"] = normalize_date(coll_match.group(1)) or coll_match.group(1).strip()
+                specimen["collection_date"] = normalize_date(coll_match.group(1))
                 
         if not specimen["received_date"]:
             rec_match = re.search(r'Received Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Patient ID|Report|Report Date|Specimen|NPI)|$|\n)', self.raw_text, re.IGNORECASE)
             if rec_match:
-                specimen["received_date"] = normalize_date(rec_match.group(1)) or rec_match.group(1).strip()
+                specimen["received_date"] = normalize_date(rec_match.group(1))
 
         if not specimen["report_date"]:
             rep_match = re.search(r'Report Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Test|Result|Summary|Methodology)|$|\n)', self.raw_text, re.IGNORECASE)
             if rep_match:
-                specimen["report_date"] = normalize_date(rep_match.group(1)) or rep_match.group(1).strip()
+                specimen["report_date"] = normalize_date(rep_match.group(1))
 
-        spec_type_match = re.search(r'(?:Specimen Type|Sample Type):\s*([A-Za-z0-9\s\/\-]+?)(?=\s+(?:Collection|Received|Volume)|$|\n)', self.raw_text, re.IGNORECASE)
+        if not specimen["collection_tube"]:
+            tube_match = re.search(r'Tube:\s*([A-Za-z0-9\s\/\-\(\)\.]+?)(?=\s+(?:Collection|Received|Report)|$|\n)', self.raw_text, re.IGNORECASE)
+            if tube_match:
+                specimen["collection_tube"] = tube_match.group(1).strip()
+                vol_m = re.search(r'([0-9\.]+\s*mL)', specimen["collection_tube"], re.IGNORECASE)
+                if vol_m:
+                    specimen["volume"] = vol_m.group(1)
+
+        spec_type_match = re.search(r'(?:Specimen Type|Sample Type):\s*([A-Za-z0-9\s\/\-]+?)(?=\s+(?:Collection|Received|Volume|Tube)|$|\n)', self.raw_text, re.IGNORECASE)
         if spec_type_match:
             specimen["specimen_type"] = spec_type_match.group(1).strip()
             
@@ -313,7 +380,7 @@ class LabReportParser:
         if res_match:
             summary["result_text"] = res_match.group(1).strip()
             
-        narr_match = re.search(r'Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|$)', self.raw_text, re.IGNORECASE)
+        narr_match = re.search(r'Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|Laboratory Observations|$)', self.raw_text, re.IGNORECASE)
         if narr_match:
             summary["conclusion"] = " ".join([l.strip() for l in narr_match.group(1).split("\n") if l.strip()])
             
@@ -375,6 +442,7 @@ class LabReportParser:
                 unit_col_idx = -1
                 ref_col_idx = -1
                 interp_col_idx = -1
+                zyg_col_idx = -1
 
                 for idx, col_name in enumerate(header):
                     if "loinc" in col_name:
@@ -387,6 +455,8 @@ class LabReportParser:
                         ref_col_idx = idx
                     elif "interpretation" in col_name or "flag" in col_name:
                         interp_col_idx = idx
+                    elif "zygosity" in col_name:
+                        zyg_col_idx = idx
 
                 for row in table[1:]:
                     if len(row) < 2:
@@ -400,8 +470,23 @@ class LabReportParser:
                     raw_units = clean_extracted_text(row[unit_col_idx]) if unit_col_idx >= 0 and unit_col_idx < len(row) else ""
                     raw_ref = clean_extracted_text(row[ref_col_idx]).replace('\n', ' ') if ref_col_idx >= 0 and ref_col_idx < len(row) else ""
                     raw_interp = clean_extracted_text(row[interp_col_idx]) if interp_col_idx >= 0 and interp_col_idx < len(row) else ""
+                    raw_zyg = clean_extracted_text(row[zyg_col_idx]) if zyg_col_idx >= 0 and zyg_col_idx < len(row) else ""
 
                     icode, idisp = get_interp(raw_interp or raw_val)
+
+                    # Extract components for variants (e.g. VAF %, HGVS, Zygosity)
+                    components = {}
+                    vaf_m = re.search(r'VAF:\s*([0-9\.]+\s*%)', raw_val)
+                    if vaf_m:
+                        components["vaf"] = vaf_m.group(1)
+                    if raw_zyg and raw_zyg != "N/A":
+                        components["zygosity"] = raw_zyg
+                    hgvs_m = re.search(r'(c\.[0-9a-zA-Z_>\+dupdelins]+)', raw_val)
+                    if hgvs_m:
+                        components["hgvs_dna"] = hgvs_m.group(1)
+                    prot_m = re.search(r'(p\.[0-9a-zA-Z_\*]+)', raw_val)
+                    if prot_m:
+                        components["hgvs_protein"] = prot_m.group(1)
 
                     # Check numeric quantity
                     try:
@@ -425,6 +510,8 @@ class LabReportParser:
                         obs_item["unit"] = raw_units
                     if raw_ref:
                         obs_item["reference_range"] = raw_ref
+                    if components:
+                        obs_item["component"] = components
 
                     obs_key = f"{loinc_code}_{test_name}"
                     if obs_key not in seen_keys:
@@ -462,35 +549,38 @@ class LabReportParser:
             observations.insert(0, obs)
             seen_keys.add("94076-7_Cancer Signal Status")
 
-        # 3. Fallback: If no table observations were extracted, use text pattern matching
-        if len(observations) == 0 or (len(observations) == 1 and "Cancer Signal Status" in observations[0].get("test_name", "")):
-            origin_matches = re.finditer(r'Origin\s*(\d+)\s+([A-Za-z\s]+?)\s+(\d+(?:\.\d+)?\s*%)', self.raw_text)
-            for m in origin_matches:
-                orig_num = m.group(1)
-                tissue = m.group(2).strip()
-                freq = m.group(3).strip()
-                obs_key = f"CSO_{orig_num}_{tissue}"
-                if obs_key not in seen_keys:
-                    observations.append({
-                        "code": "94077-5",
-                        "display": f"Predicted cancer signal origin {orig_num}",
-                        "test_name": f"Predicted Cancer Signal Origin {orig_num}",
-                        "value": f"{tissue} ({freq})",
-                        "value_type": "string",
-                        "component": {
-                            "tissue": tissue,
-                            "accuracy_frequency": freq
-                        },
-                        "interpretation": "A",
-                        "interpretation_display": "Abnormal"
-                    })
-                    seen_keys.add(obs_key)
-
         return observations
+
+    def _extract_recommendations(self) -> List[str]:
+        """Extracts actionable clinical recommendations and next steps."""
+        recs = []
+        rec_match = re.search(r'(?:Recommended Next Steps|Next Steps|Follow-up)[:\s]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Director|Laboratory Authorization|Director|$)', self.raw_text, re.IGNORECASE)
+        if rec_match:
+            block = rec_match.group(1).strip()
+            if "•" in block:
+                parts = [p.strip() for p in block.split("•") if p.strip()]
+                for p in parts:
+                    clean_p = " ".join([l.strip() for l in p.split("\n") if l.strip()])
+                    clean_p = re.sub(r'^[•\-\*\d\.]+\s*', '', clean_p).strip()
+                    if (clean_p and len(clean_p) > 8 and 
+                        not any(clean_p.lower().startswith(prefix) for prefix in [
+                            "the 'cancer signal", "the prostate health index", "the presence of circulating", 
+                            "the brca1", "a 'cancer signal", "recommended next steps"
+                        ])):
+                        recs.append(clean_p)
+            else:
+                for line in block.split('\n'):
+                    line = re.sub(r'^[•\-\*\d\.]+\s*', '', line.strip())
+                    if line and len(line) > 15 and not any(line.lower().startswith(prefix) for prefix in [
+                        "the 'cancer signal", "the prostate health index", "the presence of circulating", 
+                        "the brca1", "a 'cancer signal", "recommended next steps"
+                    ]):
+                        recs.append(line)
+        return recs
 
     def _extract_interpretation(self) -> Optional[str]:
         """Extracts the clinical interpretation and recommendations block."""
-        match = re.search(r'Clinical Interpretation[\s:：]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Authorization|References|$)', self.raw_text, re.IGNORECASE)
+        match = re.search(r'Clinical Interpretation(?: & Recommended Next Steps)?[\s:：]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Director|Laboratory Authorization|References|$)', self.raw_text, re.IGNORECASE)
         if match:
             text = match.group(1).strip()
             return " ".join([l.strip() for l in text.split("\n") if l.strip()])
@@ -498,7 +588,7 @@ class LabReportParser:
 
     def _extract_methodology(self) -> Optional[str]:
         """Extracts test methodology and assay description."""
-        match = re.search(r'Methodology:\s*([\s\S]+?)(?=Limitations|Clinical Interpretation|Laboratory Authorization|$)', self.raw_text, re.IGNORECASE)
+        match = re.search(r'Methodology:\s*([\s\S]+?)(?=Limitations|Clinical Interpretation|Laboratory Authorization|Laboratory Director|$)', self.raw_text, re.IGNORECASE)
         if match:
             text = match.group(1).strip()
             return " ".join([l.strip() for l in text.split("\n") if l.strip()])
@@ -506,7 +596,7 @@ class LabReportParser:
 
     def _extract_limitations(self) -> Optional[str]:
         """Extracts test limitations and intended use."""
-        match = re.search(r'Limitations:\s*([\s\S]+?)(?=Laboratory Authorization|Methodology|References|$)', self.raw_text, re.IGNORECASE)
+        match = re.search(r'Limitations:\s*([\s\S]+?)(?=Laboratory Authorization|Laboratory Director|Methodology|References|$)', self.raw_text, re.IGNORECASE)
         if match:
             text = match.group(1).strip()
             return " ".join([l.strip() for l in text.split("\n") if l.strip()])
@@ -520,3 +610,4 @@ def parse_lab_report_file(pdf_path: str) -> Dict[str, Any]:
     pages = extract_structured_pages(pdf_path)
     parser = LabReportParser(pages)
     return parser.parse()
+

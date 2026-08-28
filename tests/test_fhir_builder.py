@@ -95,3 +95,29 @@ def test_diagnostic_report_references(sample_parsed_data):
     for r_ref in diag_entry["result"]:
         ref_uuid = r_ref["reference"]
         assert any(e["fullUrl"] == ref_uuid for e in bundle["entry"])
+
+
+def test_organization_and_specimen_fhir_extensions():
+    data = parse_lab_report_file("reports/synthetic_cancer_lab_report.pdf")
+    builder = FHIRBundleBuilder(data)
+    bundle = builder.build_bundle()
+
+    # Organization CAP
+    org = next(e["resource"] for e in bundle["entry"] if e["resource"]["resourceType"] == "Organization")
+    systems = [i["system"] for i in org.get("identifier", [])]
+    assert "urn:oid:2.16.840.1.113883.4.3.38" in systems
+    assert "urn:oid:2.16.840.1.113883.4.7" in systems
+
+    # Specimen container & volume
+    spec = next(e["resource"] for e in bundle["entry"] if e["resource"]["resourceType"] == "Specimen")
+    assert spec.get("container") is not None
+    assert "Streck" in spec["container"][0]["type"]["text"]
+    assert spec.get("collection") is not None
+    assert spec["collection"].get("quantity") is not None
+    assert spec["collection"]["quantity"]["value"] == 10.0
+    assert spec["collection"]["quantity"]["unit"] == "mL"
+
+    # DiagnosticReport narrative
+    rep = next(e["resource"] for e in bundle["entry"] if e["resource"]["resourceType"] == "DiagnosticReport")
+    assert "Recommended Next Steps" in rep["conclusion"]
+    assert "Laboratory Director Authorization" in rep["conclusion"]

@@ -219,6 +219,12 @@ class FHIRBundleBuilder:
             ]
         }
         
+        if facility_info.get("cap_number"):
+            org_resource["identifier"].append({
+                "system": "urn:oid:2.16.840.1.113883.4.3.38",
+                "value": facility_info["cap_number"]
+            })
+
         if facility_info.get("address"):
             org_resource["address"] = [
                 {
@@ -261,13 +267,33 @@ class FHIRBundleBuilder:
         
         collection_date = spec_info.get("collection_date")
         if collection_date:
-            specimen_resource["collection"] = {
+            coll_obj: Dict[str, Any] = {
                 "collectedDateTime": collection_date
             }
+            if spec_info.get("volume"):
+                vol_str = spec_info["volume"]
+                vol_num_m = re.search(r'([0-9\.]+)', vol_str)
+                if vol_num_m:
+                    coll_obj["quantity"] = {
+                        "value": float(vol_num_m.group(1)),
+                        "unit": "mL",
+                        "system": "http://unitsofmeasure.org",
+                        "code": "mL"
+                    }
+            specimen_resource["collection"] = coll_obj
             
         received_date = spec_info.get("received_date")
         if received_date:
             specimen_resource["receivedTime"] = received_date
+
+        if spec_info.get("collection_tube"):
+            specimen_resource["container"] = [
+                {
+                    "type": {
+                        "text": spec_info["collection_tube"]
+                    }
+                }
+            ]
             
         return specimen_resource
 
@@ -336,13 +362,13 @@ class FHIRBundleBuilder:
                 obs_resource["valueQuantity"] = {
                     "value": float(val),
                     "unit": unit,
-                    "system": "http://unitsofmeasure.org" if unit != "{score}" else "http://unitsofmeasure.org",
-                    "code": unit
+                    "system": "http://unitsofmeasure.org",
+                    "code": unit if unit != "{score}" else "{score}"
                 }
             else:
                 obs_resource["valueString"] = str(val)
                 
-            # Add Component if available (e.g. CSO accuracy frequency)
+            # Add Component if available (e.g. CSO accuracy frequency, VAF, HGVS, Zygosity)
             if item.get("component"):
                 components = []
                 comp_data = item["component"]
@@ -404,20 +430,26 @@ class FHIRBundleBuilder:
         panel_coding = map_panel_loinc(report_title)
         
         spec_info = self.data.get("specimen", {})
+        facility_info = self.data.get("facility", {})
         effective_date = spec_info.get("collection_date") or spec_info.get("report_date") or get_current_iso_timestamp()
         issued_date = spec_info.get("report_date") or get_current_iso_timestamp()
         
         summary_result = self.data.get("summary_result", {})
         conclusion_text = summary_result.get("conclusion") or summary_result.get("result_text") or "Diagnostic report complete."
         
-        # Clinical interpretation notes
+        # Clinical interpretation notes and recommendations
         narrative_notes = []
         if self.data.get("clinical_interpretation"):
             narrative_notes.append(f"Clinical Interpretation: {self.data['clinical_interpretation']}")
+        if self.data.get("clinical_recommendations"):
+            recs_text = "\n".join([f"• {r}" for r in self.data["clinical_recommendations"]])
+            narrative_notes.append(f"Recommended Next Steps:\n{recs_text}")
         if self.data.get("methodology"):
             narrative_notes.append(f"Methodology: {self.data['methodology']}")
         if self.data.get("limitations"):
             narrative_notes.append(f"Limitations: {self.data['limitations']}")
+        if facility_info.get("lab_director"):
+            narrative_notes.append(f"Laboratory Director Authorization: {facility_info['lab_director']} | {facility_info.get('electronic_signature', 'Electronically Signed')} | CLIA ID: {facility_info.get('clia_id', 'N/A')}")
             
         full_conclusion = conclusion_text
         if narrative_notes:

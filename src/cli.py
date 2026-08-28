@@ -43,7 +43,7 @@ def process_single_file(pdf_path: str, output_path: str = None, bundle_type: str
 
     if view:
         html_path = generate_html_dashboard(bundle=bundle)
-        print(f"Generated Canvas UI dashboard at: {html_path}")
+        print(f"Generated Web UI dashboard at: {html_path}")
         open_in_browser(html_path)
         
     return bundle
@@ -89,7 +89,7 @@ def process_directory(input_dir: str, output_dir: str, bundle_type: str = "trans
             with open(first_success["output"], "r", encoding="utf-8") as f:
                 first_bundle = json.load(f)
             html_path = generate_html_dashboard(bundle=first_bundle)
-            print(f"Generated Canvas UI dashboard for {os.path.basename(first_success['file'])} at: {html_path}")
+            print(f"Generated Web UI dashboard for {os.path.basename(first_success['file'])} at: {html_path}")
             open_in_browser(html_path)
 
 
@@ -102,7 +102,7 @@ def main():
     parser.add_argument("-t", "--type", choices=["transaction", "collection"], default="transaction", help="FHIR Bundle type (default: transaction).")
     parser.add_argument("--no-validate", action="store_true", help="Disable schema and referential validation.")
     parser.add_argument("--compact", action="store_true", help="Output compact minified JSON instead of indented JSON.")
-    parser.add_argument("--view", "--ui", action="store_true", help="Launch interactive Canvas UI dashboard in web browser after conversion.")
+    parser.add_argument("--view", "--ui", action="store_true", help="Launch interactive Web UI dashboard in web browser after conversion.")
     
     args = parser.parse_args()
     

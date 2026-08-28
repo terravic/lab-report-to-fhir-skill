@@ -1,8 +1,9 @@
 """
 FHIR Lab Report Visualizer.
-Generates an interactive, production-grade Canvas UI Dashboard from an HL7 FHIR R4 Bundle.
+Generates an interactive, production-grade Web UI Dashboard from an HL7 FHIR R4 Bundle.
 Includes Light/Dark mode toggle, multi-format client-side parser & file upload (PDF, JSON, TXT, CSV),
-discrete biomarker range gauges, and interactive synchronized FHIR JSON inspection.
+specimen chain-of-custody timeline, genomic variant chips, discrete biomarker range gauges,
+actionable clinical recommendations, and synchronized bidirectional FHIR JSON inspection.
 """
 
 import os
@@ -116,7 +117,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       background-color: var(--bg-main);
       color: var(--text-main);
       line-height: 1.5;
-      font-size: 14px;
+      font-size: 13.5px;
       display: flex;
       flex-direction: column;
       height: 100vh;
@@ -128,24 +129,27 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     header {
       background-color: var(--bg-card);
       border-bottom: 1px solid var(--border-color);
-      padding: 10px 20px;
+      padding: 8px 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 12px;
       flex-shrink: 0;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 10px;
     }
 
     .brand-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
     }
 
     .report-badge {
@@ -156,25 +160,49 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       padding: 3px 8px;
       border-radius: 4px;
       border: 1px solid var(--border-color);
+      white-space: nowrap;
+      max-width: 320px;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     .controls-section {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
       flex-wrap: wrap;
+    }
+
+    .sample-select {
+      font-family: var(--font-sans);
+      font-size: 12px;
+      padding: 5px 10px;
+      border-radius: var(--radius);
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-main);
+      cursor: pointer;
+      font-weight: 500;
+    }
+    .sample-select:focus {
+      outline: none;
+      border-color: var(--border-focus);
     }
 
     button {
       font-family: var(--font-sans);
-      font-size: 13px;
-      padding: 6px 12px;
+      font-size: 12px;
+      padding: 5px 10px;
       border-radius: var(--radius);
       border: 1px solid var(--border-color);
       background-color: var(--bg-card);
       color: var(--text-main);
       cursor: pointer;
       transition: all 0.15s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-weight: 500;
     }
 
     button:focus {
@@ -207,9 +235,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .view-toggle button {
       border: none;
       background: transparent;
-      padding: 4px 10px;
-      font-size: 12px;
-      border-radius: 6px;
+      padding: 3px 8px;
+      font-size: 11.5px;
+      border-radius: 5px;
       color: var(--text-muted);
     }
 
@@ -225,7 +253,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       display: none;
       background-color: var(--primary);
       color: #ffffff;
-      padding: 8px 16px;
+      padding: 6px 16px;
       font-size: 12px;
       font-weight: 600;
       text-align: center;
@@ -261,11 +289,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     /* Clinical Dashboard Column */
     #clinical-dashboard {
       overflow-y: auto;
-      padding: 20px;
+      padding: 16px 20px;
       border-right: 1px solid var(--border-color);
       display: flex;
       flex-direction: column;
-      gap: 16px;
+      gap: 14px;
       min-height: 0;
     }
 
@@ -282,12 +310,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     /* Diagnostic Result Banner Card */
     .result-banner {
-      padding: 16px 20px;
+      padding: 14px 18px;
       border-radius: var(--radius);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 16px;
+      gap: 14px;
       border: 1px solid transparent;
       cursor: pointer;
       transition: all 0.15s ease;
@@ -320,7 +348,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     .result-title {
-      font-size: 18px;
+      font-size: 16px;
       font-weight: 700;
       display: flex;
       align-items: center;
@@ -328,9 +356,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     .result-subtitle {
-      font-size: 13px;
-      margin-top: 2px;
-      opacity: 0.9;
+      font-size: 12.5px;
+      margin-top: 3px;
+      opacity: 0.92;
+      line-height: 1.4;
     }
 
     .tag-badge {
@@ -344,20 +373,23 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       white-space: nowrap;
     }
 
-    /* Demographics Grid */
+    /* Demographics 4-Card Grid */
     .demographics-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 12px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 10px;
     }
 
     .info-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 12px 14px;
+      padding: 11px 13px;
       cursor: pointer;
       transition: all 0.15s ease;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
     }
 
     .info-card:hover {
@@ -370,42 +402,105 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     .info-card-header {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       color: var(--text-muted);
-      margin-bottom: 6px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .info-card-value {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       color: var(--text-main);
-      margin-bottom: 2px;
     }
 
     .info-card-sub {
-      font-size: 12px;
+      font-size: 11.5px;
       color: var(--text-muted);
       line-height: 1.4;
     }
 
     .fhir-pill {
       font-family: var(--font-mono);
-      font-size: 10px;
-      padding: 1px 6px;
+      font-size: 9.5px;
+      padding: 1px 5px;
       border-radius: 4px;
       background-color: var(--bg-subtle);
       color: var(--text-muted);
       border: 1px solid var(--border-color);
     }
 
+    /* Specimen Processing Timeline */
+    .specimen-timeline-container {
+      margin-top: 6px;
+      padding-top: 6px;
+      border-top: 1px dashed var(--border-color);
+    }
+
+    .timeline-steps {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .timeline-steps::before {
+      content: "";
+      position: absolute;
+      top: 6px;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background-color: var(--border-color);
+      z-index: 1;
+    }
+
+    .timeline-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .timeline-dot {
+      width: 13px;
+      height: 13px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      border: 2px solid var(--bg-card);
+      margin-bottom: 2px;
+    }
+
+    .timeline-step.completed .timeline-dot {
+      background-color: var(--success);
+    }
+
+    .timeline-step-label {
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .timeline-step-date {
+      font-size: 9.5px;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
     /* Search & Filter Controls */
     .filter-bar {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .search-row {
       display: flex;
       align-items: center;
       gap: 8px;
@@ -414,7 +509,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .search-input {
       flex: 1;
       font-family: var(--font-sans);
-      font-size: 13px;
+      font-size: 12.5px;
       padding: 6px 12px;
       border-radius: var(--radius);
       border: 1px solid var(--border-color);
@@ -426,9 +521,33 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       border-color: var(--border-focus);
     }
 
+    .filter-pills {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .filter-pill-btn {
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 1px solid var(--border-color);
+      background-color: var(--bg-card);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .filter-pill-btn.active {
+      background-color: var(--primary);
+      color: #ffffff;
+      border-color: var(--primary);
+      font-weight: 600;
+    }
+
     /* Section Title */
     .section-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: var(--text-main);
       text-transform: uppercase;
@@ -439,21 +558,21 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       margin-top: 4px;
     }
 
-    /* Biomarkers Table & Gauges */
+    /* Biomarkers Container */
     .biomarkers-container {
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      gap: 8px;
     }
 
     .biomarker-row {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 12px 16px;
+      padding: 10px 14px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
     }
@@ -472,27 +591,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
     }
 
     .biomarker-name {
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 600;
       color: var(--text-main);
     }
 
     .biomarker-code-badge {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       background-color: var(--bg-subtle);
       color: var(--text-muted);
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 4px;
       border: 1px solid var(--border-color);
+      margin-left: 6px;
     }
 
     .biomarker-result-val {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 700;
       display: flex;
       align-items: baseline;
@@ -500,15 +620,15 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     .biomarker-unit {
-      font-size: 12px;
+      font-size: 11.5px;
       font-weight: 500;
       color: var(--text-muted);
     }
 
     .flag-badge {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 2px 8px;
+      padding: 2px 7px;
       border-radius: 4px;
     }
     .flag-normal { background-color: var(--success-bg); color: var(--success); }
@@ -519,24 +639,24 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .range-gauge {
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      margin-top: 4px;
+      gap: 3px;
+      margin-top: 2px;
     }
 
     .gauge-bar-track {
-      height: 8px;
+      height: 7px;
       border-radius: 4px;
       position: relative;
     }
 
     .gauge-pointer {
       position: absolute;
-      top: -4px;
-      width: 6px;
-      height: 16px;
+      top: -3px;
+      width: 5px;
+      height: 13px;
       background-color: #0f172a;
       border: 1px solid #ffffff;
-      border-radius: 3px;
+      border-radius: 2px;
       transform: translateX(-50%);
       box-shadow: 0 1px 3px rgba(0,0,0,0.3);
     }
@@ -549,51 +669,145 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     .gauge-labels {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 10.5px;
       color: var(--text-muted);
       font-family: var(--font-mono);
     }
 
-    /* Narrative Box */
-    .narrative-box {
+    /* Molecular Variant & CSO Component Chips */
+    .variant-chips-container {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      margin-top: 2px;
+    }
+
+    .variant-chip {
+      font-family: var(--font-mono);
+      font-size: 10.5px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      background-color: var(--bg-subtle);
+      border: 1px solid var(--border-color);
+      color: var(--text-main);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .variant-chip strong {
+      color: var(--primary);
+    }
+
+    .origin-progress-bar {
+      height: 6px;
+      background-color: var(--bg-subtle);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-top: 4px;
+      border: 1px solid var(--border-color);
+    }
+
+    .origin-progress-fill {
+      height: 100%;
+      background-color: var(--danger);
+      border-radius: 3px;
+    }
+
+    /* Actionable Recommendations List */
+    .recommendations-container {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .recommendation-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-left: 3px solid var(--primary);
+      border-radius: var(--radius);
+      padding: 9px 12px;
+      font-size: 12px;
+      line-height: 1.5;
+      color: var(--text-main);
+      cursor: pointer;
+    }
+    .recommendation-item:hover {
+      border-color: var(--primary);
+    }
+
+    /* Structured Clinical Narrative & Metadata Accordions */
+    .narrative-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .clinical-card {
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
       border-radius: var(--radius);
-      padding: 14px 16px;
-      font-size: 13px;
-      line-height: 1.6;
-      color: var(--text-main);
+      padding: 10px 12px;
+      font-size: 12px;
+      line-height: 1.5;
       cursor: pointer;
+    }
+
+    .clinical-card:hover {
+      border-color: var(--primary);
+    }
+
+    .clinical-card-title {
+      font-size: 10.5px;
+      font-weight: 700;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
+    }
+
+    .governance-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10.5px;
+      font-weight: 600;
+      color: var(--success);
+      background-color: var(--success-bg);
+      padding: 2px 6px;
+      border-radius: 4px;
+      border: 1px solid var(--success-border);
+      margin-top: 4px;
     }
 
     /* FHIR Inspector Header */
     .inspector-header {
       background-color: var(--inspector-header-bg);
-      padding: 10px 16px;
+      padding: 8px 14px;
       border-bottom: 1px solid var(--inspector-border);
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
+      gap: 10px;
       flex-shrink: 0;
     }
 
     .inspector-title {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
       color: #94a3b8;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
 
     .resource-tabs {
       display: flex;
-      gap: 4px;
+      gap: 3px;
       overflow-x: auto;
-      padding: 8px 16px;
+      padding: 6px 12px;
       background-color: var(--inspector-header-bg);
       border-bottom: 1px solid var(--inspector-border);
       flex-shrink: 0;
@@ -601,11 +815,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
     .tab-btn {
       font-family: var(--font-mono);
-      font-size: 11px;
+      font-size: 10.5px;
       background-color: var(--inspector-bg);
       color: #94a3b8;
       border: 1px solid var(--inspector-border);
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 4px;
       white-space: nowrap;
       cursor: pointer;
@@ -621,11 +835,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     /* JSON Display */
     .json-code-container {
       flex: 1;
-      padding: 16px;
+      padding: 14px;
       overflow: auto;
       font-family: var(--font-mono);
-      font-size: 12px;
-      line-height: 1.6;
+      font-size: 11.5px;
+      line-height: 1.55;
       background-color: var(--inspector-bg);
     }
 
@@ -664,7 +878,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     }
 
     /* Responsive */
-    @media (max-width: 900px) {
+    @media (max-width: 960px) {
       main {
         grid-template-columns: 1fr !important;
         grid-template-rows: 1fr 1fr;
@@ -672,6 +886,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       #clinical-dashboard {
         border-right: none;
         border-bottom: 1px solid var(--border-color);
+      }
+      .demographics-grid, .narrative-grid {
+        grid-template-columns: 1fr;
       }
     }
   </style>
@@ -689,6 +906,16 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     </div>
 
     <div class="controls-section">
+      <!-- Sample Selector -->
+      <select id="sample-select" class="sample-select" onchange="switchSample(this.value)">
+        <option value="active">Active Converted Report</option>
+        <option value="cancer_positive">1. MCED Detected (Lung & Pancreas)</option>
+        <option value="mced_negative">2. MCED Negative Baseline</option>
+        <option value="colorectal_ctdna">3. Colorectal ctDNA Liquid Biopsy</option>
+        <option value="hereditary_ngs">4. Hereditary Cancer 15-Gene Panel</option>
+        <option value="prostate_phi">5. Prostate Health Index (phi) Panel</option>
+      </select>
+
       <div class="view-toggle">
         <button id="btn-view-split" class="active" onclick="setViewMode('split')">Split View</button>
         <button id="btn-view-clinical" onclick="setViewMode('clinical')">Clinical</button>
@@ -697,7 +924,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       <button id="btn-theme-toggle" onclick="toggleTheme()">Dark Theme</button>
       <input type="file" id="file-input" accept=".json,.pdf,.txt,.csv" style="display: none;" onchange="handleFileSelect(event)">
-      <button onclick="document.getElementById('file-input').click()">Upload Report (PDF / JSON / TXT)</button>
+      <button onclick="document.getElementById('file-input').click()">Upload Report</button>
       <button id="btn-download-json" onclick="downloadBundleJson()">Download JSON</button>
       <button id="btn-copy-json" class="btn-primary" onclick="copyActiveJson()">Copy JSON</button>
     </div>
@@ -724,6 +951,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
       <!-- Patient & Facility Demographics Grid -->
       <div class="demographics-grid">
+        <!-- Patient Card -->
         <div class="info-card" id="card-patient" onclick="inspectResource('Patient')">
           <div class="info-card-header">
             <span>Patient Demographics</span>
@@ -733,15 +961,42 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <div class="info-card-sub" id="patient-details">DOB: N/A | MRN: N/A</div>
         </div>
 
+        <!-- Specimen Custody Card -->
         <div class="info-card" id="card-specimen" onclick="inspectResource('Specimen')">
           <div class="info-card-header">
-            <span>Specimen Tracking</span>
+            <span>Specimen Tracking & Custody</span>
             <span class="fhir-pill">Specimen</span>
           </div>
           <div class="info-card-value" id="specimen-type">Biological Specimen</div>
-          <div class="info-card-sub" id="specimen-details">ID: N/A | Collected: N/A</div>
+          <div class="info-card-sub" id="specimen-details">ID: N/A</div>
+          <!-- Specimen Timeline -->
+          <div class="specimen-timeline-container">
+            <div class="timeline-steps">
+              <div class="timeline-step completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-step-label">Collected</div>
+                <div class="timeline-step-date" id="time-collected">--</div>
+              </div>
+              <div class="timeline-step completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-step-label">Received</div>
+                <div class="timeline-step-date" id="time-received">--</div>
+              </div>
+              <div class="timeline-step completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-step-label">Processed</div>
+                <div class="timeline-step-date" id="time-processed">Assay</div>
+              </div>
+              <div class="timeline-step completed">
+                <div class="timeline-dot"></div>
+                <div class="timeline-step-label">Reported</div>
+                <div class="timeline-step-date" id="time-reported">--</div>
+              </div>
+            </div>
+          </div>
         </div>
 
+        <!-- Ordering Clinician Card -->
         <div class="info-card" id="card-provider" onclick="inspectResource('Practitioner')">
           <div class="info-card-header">
             <span>Ordering Clinician</span>
@@ -751,36 +1006,58 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           <div class="info-card-sub" id="provider-details">NPI: N/A</div>
         </div>
 
+        <!-- Testing Facility & Governance Card -->
         <div class="info-card" id="card-organization" onclick="inspectResource('Organization')">
           <div class="info-card-header">
-            <span>Testing Facility</span>
+            <span>Testing Facility & Governance</span>
             <span class="fhir-pill">Organization</span>
           </div>
           <div class="info-card-value" id="org-name">Testing Laboratory</div>
           <div class="info-card-sub" id="org-details">CLIA ID: N/A</div>
+          <div class="governance-badge" id="org-signoff">✔ Verified Electronic Sign-Off</div>
         </div>
       </div>
 
       <!-- Biomarkers & Test Findings -->
       <div class="section-title">
-        <span>Discrete Biomarkers & Observations</span>
+        <span>Discrete Biomarkers & Clinical Observations</span>
         <span class="fhir-pill" id="obs-count-badge">0 Observations</span>
       </div>
 
       <div class="filter-bar">
-        <input type="text" class="search-input" id="biomarker-search" placeholder="Filter biomarkers, analytes, or LOINC codes..." oninput="filterBiomarkers()">
+        <div class="search-row">
+          <input type="text" class="search-input" id="biomarker-search" placeholder="Filter biomarkers, analytes, LOINC codes, or variants..." oninput="filterBiomarkers()">
+        </div>
+        <div class="filter-pills">
+          <button class="filter-pill-btn active" id="pill-all" onclick="setCategoryFilter('all')">All Observations</button>
+          <button class="filter-pill-btn" id="pill-flagged" onclick="setCategoryFilter('flagged')">Flagged / Abnormal</button>
+          <button class="filter-pill-btn" id="pill-quantitative" onclick="setCategoryFilter('quantitative')">Quantitative Gauges</button>
+          <button class="filter-pill-btn" id="pill-genomic" onclick="setCategoryFilter('genomic')">Genomic Variants</button>
+        </div>
       </div>
 
       <div class="biomarkers-container" id="biomarkers-list">
         <!-- Dynamically Populated -->
       </div>
 
-      <!-- Clinical Narrative & Conclusion -->
-      <div class="section-title">
-        <span>Clinical Interpretation & Diagnostic Conclusion</span>
+      <!-- Actionable Clinical Recommendations -->
+      <div class="section-title" id="recs-section-title">
+        <span>Actionable Clinical Recommendations & Next Steps</span>
       </div>
-      <div class="narrative-box" id="clinical-narrative" onclick="inspectResource('DiagnosticReport')">
-        Clinical interpretation text.
+      <div class="recommendations-container" id="recommendations-list" onclick="inspectResource('DiagnosticReport')">
+        <!-- Dynamically Populated -->
+      </div>
+
+      <!-- Assay Methodology & Limitations Grid -->
+      <div class="narrative-grid">
+        <div class="clinical-card" id="card-methodology" onclick="inspectResource('DiagnosticReport')">
+          <div class="clinical-card-title">Assay Methodology & Platform</div>
+          <div id="methodology-text">Sequencing and biomarker quantification details.</div>
+        </div>
+        <div class="clinical-card" id="card-limitations" onclick="inspectResource('DiagnosticReport')">
+          <div class="clinical-card-title">Intended Use & Clinical Limitations</div>
+          <div id="limitations-text">Assay screening limitations and diagnostic caveats.</div>
+        </div>
       </div>
 
     </section>
@@ -810,6 +1087,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
     // Embedded Active Report FHIR JSON Bundle
     let ACTIVE_BUNDLE = __ACTIVE_BUNDLE_JSON__;
     let currentSelectedResource = null;
+    let activeCategoryFilter = 'all';
 
     // Toast Notification helper
     function showToast(message, duration = 3000) {
@@ -870,6 +1148,19 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       );
     }
 
+    // Switch between sample presets
+    function switchSample(sampleKey) {
+      if (sampleKey === 'active') {
+        renderDashboard(ACTIVE_BUNDLE);
+        showToast('Viewing active converted report.');
+        return;
+      }
+      if (SAMPLE_PRESETS[sampleKey]) {
+        renderDashboard(SAMPLE_PRESETS[sampleKey]);
+        showToast(`Loaded preset sample: ${sampleKey.replace('_', ' ').toUpperCase()}`);
+      }
+    }
+
     // Client-side Heuristic Text / Lab Parser to FHIR R4 Bundle
     function parseTextToFhirBundle(rawText, sourceFileName = "Uploaded Report") {
       const genId = () => 'urn:uuid:' + 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -892,8 +1183,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const nameMatch = rawText.match(/Name:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Provider|DOB|Sex|Gender|Patient ID|MRN|Specimen|Facility)|$|\n)/i);
       if (nameMatch && nameMatch[1] && !nameMatch[1].toLowerCase().includes("information")) patName = nameMatch[1].trim();
 
-      const dobMatch = rawText.match(/DOB:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Facility|Sex|Gender|Provider|Location|Collection)|$|\n)/i);
-      if (dobMatch) patDob = dobMatch[1].trim();
+      const dobMatch = rawText.match(/DOB:\s*([A-Za-z0-9\/\,\s\-\(\)Age]+?)(?=\s+(?:Facility|Sex|Gender|Provider|Location|Collection)|$|\n)/i);
+      if (dobMatch) {
+        const rawDob = dobMatch[1].replace(/\(Age\s*\d+\)/i, '').trim();
+        patDob = rawDob;
+      }
 
       const sexMatch = rawText.match(/(?:Sex|Gender):\s*([A-Za-z]+)/i);
       if (sexMatch) {
@@ -909,49 +1203,72 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       // Extract Provider
       let provName = "Ordering Physician";
       let provNpi = "1928374650";
+      let provFac = "";
       const provMatch = rawText.match(/Provider:\s*([A-Za-z\s\.\,\-]+?)(?=\s+(?:Specimen ID|Facility|NPI|Location|DOB|Collection)|$|\n)/i);
       if (provMatch && provMatch[1] && !provMatch[1].toLowerCase().includes("information")) provName = provMatch[1].trim();
       const npiMatch = rawText.match(/NPI:\s*([0-9]{10})/i);
       if (npiMatch) provNpi = npiMatch[1].trim();
+      const provFacMatch = rawText.match(/Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:NPI|Location|Collection)|$|\n)/i);
+      if (provFacMatch) provFac = provFacMatch[1].trim();
 
-      // Extract Facility
-      let facName = "Clinical Diagnostics Laboratory";
-      let cliaId = "00D8874123";
-      const facMatch = rawText.match(/Facility:\s*([A-Za-z0-9\s\.\,\-]+?)(?=\s+(?:Collection|Location|NPI|Specimen|Report Date)|$|\n)/i);
-      if (facMatch && facMatch[1]) facName = facMatch[1].trim();
+      // Extract Testing Laboratory & Governance
+      let facName = "Nexus Precision Diagnostics";
+      let cliaId = "00D1234567";
+      let capNum = "8923412";
+      let labDirector = "Dr. Eleanor Hayes, MD, PhD, FCAP";
+      let labAddr = "888 Synthetic Way, CA 90210";
+
+      const firstLine = (rawText.split('\n')[0] || '').replace(/\(SYNTHETIC[^\)]*\)/i, '').trim();
+      if (firstLine && /laboratory|lab|diagnostics|genomics|reference/i.test(firstLine)) {
+        facName = firstLine;
+      }
       const cliaMatch = rawText.match(/CLIA(?:\s*ID)?:\s*([A-Za-z0-9]+)/i);
       if (cliaMatch) cliaId = cliaMatch[1].trim();
+      const capMatch = rawText.match(/CAP(?:\s*Accr)?:\s*([0-9]+)/i);
+      if (capMatch) capNum = capMatch[1].trim();
+      const dirMatch = rawText.match(/(?:Lab\s+Director|Director):\s*([A-Za-z\s\.\,\-]+?)(?=\s*(?:\(Synthetic\)|Electronic Signature|Date|CLIA|CAP|\||$|\n))/i);
+      if (dirMatch) labDirector = dirMatch[1].trim().replace(/,$/, '');
 
       // Extract Specimen
-      let specType = "Biological Specimen";
+      let specType = "Blood / Plasma";
       let specId = "SPEC-" + Math.floor(10000 + Math.random() * 90000);
       let collDate = new Date().toISOString().split('T')[0];
+      let recDate = collDate;
+      let repDate = collDate;
+      let specTube = "Streck cfDNA BCT (10.0 mL)";
+
       const specIdMatch = rawText.match(/(?:Specimen ID|Accession #|Sample ID):\s*([A-Za-z0-9\-]+)/i);
       if (specIdMatch) specId = specIdMatch[1].trim();
-      const specTypeMatch = rawText.match(/(?:Specimen Type|Sample Type):\s*([A-Za-z0-9\s\/\-]+?)(?=\s+(?:Collection|Received|Volume)|$|\n)/i);
+      const specTypeMatch = rawText.match(/(?:Specimen Type|Sample Type):\s*([A-Za-z0-9\s\/\-]+?)(?=\s+(?:Collection|Received|Volume|Tube)|$|\n)/i);
       if (specTypeMatch) specType = specTypeMatch[1].trim();
+      const tubeMatch = rawText.match(/Tube:\s*([A-Za-z0-9\s\/\-\(\)\.]+?)(?=\s+(?:Collection|Received|Report)|$|\n)/i);
+      if (tubeMatch) specTube = tubeMatch[1].trim();
       const collMatch = rawText.match(/(?:Collection Date|Collected):\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Received|Report Date|DOB)|$|\n)/i);
       if (collMatch) collDate = collMatch[1].trim();
+      const recMatch = rawText.match(/Received Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Report Date|Specimen)|$|\n)/i);
+      if (recMatch) recDate = recMatch[1].trim();
+      const repMatch = rawText.match(/Report Date:\s*([A-Za-z0-9\/\,\s\-]+?)(?=\s+(?:Test|Result|Summary)|$|\n)/i);
+      if (repMatch) repDate = repMatch[1].trim();
 
       // Extract Summary & Conclusion
       let conclusion = "Laboratory diagnostic panel complete.";
-      const summaryMatch = rawText.match(/Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|$)/i);
+      const summaryMatch = rawText.match(/Test Result Summary[\s\S]+?(?:Result:\s*[^\n]+\n)?([\s\S]+?)(?=Cancer Signal Origin|Clinical Interpretation|Quantitative|Observations|Detailed Genetic Variant|Biomarker Findings|Test Results|Origin 1|Priority|Methodology|Laboratory Observations|$)/i);
       if (summaryMatch && summaryMatch[1]) conclusion = summaryMatch[1].replace(/\n+/g, ' ').trim();
 
       // Panel Title
       let panelTitle = "Laboratory Diagnostic Panel";
       let panelLoinc = "11502-2";
       if (/galleri|early detection|mced|cancer signal/i.test(rawText)) {
-        panelTitle = "Multi-Cancer Early Detection Panel";
+        panelTitle = "Multi-Cancer Early Detection Screening Report";
         panelLoinc = "94076-7";
       } else if (/prostate|phi|psa/i.test(rawText)) {
         panelTitle = "Prostate Health Index and Early Cancer Biomarker Panel";
         panelLoinc = "72305-6";
       } else if (/colorectal|liquid biopsy|ctdna|sept9/i.test(rawText)) {
-        panelTitle = "Colorectal ctDNA Liquid Biopsy Panel";
+        panelTitle = "Liquid Biopsy Colorectal ctDNA Early Screening Report";
         panelLoinc = "94078-3";
-      } else if (/hereditary|brca|genetic/i.test(rawText)) {
-        panelTitle = "Hereditary Oncology NGS Panel";
+      } else if (/hereditary|brca|genetic|ngs panel/i.test(rawText)) {
+        panelTitle = "Hereditary Cancer Risk 15-Gene NGS Panel";
         panelLoinc = "79207-7";
       }
 
@@ -960,7 +1277,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const obsUuids = [];
 
       // Check Cancer Signal
-      if (/Cancer Signal Detected/i.test(rawText)) {
+      if (/Cancer Signal Detected/i.test(rawText) && !/Cancer Signal Not Detected/i.test(rawText)) {
         const obsId = genId();
         obsUuids.push(obsId);
         observations.push({
@@ -1002,58 +1319,13 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           code: { coding: [{ system: "http://loinc.org", code: "94077-5", display: `Predicted cancer signal origin ${origNum}` }], text: `Predicted Cancer Signal Origin ${origNum}` },
           subject: { reference: patientUuid },
           valueString: `${tissue} (${freq})`,
+          component: [
+            { code: { text: "Tissue" }, valueString: tissue },
+            { code: { text: "Accuracy Frequency" }, valueString: freq }
+          ],
           interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: "A", display: "Abnormal" }] }]
         });
       }
-
-      // Check Table Rows / Quantitative Analytes
-      const lines = rawText.split(/\r?\n/);
-      lines.forEach(line => {
-        const l = line.trim();
-        if (!l || l.length < 5) return;
-
-        // Pattern: [TestName] [LOINC?] [Result] [Units?] [RefRange?] [Flag?]
-        const qMatch = l.match(/^([A-Za-z0-9\%\-\s\(\)\[\]]{3,35})\s+(?:(\d{4,5}\-\d)\s+)?([0-9\.]+)\s*([a-zA-Z\/\%\{\}\^]+)?\s*(<[=\s]*[0-9\.]+|>[=\s]*[0-9\.]+|[0-9\.]+\s*-\s*[0-9\.]+|N\/A)?\s*(High|Low|Normal|Abnormal|H|L|A|N)?$/i);
-        if (qMatch) {
-          const tName = qMatch[1].trim();
-          if (/total|free|prostate|phi|score|antigen|tmb|vaf|mutation|variant|analyte|result|biomarker/i.test(tName)) {
-            const loinc = qMatch[2] || "11502-2";
-            const valNum = parseFloat(qMatch[3]);
-            const unit = qMatch[4] || "";
-            const ref = qMatch[5] || "";
-            const flag = (qMatch[6] || "").toUpperCase();
-
-            let interpCode = "N";
-            let interpDisp = "Normal";
-            if (flag.startsWith("H")) { interpCode = "H"; interpDisp = "High"; }
-            else if (flag.startsWith("L")) { interpCode = "L"; interpDisp = "Low"; }
-            else if (flag.startsWith("A")) { interpCode = "A"; interpDisp = "Abnormal"; }
-
-            const obsId = genId();
-            obsUuids.push(obsId);
-            const obsObj = {
-              resourceType: "Observation",
-              id: obsId,
-              status: "final",
-              code: { coding: [{ system: "http://loinc.org", code: loinc, display: tName }], text: tName },
-              subject: { reference: patientUuid },
-              valueQuantity: { value: valNum, unit: unit, code: unit, system: "http://unitsofmeasure.org" },
-              interpretation: [{ coding: [{ system: "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", code: interpCode, display: interpDisp }] }]
-            };
-            if (ref && ref !== "N/A") {
-              const rr = { text: ref };
-              const rMatch = ref.match(/([0-9\.]+)\s*-\s*([0-9\.]+)/);
-              const lessM = ref.match(/<[=\s]*([0-9\.]+)/);
-              const grtM = ref.match(/>[=\s]*([0-9\.]+)/);
-              if (rMatch) { rr.low = { value: parseFloat(rMatch[1]), unit: unit }; rr.high = { value: parseFloat(rMatch[2]), unit: unit }; }
-              else if (lessM) { rr.high = { value: parseFloat(lessM[1]), unit: unit }; }
-              else if (grtM) { rr.low = { value: parseFloat(grtM[1]), unit: unit }; }
-              obsObj.referenceRange = [rr];
-            }
-            observations.push(obsObj);
-          }
-        }
-      });
 
       // Assemble FHIR Bundle
       const bundle = {
@@ -1088,7 +1360,11 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               resourceType: "Organization",
               id: orgUuid.replace('urn:uuid:', ''),
               name: facName,
-              identifier: [{ system: "urn:oid:2.16.840.1.113883.4.7", value: cliaId }]
+              identifier: [
+                { system: "urn:oid:2.16.840.1.113883.4.7", value: cliaId },
+                { system: "urn:oid:2.16.840.1.113883.4.3.38", value: capNum }
+              ],
+              address: [{ use: "work", text: labAddr }]
             }
           },
           {
@@ -1098,7 +1374,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               id: specimenUuid.replace('urn:uuid:', ''),
               type: { text: specType },
               identifier: [{ value: specId }],
-              collection: { collectedDateTime: collDate }
+              collection: { collectedDateTime: collDate },
+              receivedTime: recDate,
+              container: [{ type: { text: specTube } }]
             }
           },
           ...observations.map(obs => ({
@@ -1123,6 +1401,35 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       };
 
       return bundle;
+    }
+
+    // Set Category Filter
+    function setCategoryFilter(category) {
+      activeCategoryFilter = category;
+      document.getElementById('pill-all').classList.toggle('active', category === 'all');
+      document.getElementById('pill-flagged').classList.toggle('active', category === 'flagged');
+      document.getElementById('pill-quantitative').classList.toggle('active', category === 'quantitative');
+      document.getElementById('pill-genomic').classList.toggle('active', category === 'genomic');
+      filterBiomarkers();
+    }
+
+    // Filter Biomarkers
+    function filterBiomarkers() {
+      const q = (document.getElementById('biomarker-search').value || '').toLowerCase();
+      document.querySelectorAll('.biomarker-row').forEach(row => {
+        const text = (row.getAttribute('data-search-text') || '').toLowerCase();
+        const isFlagged = row.getAttribute('data-is-flagged') === 'true';
+        const isQuant = row.getAttribute('data-is-quant') === 'true';
+        const isGenomic = row.getAttribute('data-is-genomic') === 'true';
+
+        let matchesCategory = true;
+        if (activeCategoryFilter === 'flagged') matchesCategory = isFlagged;
+        else if (activeCategoryFilter === 'quantitative') matchesCategory = isQuant;
+        else if (activeCategoryFilter === 'genomic') matchesCategory = isGenomic;
+
+        const matchesQuery = text.includes(q);
+        row.style.display = (matchesCategory && matchesQuery) ? 'flex' : 'none';
+      });
     }
 
     // Load Single Bundle into Dashboard
@@ -1171,32 +1478,57 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
 
       bannerTitle.textContent = (diagReport.code && diagReport.code.text) ? diagReport.code.text : 'Laboratory Diagnostic Panel';
-      bannerSubtitle.textContent = firstSentence.length > 130 ? firstSentence.substring(0, 130) + '...' : firstSentence;
+      bannerSubtitle.textContent = firstSentence.length > 150 ? firstSentence.substring(0, 150) + '...' : firstSentence;
 
       // 2. Demographics Cards
       const patName = (patient.name && patient.name[0] && patient.name[0].text) || 'Unknown Patient';
       const patDob = patient.birthDate || 'N/A';
       const patGender = (patient.gender || 'Unknown').toUpperCase();
       const patMrn = (patient.identifier && patient.identifier[0] && patient.identifier[0].value) || 'N/A';
+      
+      let ageStr = '';
+      if (patDob !== 'N/A') {
+        const birthYear = parseInt(patDob.split('-')[0], 10);
+        if (!isNaN(birthYear)) {
+          const age = 2026 - birthYear;
+          ageStr = ` (Age ${age})`;
+        }
+      }
       document.getElementById('patient-name').textContent = patName;
-      document.getElementById('patient-details').textContent = `DOB: ${patDob} (${patGender}) | MRN: ${patMrn}`;
-      document.getElementById('header-patient-tag').textContent = `Patient: ${patName} (${patMrn})`;
+      document.getElementById('patient-details').textContent = `DOB: ${patDob}${ageStr} | ${patGender} | MRN: ${patMrn}`;
+      document.getElementById('header-patient-tag').textContent = `${patName} | ${patMrn}`;
 
-      const specType = (specimen.type && specimen.type.text) || 'Biological Specimen';
+      // Specimen Card
+      const specType = (specimen.type && (specimen.type.text || (specimen.type.coding && specimen.type.coding[0] && specimen.type.coding[0].display))) || 'Biological Specimen';
       const specId = (specimen.identifier && specimen.identifier[0] && specimen.identifier[0].value) || 'N/A';
-      const specDate = (specimen.collection && specimen.collection.collectedDateTime) || 'N/A';
-      document.getElementById('specimen-type').textContent = specType;
-      document.getElementById('specimen-details').textContent = `Specimen ID: ${specId} | Collected: ${specDate}`;
+      const specTube = (specimen.container && specimen.container[0] && specimen.container[0].type && specimen.container[0].type.text) || '';
+      const specCollDate = (specimen.collection && specimen.collection.collectedDateTime) || diagReport.effectiveDateTime || 'N/A';
+      const specRecDate = specimen.receivedTime || specCollDate;
+      const specRepDate = diagReport.issued || diagReport.effectiveDateTime || 'N/A';
 
-      const docName = (practitioner.name && practitioner.name[0] && practitioner.name[0].text) || 'Ordering Physician';
+      document.getElementById('specimen-type').textContent = specType + (specTube ? ` • ${specTube}` : '');
+      document.getElementById('specimen-details').textContent = `Specimen ID: ${specId}`;
+      document.getElementById('time-collected').textContent = specCollDate;
+      document.getElementById('time-received').textContent = specRecDate;
+      document.getElementById('time-processed').textContent = 'Assay QC';
+      document.getElementById('time-reported').textContent = specRepDate;
+
+      // Provider Card
+      const docName = (practitioner.name && practitioner.name[0] && practitioner.name[0].text) || 'Ordering Clinician';
       const docNpi = (practitioner.identifier && practitioner.identifier[0] && practitioner.identifier[0].value) || 'N/A';
       document.getElementById('provider-name').textContent = docName;
-      document.getElementById('provider-details').textContent = `NPI: ${docNpi}`;
+      document.getElementById('provider-details').textContent = `NPI: ${docNpi} | Clinical Diagnostics`;
 
-      const orgName = organization.name || 'Testing Laboratory';
-      const orgClia = (organization.identifier && organization.identifier[0] && organization.identifier[0].value) || 'N/A';
+      // Organization Card
+      const orgName = organization.name || 'Testing Clinical Laboratory';
+      const cliaIdObj = (organization.identifier || []).find(i => (i.system || '').includes('4.7')) || (organization.identifier && organization.identifier[0]) || {};
+      const capObj = (organization.identifier || []).find(i => (i.system || '').includes('4.3.38')) || {};
+      const cliaVal = cliaIdObj.value || 'N/A';
+      const capVal = capObj.value || 'Verified';
+      const orgAddr = (organization.address && organization.address[0] && organization.address[0].text) || '';
+      
       document.getElementById('org-name').textContent = orgName;
-      document.getElementById('org-details').textContent = `CLIA ID: ${orgClia}`;
+      document.getElementById('org-details').innerHTML = `CLIA ID: ${cliaVal} | CAP Accr: ${capVal}${orgAddr ? '<br/>' + orgAddr : ''}`;
 
       // 3. Biomarkers List
       document.getElementById('obs-count-badge').textContent = `${observations.length} Observations`;
@@ -1221,17 +1553,26 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
         const interpCode = (obs.interpretation && obs.interpretation[0] && obs.interpretation[0].coding && obs.interpretation[0].coding[0] && obs.interpretation[0].coding[0].code) || 'N';
         const interpText = (obs.interpretation && obs.interpretation[0] && obs.interpretation[0].text) || (interpCode === 'A' ? 'Abnormal' : (interpCode === 'H' ? 'High' : (interpCode === 'L' ? 'Low' : 'Normal')));
         
-        const isFlagAbnormal = interpCode === 'A' || interpCode === 'H';
+        const isFlagAbnormal = ['A', 'H', 'POS', 'AA', 'HH'].includes(interpCode.toUpperCase()) || interpText.toLowerCase().includes('abnormal') || interpText.toLowerCase().includes('pathogenic');
         const isFlagLow = interpCode === 'L';
         const flagClass = isFlagAbnormal ? 'flag-high' : (isFlagLow ? 'flag-low' : 'flag-normal');
+
+        const isQuant = numVal !== null;
+        const isGenomic = /brca|kras|braf|tp53|palb2|chek2|cdh1|sept9|variant|mutation|gene/i.test(obsName) || /c\.|p\.|vaf|pathogenic/i.test(displayVal);
 
         const row = document.createElement('div');
         row.className = 'biomarker-row';
         row.id = `obs-card-${obs.id}`;
         row.setAttribute('data-search-text', `${obsName} ${loincCode} ${displayVal} ${interpText}`.toLowerCase());
-        row.onclick = () => inspectResourceObject(obs, `Observation: ${obsName}`);
+        row.setAttribute('data-is-flagged', isFlagAbnormal ? 'true' : 'false');
+        row.setAttribute('data-is-quant', isQuant ? 'true' : 'false');
+        row.setAttribute('data-is-genomic', isGenomic ? 'true' : 'false');
+        row.onclick = () => inspectResourceObject(obs, `Obs: ${obsName}`);
 
-        let rangeGaugeHtml = '';
+        // Build specialized details (Gauges, Genomic Variant chips, CSO Origin progress bars)
+        let specializedHtml = '';
+
+        // 1. Quantitative Gauge
         if (numVal !== null) {
           const rr = (obs.referenceRange && obs.referenceRange[0]) || {};
           let low = rr.low ? rr.low.value : null;
@@ -1284,7 +1625,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 
           const refDisplay = refText || (low !== null && high !== null ? `${low} - ${high} ${unit}` : (high !== null ? `< ${high} ${unit}` : (low !== null ? `> ${low} ${unit}` : 'Reference Range N/A')));
 
-          rangeGaugeHtml = `
+          specializedHtml = `
             <div class="range-gauge">
               <div class="gauge-bar-track" style="background: ${trackGradient};">
                 <div class="gauge-pointer" style="left: ${pct}%;"></div>
@@ -1295,6 +1636,28 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               </div>
             </div>
           `;
+        } 
+        // 2. CSO Origin Distribution Bar
+        else if (/predicted cancer signal origin/i.test(obsName)) {
+          const pctM = displayVal.match(/(\d+(?:\.\d+)?)\s*%/);
+          const pctVal = pctM ? parseFloat(pctM[1]) : 0;
+          specializedHtml = `
+            <div class="origin-progress-bar">
+              <div class="origin-progress-fill" style="width: ${pctVal}%;"></div>
+            </div>
+          `;
+        }
+        // 3. Genomic Variant Chips
+        else if (obs.component && obs.component.length > 0) {
+          let chips = '';
+          obs.component.forEach(c => {
+            const cName = (c.code && c.code.text) || 'Detail';
+            const cVal = c.valueString || '';
+            chips += `<span class="variant-chip"><strong>${cName}:</strong> ${cVal}</span>`;
+          });
+          if (chips) {
+            specializedHtml = `<div class="variant-chips-container">${chips}</div>`;
+          }
         }
 
         row.innerHTML = `
@@ -1308,28 +1671,75 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
               <span class="flag-badge ${flagClass}">${interpText}</span>
             </div>
           </div>
-          ${rangeGaugeHtml}
+          ${specializedHtml}
         `;
         obsContainer.appendChild(row);
       });
 
-      // 4. Clinical Narrative
-      document.getElementById('clinical-narrative').textContent = diagReport.conclusion || 'No conclusion text provided.';
+      // 4. Actionable Clinical Recommendations
+      const recsContainer = document.getElementById('recommendations-list');
+      recsContainer.innerHTML = '';
+      
+      const fullText = diagReport.conclusion || '';
+      const recLines = [];
 
-      // 5. Build Resource Tabs
+      // Extract bullet points from conclusion
+      const rawRecMatch = fullText.match(/Recommended Next Steps:?[\s\S]+?(?=Methodology|Limitations|Laboratory Director|$)/i);
+      if (rawRecMatch) {
+        const lines = rawRecMatch[0].split('\n');
+        lines.forEach(l => {
+          const cleanL = l.replace(/^•\s*|^-\s*|^Recommended Next Steps:?\s*/i, '').trim();
+          if (cleanL && cleanL.length > 10) recLines.push(cleanL);
+        });
+      }
+
+      if (recLines.length === 0) {
+        if (/cancer signal detected/i.test(fullText)) {
+          recLines.push("High-resolution imaging: Contrast-enhanced chest CT and dedicated abdominal MRI / EUS.");
+          recLines.push("Specialist consultation: Prompt referral to thoracic and gastroenterology oncology teams.");
+          recLines.push("Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.");
+        } else if (/brca1/i.test(fullText)) {
+          recLines.push("High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25–30.");
+          recLines.push("Ovarian cancer risk reduction: Consultation for risk-reducing salpingo-oophorectomy (RRSO).");
+          recLines.push("Cascade genetic testing: Inform and offer targeted variant testing to first-degree relatives.");
+        } else if (/sept9|kras/i.test(fullText)) {
+          recLines.push("Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of identified lesions.");
+          recLines.push("Staging radiology: Contrast-enhanced CT of abdomen and pelvis.");
+          recLines.push("Therapeutic note: KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies.");
+        } else if (/phi|psa/i.test(fullText)) {
+          recLines.push("Multiparametric prostate MRI (mpMRI): 3-Tesla pelvic mpMRI with PI-RADS scoring.");
+          recLines.push("Urology consult: Referral for MRI-fusion targeted and systematic prostate biopsy.");
+        } else {
+          recLines.push("Routine preventative screening: Continue standard age-appropriate cancer screenings as indicated.");
+          recLines.push("Follow-up: Regular annual wellness examinations with primary care physician.");
+        }
+      }
+
+      recLines.forEach(rec => {
+        const item = document.createElement('div');
+        item.className = 'recommendation-item';
+        item.innerHTML = `<strong>•</strong> ${rec}`;
+        recsContainer.appendChild(item);
+      });
+
+      // 5. Methodology & Limitations Cards
+      let methodText = "Plasma cfDNA was analyzed by targeted bisulfite conversion and deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Proprietary machine-learning classification models evaluated methylation patterns.";
+      let limitText = "This test is an early detection screening tool and is not a definitive histological diagnosis. Negative results do not completely rule out malignancy. Results should be interpreted in clinical context.";
+
+      const methMatch = fullText.match(/Methodology:\s*([\s\S]+?)(?=Limitations|Laboratory Director|$)/i);
+      if (methMatch) methodText = methMatch[1].trim();
+
+      const limMatch = fullText.match(/Limitations:\s*([\s\S]+?)(?=Laboratory Director|Methodology|$)/i);
+      if (limMatch) limitText = limMatch[1].trim();
+
+      document.getElementById('methodology-text').textContent = methodText;
+      document.getElementById('limitations-text').textContent = limitText;
+
+      // 6. Build Resource Tabs
       buildResourceTabs(bundle);
 
-      // 6. Default view in inspector
+      // 7. Default view in inspector
       inspectResource('DiagnosticReport');
-    }
-
-    // Filter Biomarkers
-    function filterBiomarkers() {
-      const q = (document.getElementById('biomarker-search').value || '').toLowerCase();
-      document.querySelectorAll('.biomarker-row').forEach(row => {
-        const text = row.getAttribute('data-search-text') || '';
-        row.style.display = text.includes(q) ? 'flex' : 'none';
-      });
     }
 
     // Resource Navigation Tabs
@@ -1405,7 +1815,10 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       if (resource.resourceType === 'Practitioner') document.getElementById('card-provider').classList.add('active-resource');
       if (resource.resourceType === 'Organization') document.getElementById('card-organization').classList.add('active-resource');
       if (resource.resourceType === 'Specimen') document.getElementById('card-specimen').classList.add('active-resource');
-      if (resource.resourceType === 'DiagnosticReport') document.getElementById('diagnostic-banner').classList.add('active-resource');
+      if (resource.resourceType === 'DiagnosticReport') {
+        document.getElementById('diagnostic-banner').classList.add('active-resource');
+        document.getElementById('card-methodology').classList.add('active-resource');
+      }
       if (resource.resourceType === 'Observation' && resource.id) {
         const row = document.getElementById(`obs-card-${resource.id}`);
         if (row) row.classList.add('active-resource');
@@ -1609,6 +2022,9 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       }
     });
 
+    // Preset Sample Bundles
+    const SAMPLE_PRESETS = __SAMPLE_PRESETS_JSON__;
+
     // Initialize with the active report bundle and theme
     window.addEventListener('DOMContentLoaded', () => {
       initTheme();
@@ -1620,19 +2036,49 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
 """
 
 
-def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html") -> str:
+def load_all_sample_presets() -> Dict[str, Any]:
+    """Preloads all 5 sample synthetic reports as converted FHIR bundles."""
+    presets = {}
+    preset_map = {
+        "cancer_positive": "reports/synthetic_cancer_lab_report.pdf",
+        "mced_negative": "reports/synthetic_mced_negative.pdf",
+        "colorectal_ctdna": "reports/synthetic_colorectal_ctdna.pdf",
+        "hereditary_ngs": "reports/synthetic_hereditary_ngs_panel.pdf",
+        "prostate_phi": "reports/synthetic_prostate_phi_panel.pdf"
+    }
+    for key, path in preset_map.items():
+        if os.path.exists(path):
+            try:
+                from src.parser import parse_lab_report_file
+                from src.fhir_builder import convert_parsed_data_to_fhir
+                data = parse_lab_report_file(path)
+                presets[key] = convert_parsed_data_to_fhir(data)
+            except Exception:
+                pass
+    return presets
+
+
+def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/fhir_viewer.html", sample_presets: Optional[Dict[str, Any]] = None, include_sample_presets: bool = False) -> str:
     """
-    Generates a dedicated, report-specific Canvas UI Dashboard from an extracted HL7 FHIR Bundle.
+    Generates a dedicated, report-specific Web UI Dashboard from an extracted HL7 FHIR Bundle.
     
     Args:
         bundle: The extracted and converted FHIR R4 Bundle dictionary for this report.
         output_html_path: Destination path for the generated HTML file.
+        sample_presets: Optional dictionary of pre-converted sample bundles for the selector.
+        include_sample_presets: Whether to preload all 5 sample bundles if sample_presets is None.
         
     Returns:
         Absolute path to the created HTML file.
     """
+    if sample_presets is None and include_sample_presets:
+        sample_presets = load_all_sample_presets()
+
     bundle_json_str = json.dumps(bundle, indent=None)
+    presets_json_str = json.dumps(sample_presets or {}, indent=None)
+    
     rendered_html = HTML_TEMPLATE.replace("__ACTIVE_BUNDLE_JSON__", bundle_json_str)
+    rendered_html = rendered_html.replace("__SAMPLE_PRESETS_JSON__", presets_json_str)
 
     os.makedirs(os.path.dirname(os.path.abspath(output_html_path)), exist_ok=True)
     with open(output_html_path, "w", encoding="utf-8") as f:

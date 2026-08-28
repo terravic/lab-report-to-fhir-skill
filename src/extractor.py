@@ -16,7 +16,7 @@ def clean_extracted_text(text: str) -> str:
     if not text:
         return ""
     
-    # Replace known private-use font encoding glyphs to standard ASCII/Unicode
+    # Replace known private-use font encoding glyphs and CID bullet glyphs to standard ASCII/Unicode
     pua_mapping = {
         '\ue092': ':',
         '\ue088': '-',
@@ -32,6 +32,9 @@ def clean_extracted_text(text: str) -> str:
     for pua_char, replacement in pua_mapping.items():
         text = text.replace(pua_char, replacement)
         
+    text = text.replace('(cid:127)', '•')
+    text = re.sub(r'\(cid:\d+\)', ' ', text)
+    
     # Replace remaining private-use characters
     text = re.sub(r'[\ue000-\uf8ff]', ' ', text)
     

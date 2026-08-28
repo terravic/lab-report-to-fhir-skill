@@ -1,4 +1,4 @@
-"""Unit tests for Report-Specific Canvas UI HTML Dashboard Generator."""
+"""Unit tests for Report-Specific Web UI HTML Dashboard Generator."""
 
 import os
 import json
@@ -10,7 +10,7 @@ from src.parser import parse_lab_report_file
 from src.fhir_builder import convert_parsed_data_to_fhir
 
 
-def test_generate_report_specific_canvas_cancer_report():
+def test_generate_report_specific_web_ui_cancer_report():
     # 1. Extract from specific lab report
     parsed = parse_lab_report_file("reports/synthetic_cancer_lab_report.pdf")
     bundle = convert_parsed_data_to_fhir(parsed)
@@ -40,7 +40,7 @@ def test_generate_report_specific_canvas_cancer_report():
         assert 'id="preset-selector"' not in content
 
 
-def test_generate_report_specific_canvas_colorectal_report():
+def test_generate_report_specific_web_ui_colorectal_report():
     # 1. Extract from colorectal ctDNA lab report
     parsed = parse_lab_report_file("reports/synthetic_colorectal_ctdna.pdf")
     bundle = convert_parsed_data_to_fhir(parsed)
@@ -62,7 +62,7 @@ def test_generate_report_specific_canvas_colorectal_report():
         assert "Brenda S. Sample" not in content
 
 
-def test_generate_report_specific_canvas_prostate_report():
+def test_generate_report_specific_web_ui_prostate_report():
     # 1. Extract from prostate phi panel
     parsed = parse_lab_report_file("reports/synthetic_prostate_phi_panel.pdf")
     bundle = convert_parsed_data_to_fhir(parsed)

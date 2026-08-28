@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "791c090a-0579-45ae-a4e1-d85fb52848ab",
+  "id": "b0842181-482b-48f8-bd74-27026d9776ce",
   "type": "transaction",
-  "timestamp": "2026-08-21T15:56:30Z",
+  "timestamp": "2026-08-28T19:56:44Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64",
+      "fullUrl": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16",
       "resource": {
         "resourceType": "Patient",
-        "id": "b21aa1d1-3288-4909-991e-0352ae212f64",
+        "id": "e6b1f2da-a035-4ca7-b739-d4e3930afc16",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"
@@ -50,19 +50,19 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:47afa9d4-76e9-44fe-8d37-ddbc9628325c",
+      "fullUrl": "urn:uuid:9d3ba126-0ae1-4960-9ad3-7d7182c27d72",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "47afa9d4-76e9-44fe-8d37-ddbc9628325c",
+        "id": "9d3ba126-0ae1-4960-9ad3-7d7182c27d72",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling, MD</p></div>"
         },
         "active": true,
         "name": [
           {
             "use": "official",
-            "text": "Dr. Avery Sterling"
+            "text": "Dr. Avery Sterling, MD"
           }
         ],
         "identifier": [
@@ -78,26 +78,30 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:43197ee6-7f05-4d1d-be2d-fbb414d6895c",
+      "fullUrl": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789",
       "resource": {
         "resourceType": "Organization",
-        "id": "43197ee6-7f05-4d1d-be2d-fbb414d6895c",
+        "id": "16633d1a-a0cb-4af8-b380-c3c6f55e8789",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> Aurora Health Institute</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> NEXUS PRECISION DIAGNOSTICS</p></div>"
         },
         "active": true,
-        "name": "Aurora Health Institute",
+        "name": "NEXUS PRECISION DIAGNOSTICS",
         "identifier": [
           {
             "system": "urn:oid:2.16.840.1.113883.4.7",
             "value": "00D1234567"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "8923412"
           }
         ],
         "address": [
           {
             "use": "work",
-            "text": "Nexus Precision Diagnostics 888 Synthetic Way, Suite 100 Fictional Heights, CA 90210"
+            "text": "888 Synthetic Way, Suite 100, Fictional Heights, CA 90210"
           }
         ]
       },
@@ -107,10 +111,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:db6a8326-0758-4292-ad13-72f4837a82a1",
+      "fullUrl": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7",
       "resource": {
         "resourceType": "Specimen",
-        "id": "db6a8326-0758-4292-ad13-72f4837a82a1",
+        "id": "8650780d-dead-4277-90cc-d1ab35f26cc7",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"
@@ -133,12 +137,25 @@
           "text": "Blood / Plasma"
         },
         "subject": {
-          "reference": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64"
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
         },
         "collection": {
-          "collectedDateTime": "2026-08-07"
+          "collectedDateTime": "2026-08-07",
+          "quantity": {
+            "value": 10.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
         },
-        "receivedTime": "2026-08-08"
+        "receivedTime": "2026-08-08",
+        "container": [
+          {
+            "type": {
+              "text": "Streck cfDNA BCT (10.0 mL)"
+            }
+          }
+        ]
       },
       "request": {
         "method": "POST",
@@ -146,10 +163,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6abbddfd-b40d-4966-9a82-7fc7063ef7ba",
+      "fullUrl": "urn:uuid:3a5f0569-d36f-4abe-ae3d-54a612b0a5da",
       "resource": {
         "resourceType": "Observation",
-        "id": "6abbddfd-b40d-4966-9a82-7fc7063ef7ba",
+        "id": "3a5f0569-d36f-4abe-ae3d-54a612b0a5da",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"
@@ -171,22 +188,22 @@
             {
               "system": "http://loinc.org",
               "code": "94076-7",
-              "display": "Cancer signal methylation analysis in cell-free DNA"
+              "display": "Cancer Signal Status"
             }
           ],
           "text": "Cancer Signal Status"
         },
         "subject": {
-          "reference": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64"
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:43197ee6-7f05-4d1d-be2d-fbb414d6895c"
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db6a8326-0758-4292-ad13-72f4837a82a1"
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
         },
         "valueString": "Cancer Signal Detected",
         "referenceRange": [
@@ -212,10 +229,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:ac88c526-2e8f-4f62-9f9f-55263c7ce718",
+      "fullUrl": "urn:uuid:243d3f78-115c-4aa0-9698-2acace92faa5",
       "resource": {
         "resourceType": "Observation",
-        "id": "ac88c526-2e8f-4f62-9f9f-55263c7ce718",
+        "id": "243d3f78-115c-4aa0-9698-2acace92faa5",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"
@@ -237,36 +254,27 @@
             {
               "system": "http://loinc.org",
               "code": "94077-5",
-              "display": "Predicted cancer signal origin 1"
+              "display": "Predicted Cancer Signal Origin 1"
             }
           ],
           "text": "Predicted Cancer Signal Origin 1"
         },
         "subject": {
-          "reference": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64"
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:43197ee6-7f05-4d1d-be2d-fbb414d6895c"
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db6a8326-0758-4292-ad13-72f4837a82a1"
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
         },
         "valueString": "Lung (85%)",
-        "component": [
+        "referenceRange": [
           {
-            "code": {
-              "text": "Tissue"
-            },
-            "valueString": "Lung"
-          },
-          {
-            "code": {
-              "text": "Accuracy Frequency"
-            },
-            "valueString": "85%"
+            "text": "None"
           }
         ],
         "interpretation": [
@@ -287,10 +295,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:23bba3e0-edf7-4c4b-89ce-3d858bd71df9",
+      "fullUrl": "urn:uuid:fda4fedf-2356-40c6-97c1-398b1157413e",
       "resource": {
         "resourceType": "Observation",
-        "id": "23bba3e0-edf7-4c4b-89ce-3d858bd71df9",
+        "id": "fda4fedf-2356-40c6-97c1-398b1157413e",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"
@@ -312,36 +320,27 @@
             {
               "system": "http://loinc.org",
               "code": "94077-5",
-              "display": "Predicted cancer signal origin 2"
+              "display": "Predicted Cancer Signal Origin 2"
             }
           ],
           "text": "Predicted Cancer Signal Origin 2"
         },
         "subject": {
-          "reference": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64"
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
         },
         "effectiveDateTime": "2026-08-07",
         "performer": [
           {
-            "reference": "urn:uuid:43197ee6-7f05-4d1d-be2d-fbb414d6895c"
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:db6a8326-0758-4292-ad13-72f4837a82a1"
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
         },
         "valueString": "Pancreas (12%)",
-        "component": [
+        "referenceRange": [
           {
-            "code": {
-              "text": "Tissue"
-            },
-            "valueString": "Pancreas"
-          },
-          {
-            "code": {
-              "text": "Accuracy Frequency"
-            },
-            "valueString": "12%"
+            "text": "None"
           }
         ],
         "interpretation": [
@@ -362,13 +361,227 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:021047c6-a2dc-4778-abdd-0dfb3e6fbaf9",
+      "fullUrl": "urn:uuid:8de56a3e-4240-42d6-9341-28f7e317f5eb",
       "resource": {
-        "resourceType": "DiagnosticReport",
-        "id": "021047c6-a2dc-4778-abdd-0dfb3e6fbaf9",
+        "resourceType": "Observation",
+        "id": "8de56a3e-4240-42d6-9341-28f7e317f5eb",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Synthetic Lab Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 14.2 ng/mL</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "cfDNA Concentration"
+            }
+          ],
+          "text": "cfDNA Concentration"
+        },
+        "subject": {
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
+        },
+        "valueString": "14.2 ng/mL",
+        "referenceRange": [
+          {
+            "text": "5.0 - 25.0 ng/mL",
+            "low": {
+              "value": 5.0,
+              "unit": ""
+            },
+            "high": {
+              "value": 25.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f972c550-90e2-4bcd-bb91-d35e48ac4987",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f972c550-90e2-4bcd-bb91-d35e48ac4987",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 32,500x</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing Coverage Depth"
+            }
+          ],
+          "text": "Sequencing Coverage Depth"
+        },
+        "subject": {
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
+        },
+        "valueString": "32,500x",
+        "referenceRange": [
+          {
+            "text": ">= 20,000x",
+            "low": {
+              "value": 20.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:29fffd57-fe1a-49b2-af87-98b61e41c3e0",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "29fffd57-fe1a-49b2-af87-98b61e41c3e0",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.7%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing QC Pass Rate"
+            }
+          ],
+          "text": "Sequencing QC Pass Rate"
+        },
+        "subject": {
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
+        },
+        "valueString": "99.7%",
+        "referenceRange": [
+          {
+            "text": ">= 95.0%",
+            "low": {
+              "value": 95.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:8f1b249e-9fcb-4914-882f-50dfec7e48d8",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "8f1b249e-9fcb-4914-882f-50dfec7e48d8",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"
         },
         "identifier": [
           {
@@ -391,43 +604,52 @@
         "code": {
           "coding": [
             {
-              "code": "11502-2",
-              "display": "Laboratory report",
+              "code": "94076-7",
+              "display": "Cancer signal methylation analysis in cell-free DNA panel",
               "system": "http://loinc.org"
             }
           ],
-          "text": "Synthetic Lab Report"
+          "text": "Multi-Cancer Early Detection Screening Report"
         },
         "subject": {
-          "reference": "urn:uuid:b21aa1d1-3288-4909-991e-0352ae212f64"
+          "reference": "urn:uuid:e6b1f2da-a035-4ca7-b739-d4e3930afc16"
         },
         "effectiveDateTime": "2026-08-07",
         "issued": "2026-08-14",
         "performer": [
           {
-            "reference": "urn:uuid:47afa9d4-76e9-44fe-8d37-ddbc9628325c"
+            "reference": "urn:uuid:9d3ba126-0ae1-4960-9ad3-7d7182c27d72"
           },
           {
-            "reference": "urn:uuid:43197ee6-7f05-4d1d-be2d-fbb414d6895c"
+            "reference": "urn:uuid:16633d1a-a0cb-4af8-b380-c3c6f55e8789"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:db6a8326-0758-4292-ad13-72f4837a82a1"
+            "reference": "urn:uuid:8650780d-dead-4277-90cc-d1ab35f26cc7"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:6abbddfd-b40d-4966-9a82-7fc7063ef7ba"
+            "reference": "urn:uuid:3a5f0569-d36f-4abe-ae3d-54a612b0a5da"
           },
           {
-            "reference": "urn:uuid:ac88c526-2e8f-4f62-9f9f-55263c7ce718"
+            "reference": "urn:uuid:243d3f78-115c-4aa0-9698-2acace92faa5"
           },
           {
-            "reference": "urn:uuid:23bba3e0-edf7-4c4b-89ce-3d858bd71df9"
+            "reference": "urn:uuid:fda4fedf-2356-40c6-97c1-398b1157413e"
+          },
+          {
+            "reference": "urn:uuid:8de56a3e-4240-42d6-9341-28f7e317f5eb"
+          },
+          {
+            "reference": "urn:uuid:f972c550-90e2-4bcd-bb91-d35e48ac4987"
+          },
+          {
+            "reference": "urn:uuid:29fffd57-fe1a-49b2-af87-98b61e41c3e0"
           }
         ],
-        "conclusion": "A cancer signal was detected in this blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The \"Cancer Signal Detected\" result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins Lung and Pancreas) should guide the subsequent diagnostic workup. It is recommended that the healthcare provider initiate targeted clinical evaluations, which may include: \u25cf High-resolution imaging (e.g., CT, MRI, or PET-CT( of the chest and abdomen. \u25cf Specialist consultation with oncology or pulmonology. \u25cf Tissue biopsy if a suspicious lesion is identified via imaging.\n\nMethodology: This test utilizes next-generation sequencing NGS( to analyze specific methylation patterns of cell-free DNA (cfDNA) in the blood. The Galleri test uses a machine-learning algorithm to identify patterns characteristic of over 50 types of cancer and to predict the most likely organ of origin.\n\nLimitations: \u25cf A \"Cancer Signal Detected\" result is not a definitive diagnosis and can be a false positive. \u25cf A \"Cancer Signal Not Detected\" result does not rule out the presence of cancer. --- PAGE BREAK --- \u25cf This test is intended for use in adults at elevated risk for cancer, such as those aged 50 or older. \u25cf The test does not detect all cancers and is not a replacement for standard-of-care screenings (e.g., mammography, colonoscopy)."
+        "conclusion": "A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The 'Cancer Signal Detected' result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins (Lung 85% and Pancreas 12%) should guide subsequent diagnostic workup. Recommended next steps include: \u2022 High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS). \u2022 Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams. \u2022 Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nRecommended Next Steps:\n\u2022 High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS).\n\u2022 Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams.\n\u2022 Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nMethodology: Plasma cfDNA undergoes targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are classified using proprietary machine-learning algorithms calibrated across 50+ cancer tissue types.\n\nLimitations: This test is an early detection screening tool and is not a definitive histological diagnosis. A negative result does not completely exclude malignancy.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D1234567"
       },
       "request": {
         "method": "POST",
