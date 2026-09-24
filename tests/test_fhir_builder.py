@@ -19,7 +19,7 @@ def sample_parsed_data():
             "npi": "1234567890"
         },
         "facility": {
-            "name": "Nexus Precision Diagnostics",
+            "name": "Clinical Reference Diagnostics Laboratory",
             "clia_id": "00D1234567",
             "address": "888 Synthetic Way, Fictional Heights, CA"
         },
@@ -111,7 +111,7 @@ def test_organization_and_specimen_fhir_extensions():
     # Specimen container & volume
     spec = next(e["resource"] for e in bundle["entry"] if e["resource"]["resourceType"] == "Specimen")
     assert spec.get("container") is not None
-    assert "Streck" in spec["container"][0]["type"]["text"]
+    assert "Cell-Free DNA BCT" in spec["container"][0]["type"]["text"]
     assert spec.get("collection") is not None
     assert spec["collection"].get("quantity") is not None
     assert spec["collection"]["quantity"]["value"] == 10.0

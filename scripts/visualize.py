@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """
 CLI script to extract and generate the interactive, report-specific Web UI Dashboard for a lab report.
 Usage:
@@ -12,8 +11,8 @@ import sys
 import json
 import argparse
 
-# Add parent directory to path
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+if "." not in sys.path:
+    sys.path.insert(0, ".")
 
 from src.visualizer import generate_html_dashboard, open_in_browser
 from src.parser import parse_lab_report_file

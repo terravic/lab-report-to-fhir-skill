@@ -1,14 +1,14 @@
 {
   "resourceType": "Bundle",
-  "id": "c00deb9f-7484-44c6-9207-82f35b66397b",
+  "id": "778344d6-b30c-4c99-a52d-ab9ad69c8b93",
   "type": "transaction",
-  "timestamp": "2026-08-28T20:50:24Z",
+  "timestamp": "2026-09-24T20:49:52Z",
   "entry": [
     {
-      "fullUrl": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6",
+      "fullUrl": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a",
       "resource": {
         "resourceType": "Patient",
-        "id": "daa807bf-5795-4098-a29d-5bc372bf2ce6",
+        "id": "adce980b-ee9e-4d81-a807-f49288ff841a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Harold K. Sample</p></div>"
@@ -50,10 +50,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:69e0fa49-8dcd-45b2-bd5b-4079c7e6c492",
+      "fullUrl": "urn:uuid:dc7facad-ff05-4fb8-abf7-fc7a6043dc6d",
       "resource": {
         "resourceType": "Practitioner",
-        "id": "69e0fa49-8dcd-45b2-bd5b-4079c7e6c492",
+        "id": "dc7facad-ff05-4fb8-abf7-fc7a6043dc6d",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Sophia Alvarez, MD</p></div>"
@@ -78,16 +78,16 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f",
+      "fullUrl": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea",
       "resource": {
         "resourceType": "Organization",
-        "id": "12131ee2-b316-4f17-af52-9f26ed220b0f",
+        "id": "f423ecbd-7984-4db3-9d94-a7c39e2419ea",
         "text": {
           "status": "generated",
-          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> BEACON ONCOLOGY REFERENCE LABORATORY</p></div>"
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> ONCOLOGY MOLECULAR REFERENCE LABORATORY (SYNTHETIC CLINICAL</p></div>"
         },
         "active": true,
-        "name": "BEACON ONCOLOGY REFERENCE LABORATORY",
+        "name": "ONCOLOGY MOLECULAR REFERENCE LABORATORY (SYNTHETIC CLINICAL",
         "identifier": [
           {
             "system": "urn:oid:2.16.840.1.113883.4.7",
@@ -111,10 +111,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7",
+      "fullUrl": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4",
       "resource": {
         "resourceType": "Specimen",
-        "id": "d8776bc8-1693-44fe-9626-8da80c9ecdb7",
+        "id": "f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-CRC-7731 (Blood / Plasma)</p></div>"
@@ -137,7 +137,7 @@
           "text": "Blood / Plasma"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "collection": {
           "collectedDateTime": "2026-07-28",
@@ -152,7 +152,7 @@
         "container": [
           {
             "type": {
-              "text": "Streck cfDNA BCT (10.0 mL)"
+              "text": "Cell-Free DNA BCT (10.0 mL)"
             }
           }
         ]
@@ -163,10 +163,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3628d3f3-786a-4359-8555-6dd7e42ebff4",
+      "fullUrl": "urn:uuid:38d755ec-cd76-452f-9ec5-202b4a90d024",
       "resource": {
         "resourceType": "Observation",
-        "id": "3628d3f3-786a-4359-8555-6dd7e42ebff4",
+        "id": "38d755ec-cd76-452f-9ec5-202b4a90d024",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>SEPT9 Methylation:</b> Positive</p></div>"
@@ -194,16 +194,16 @@
           "text": "SEPT9 Methylation"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "Positive",
         "referenceRange": [
@@ -229,10 +229,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:6bfc4cb0-271a-4da5-bf6a-06ac64584488",
+      "fullUrl": "urn:uuid:507b8457-f4eb-4680-aae6-1be9d5cb0e33",
       "resource": {
         "resourceType": "Observation",
-        "id": "6bfc4cb0-271a-4da5-bf6a-06ac64584488",
+        "id": "507b8457-f4eb-4680-aae6-1be9d5cb0e33",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>KRAS Mutation Analysis:</b> p.G12D (VAF: 1.8%)</p></div>"
@@ -260,16 +260,16 @@
           "text": "KRAS Mutation Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "p.G12D (VAF: 1.8%)",
         "component": [
@@ -313,10 +313,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:39b33a31-bdab-455e-897e-11e5a50c650a",
+      "fullUrl": "urn:uuid:1e0efb70-a325-4de1-b531-6781fd2d3358",
       "resource": {
         "resourceType": "Observation",
-        "id": "39b33a31-bdab-455e-897e-11e5a50c650a",
+        "id": "1e0efb70-a325-4de1-b531-6781fd2d3358",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRAF Mutation Analysis:</b> Not Detected</p></div>"
@@ -344,16 +344,16 @@
           "text": "BRAF Mutation Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "Not Detected",
         "referenceRange": [
@@ -383,10 +383,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:b0071bbe-ad6d-4e45-9794-7e04ff2fc6bf",
+      "fullUrl": "urn:uuid:96bf39b2-32f8-462f-bd76-73a7967ade89",
       "resource": {
         "resourceType": "Observation",
-        "id": "b0071bbe-ad6d-4e45-9794-7e04ff2fc6bf",
+        "id": "96bf39b2-32f8-462f-bd76-73a7967ade89",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Mutation Analysis:</b> p.R273H (VAF: 2.3%)</p></div>"
@@ -414,16 +414,16 @@
           "text": "TP53 Mutation Analysis"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "p.R273H (VAF: 2.3%)",
         "component": [
@@ -467,10 +467,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:dd4a9161-6a71-4535-af82-4636585a6896",
+      "fullUrl": "urn:uuid:338f0b5e-5f31-490e-818d-06b0cff2f4c3",
       "resource": {
         "resourceType": "Observation",
-        "id": "dd4a9161-6a71-4535-af82-4636585a6896",
+        "id": "338f0b5e-5f31-490e-818d-06b0cff2f4c3",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total ctDNA Fraction:</b> 2.1%</p></div>"
@@ -498,16 +498,16 @@
           "text": "Total ctDNA Fraction"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "2.1%",
         "referenceRange": [
@@ -537,10 +537,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:3bdac904-6962-44c1-972e-d81aa86a287b",
+      "fullUrl": "urn:uuid:75bcbcd1-a601-42cf-982d-b395435d71a3",
       "resource": {
         "resourceType": "Observation",
-        "id": "3bdac904-6962-44c1-972e-d81aa86a287b",
+        "id": "75bcbcd1-a601-42cf-982d-b395435d71a3",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Microsatellite Instability (MSI):</b> MSI-Stable (MSS)</p></div>"
@@ -568,16 +568,16 @@
           "text": "Microsatellite Instability (MSI)"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "MSI-Stable (MSS)",
         "referenceRange": [
@@ -603,10 +603,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:20951b0c-4fff-4dd0-80ce-cc1f7591f18d",
+      "fullUrl": "urn:uuid:1f4be607-8d65-4c3a-84f1-e669b5532f3d",
       "resource": {
         "resourceType": "Observation",
-        "id": "20951b0c-4fff-4dd0-80ce-cc1f7591f18d",
+        "id": "1f4be607-8d65-4c3a-84f1-e669b5532f3d",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Tumor Mutational Burden (TMB):</b> 4.2 mut/Mb</p></div>"
@@ -634,16 +634,16 @@
           "text": "Tumor Mutational Burden (TMB)"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "performer": [
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": {
-          "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
         },
         "valueString": "4.2 mut/Mb",
         "referenceRange": [
@@ -673,10 +673,10 @@
       }
     },
     {
-      "fullUrl": "urn:uuid:07d389da-9df7-4b94-be8e-4cafaae37b17",
+      "fullUrl": "urn:uuid:a58be37f-de14-4000-bd73-3f240f86ed3a",
       "resource": {
         "resourceType": "DiagnosticReport",
-        "id": "07d389da-9df7-4b94-be8e-4cafaae37b17",
+        "id": "a58be37f-de14-4000-bd73-3f240f86ed3a",
         "text": {
           "status": "generated",
           "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Liquid Biopsy Colorectal ctDNA Early Screening Report</h2><p><b>Conclusion:</b> Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.</p></div>"
@@ -710,47 +710,47 @@
           "text": "Liquid Biopsy Colorectal ctDNA Early Screening Report"
         },
         "subject": {
-          "reference": "urn:uuid:daa807bf-5795-4098-a29d-5bc372bf2ce6"
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
         },
         "effectiveDateTime": "2026-07-28",
         "issued": "2026-08-04",
         "performer": [
           {
-            "reference": "urn:uuid:69e0fa49-8dcd-45b2-bd5b-4079c7e6c492"
+            "reference": "urn:uuid:dc7facad-ff05-4fb8-abf7-fc7a6043dc6d"
           },
           {
-            "reference": "urn:uuid:12131ee2-b316-4f17-af52-9f26ed220b0f"
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
           }
         ],
         "specimen": [
           {
-            "reference": "urn:uuid:d8776bc8-1693-44fe-9626-8da80c9ecdb7"
+            "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
           }
         ],
         "result": [
           {
-            "reference": "urn:uuid:3628d3f3-786a-4359-8555-6dd7e42ebff4"
+            "reference": "urn:uuid:38d755ec-cd76-452f-9ec5-202b4a90d024"
           },
           {
-            "reference": "urn:uuid:6bfc4cb0-271a-4da5-bf6a-06ac64584488"
+            "reference": "urn:uuid:507b8457-f4eb-4680-aae6-1be9d5cb0e33"
           },
           {
-            "reference": "urn:uuid:39b33a31-bdab-455e-897e-11e5a50c650a"
+            "reference": "urn:uuid:1e0efb70-a325-4de1-b531-6781fd2d3358"
           },
           {
-            "reference": "urn:uuid:b0071bbe-ad6d-4e45-9794-7e04ff2fc6bf"
+            "reference": "urn:uuid:96bf39b2-32f8-462f-bd76-73a7967ade89"
           },
           {
-            "reference": "urn:uuid:dd4a9161-6a71-4535-af82-4636585a6896"
+            "reference": "urn:uuid:338f0b5e-5f31-490e-818d-06b0cff2f4c3"
           },
           {
-            "reference": "urn:uuid:3bdac904-6962-44c1-972e-d81aa86a287b"
+            "reference": "urn:uuid:75bcbcd1-a601-42cf-982d-b395435d71a3"
           },
           {
-            "reference": "urn:uuid:20951b0c-4fff-4dd0-80ce-cc1f7591f18d"
+            "reference": "urn:uuid:1f4be607-8d65-4c3a-84f1-e669b5532f3d"
           }
         ],
-        "conclusion": "Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.\n\nClinical Interpretation: The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates shed colorectal neoplastic DNA. Recommended next steps include: \u2022 Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions. \u2022 Staging radiology: Contrast-enhanced CT of abdomen and pelvis. \u2022 Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nRecommended Next Steps:\n\u2022 Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions.\n\u2022 Staging radiology: Contrast-enhanced CT of abdomen and pelvis.\n\u2022 Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nMethodology: Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using ultra-deep amplicon NGS (minimum 25,000x coverage depth) on Illumina NextSeq.\n\nLimitations: False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology.\n\nLaboratory Director Authorization: Dr. Arthur Sterling, MD, FCAP | Electronically Signed | CLIA ID: 00D8874123"
+        "conclusion": "Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.\n\nClinical Interpretation: The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates shed colorectal neoplastic DNA. Recommended next steps include: - Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions. - Staging radiology: Contrast-enhanced CT of abdomen and pelvis. - Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nRecommended Next Steps:\n- indicates shed colorectal neoplastic DNA. Recommended next steps include:\n- Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions.\n- Staging radiology: Contrast-enhanced CT of abdomen and pelvis.\n- Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nMethodology: Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using deep amplicon NGS (minimum 25,000x coverage depth) on high-throughput sequencing systems.\n\nLimitations: False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology.\n\nLaboratory Director Authorization: Dr. Arthur Sterling, MD, FCAP | Electronically Signed | CLIA ID: 00D8874123"
       },
       "request": {
         "method": "POST",

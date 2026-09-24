@@ -23,7 +23,7 @@ def map_panel_loinc(report_title: str) -> Dict[str, str]:
     """Maps a report title to standard LOINC coding."""
     title_lower = report_title.lower() if report_title else ""
     
-    if any(k in title_lower for k in ["galleri", "cancer signal", "early detection", "mced"]):
+    if any(k in title_lower for k in ["cancer signal", "early detection", "mced"]):
         return {
             "code": "94076-7",
             "display": "Cancer signal methylation analysis in cell-free DNA panel",
@@ -199,7 +199,7 @@ class FHIRBundleBuilder:
     def build_organization(self) -> Dict[str, Any]:
         """Builds FHIR R4 Organization (Performing Laboratory) resource."""
         facility_info = self.data.get("facility", {})
-        facility_name = facility_info.get("name") or "Nexus Precision Diagnostics"
+        facility_name = facility_info.get("name") or "Clinical Reference Diagnostics Laboratory"
         clia_id = facility_info.get("clia_id") or "00D1234567"
         
         org_resource: Dict[str, Any] = {
@@ -442,7 +442,7 @@ class FHIRBundleBuilder:
         if self.data.get("clinical_interpretation"):
             narrative_notes.append(f"Clinical Interpretation: {self.data['clinical_interpretation']}")
         if self.data.get("clinical_recommendations"):
-            recs_text = "\n".join([f"• {r}" for r in self.data["clinical_recommendations"]])
+            recs_text = "\n".join([f"- {r}" for r in self.data["clinical_recommendations"]])
             narrative_notes.append(f"Recommended Next Steps:\n{recs_text}")
         if self.data.get("methodology"):
             narrative_notes.append(f"Methodology: {self.data['methodology']}")

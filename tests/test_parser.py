@@ -25,7 +25,7 @@ def test_normalize_gender():
     assert normalize_gender("") == "unknown"
 
 
-def test_parse_sample_galleri_report():
+def test_parse_sample_mced_report():
     data = parse_lab_report_file("reports/synthetic_cancer_lab_report.pdf")
     assert data["patient"]["name"] == "Jane Q. Sample"
     assert data["patient"]["dob"] == "1972-05-12"
@@ -96,7 +96,7 @@ def test_parse_full_governance_and_specimen_details():
     assert data["patient"]["dob"] == "1972-05-12"
     
     # Facility governance
-    assert "NEXUS" in data["facility"]["name"]
+    assert "CLINICAL REFERENCE" in data["facility"]["name"]
     assert data["facility"]["clia_id"] == "00D1234567"
     assert data["facility"]["cap_number"] == "8923412"
     assert "Dr. Eleanor Hayes" in data["facility"]["lab_director"]
@@ -105,7 +105,7 @@ def test_parse_full_governance_and_specimen_details():
     
     # Specimen custody
     assert data["specimen"]["specimen_id"] == "SYN-992834-X"
-    assert "Streck" in data["specimen"]["collection_tube"]
+    assert "Cell-Free DNA BCT" in data["specimen"]["collection_tube"]
     assert "10.0 mL" in data["specimen"]["volume"]
     assert data["specimen"]["collection_date"] == "2026-08-07"
     assert data["specimen"]["received_date"] == "2026-08-08"

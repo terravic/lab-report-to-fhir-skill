@@ -33,7 +33,9 @@ def process_single_file(pdf_path: str, output_path: str = None, bundle_type: str
             print(f"Validated OK: {val_result['resource_counts']}")
             
     if output_path:
-        os.makedirs(os.path.dirname(os.path.abspath(output_path)), exist_ok=True)
+        parent_dir = os.path.dirname(output_path)
+        if parent_dir:
+            os.makedirs(parent_dir, exist_ok=True)
         with open(output_path, "w", encoding="utf-8") as f:
             if compact:
                 json.dump(bundle, f, separators=(',', ':'))
@@ -44,7 +46,7 @@ def process_single_file(pdf_path: str, output_path: str = None, bundle_type: str
     # Generate dedicated Web UI Dashboard for this processed report
     html_path = generate_html_dashboard(bundle=bundle, output_html_path="ui/fhir_viewer.html")
     generate_html_dashboard(bundle=bundle, output_html_path="skills/lab-report-to-fhir/ui/fhir_viewer.html")
-    if output_path:
+    if output_path and os.path.normpath(output_path).startswith("output" + os.sep):
         base_name = os.path.splitext(os.path.basename(output_path))[0].replace("_fhir", "")
         generate_html_dashboard(bundle=bundle, output_html_path=f"ui/{base_name}.html")
 

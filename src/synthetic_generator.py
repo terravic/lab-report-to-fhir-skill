@@ -1,7 +1,7 @@
 """
 Synthetic Lab Report Generator.
-Generates realistic, clinical-grade, 100% synthetic laboratory PDF reports for early cancer detection panels.
-All data is purely synthetic and contains zero real Protected Health Information (PHI).
+Generates clinical synthetic laboratory PDF reports for early cancer detection panels.
+All data is synthetic and contains zero real Protected Health Information (PHI).
 """
 
 import os
@@ -10,67 +10,25 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib import colors
 from reportlab.lib.units import inch
 from reportlab.platypus import (
-    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, PageBreak, KeepTogether, HRFlowable
+    SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle, HRFlowable
 )
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
-from reportlab.pdfgen import canvas
 
 
-class NumberedCanvas(canvas.Canvas):
-    """Adds page numbers and running synthetic disclaimer footer to ReportLab documents."""
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        self._saved_page_states = []
-
-    def showPage(self):
-        self._saved_page_states.append(dict(self.__dict__))
-        self._startPage()
-
-    def save(self):
-        num_pages = len(self._saved_page_states)
-        for state in self._saved_page_states:
-            self.__dict__.update(state)
-            self.draw_page_number(num_pages)
-            canvas.Canvas.showPage(self)
-        canvas.Canvas.save(self)
-
-    def draw_page_number(self, page_count):
-        self.saveState()
-        self.setFont("Helvetica-Bold", 8)
-        self.setFillColor(colors.HexColor("#718096"))
-        page_text = f"Page {self._pageNumber} of {page_count}"
-        self.drawRightString(letter[0] - 0.5 * inch, 0.35 * inch, page_text)
-        
-        self.setFont("Helvetica-Bold", 7.5)
-        self.setFillColor(colors.HexColor("#C53030"))
-        disclaimer_text = "SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI"
-        self.drawString(0.5 * inch, 0.35 * inch, disclaimer_text)
-        
-        self.setStrokeColor(colors.HexColor("#CBD5E0"))
-        self.setLineWidth(0.5)
-        self.line(0.5 * inch, 0.50 * inch, letter[0] - 0.5 * inch, 0.50 * inch)
-        self.restoreState()
-
-
-def get_synthetic_notice_table():
-    """Returns a prominent synthetic test banner flowable."""
-    notice_style = ParagraphStyle(
-        'SynNotice', fontName='Helvetica-Bold', fontSize=8, leading=10,
-        textColor=colors.HexColor("#742A2A"), alignment=1
+def get_synthetic_footer_flowables():
+    """Returns running synthetic disclaimer footer elements for PDF documents."""
+    footer_style = ParagraphStyle(
+        'SynFooter', fontName='Helvetica-Bold', fontSize=7.5, leading=10,
+        textColor=colors.HexColor("#C53030")
     )
-    notice_text = (
-        "100% SYNTHETIC TEST REPORT - NOT A REAL PATIENT RECORD - ZERO PROTECTED HEALTH INFORMATION (NO PHI)<br/>"
-        "Generated strictly for automated testing and validation of clinical FHIR interoperability pipelines."
+    disclaimer_text = (
+        "SYNTHETIC LABORATORY REPORT - FOR TESTING PURPOSES ONLY - ZERO REAL PATIENT DATA / NO PHI | Page 1 of 1"
     )
-    t = Table([[Paragraph(notice_text, notice_style)]], colWidths=[7.5 * inch])
-    t.setStyle(TableStyle([
-        ('BACKGROUND', (0,0), (-1,-1), colors.HexColor("#FFF5F5")),
-        ('BOX', (0,0), (-1,-1), 1, colors.HexColor("#FEB2B2")),
-        ('TOPPADDING', (0,0), (-1,-1), 4),
-        ('BOTTOMPADDING', (0,0), (-1,-1), 4),
-        ('ALIGN', (0,0), (-1,-1), 'CENTER'),
-    ]))
-    return t
+    return [
+        Spacer(1, 8),
+        HRFlowable(width="100%", thickness=0.5, color=colors.HexColor("#CBD5E0"), spaceAfter=4),
+        Paragraph(disclaimer_text, footer_style)
+    ]
 
 
 def build_synthetic_cancer_lab_report_pdf(output_path: str):
@@ -81,7 +39,7 @@ def build_synthetic_cancer_lab_report_pdf(output_path: str):
         leftMargin=0.5 * inch,
         rightMargin=0.5 * inch,
         topMargin=0.4 * inch,
-        bottomMargin=0.65 * inch
+        bottomMargin=0.45 * inch
     )
     styles = getSampleStyleSheet()
     
@@ -95,7 +53,7 @@ def build_synthetic_cancer_lab_report_pdf(output_path: str):
     story = []
     
     # Lab Header
-    story.append(Paragraph("NEXUS PRECISION DIAGNOSTICS (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabName', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#1A365D"))))
+    story.append(Paragraph("CLINICAL REFERENCE DIAGNOSTICS LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabName', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#1A365D"))))
     story.append(Paragraph("888 Synthetic Way, Suite 100, Fictional Heights, CA 90210 | CLIA ID: 00D1234567 | CAP Accr: 8923412 | Lab Director: Dr. Eleanor Hayes, MD, PhD, FCAP (Synthetic)", sub_title_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=5))
     
@@ -111,8 +69,8 @@ def build_synthetic_cancer_lab_report_pdf(output_path: str):
         ],
         [
             Paragraph("Name: Jane Q. Sample<br/>DOB: 05/12/1972 (Age 54)<br/>Sex: Female<br/>Patient ID: P-44556677", body_style),
-            Paragraph("Provider: Dr. Avery Sterling, MD<br/>Facility: Aurora Health Institute<br/>NPI: 1234567890<br/>Location: Silver City, NM", body_style),
-            Paragraph("Specimen ID: SYN-992834-X<br/>Specimen Type: Blood / Plasma<br/>Tube: Streck cfDNA BCT (10.0 mL)<br/>Collection Date: Aug 7, 2026<br/>Received Date: Aug 8, 2026<br/>Report Date: Aug 14, 2026", body_style)
+            Paragraph("Provider: Dr. Avery Sterling, MD<br/>Facility: Regional Medical Clinic<br/>NPI: 1234567890<br/>Location: Silver City, NM", body_style),
+            Paragraph("Specimen ID: SYN-992834-X<br/>Specimen Type: Blood / Plasma<br/>Tube: Cell-Free DNA BCT (10.0 mL)<br/>Collection Date: Aug 7, 2026<br/>Received Date: Aug 8, 2026<br/>Report Date: Aug 14, 2026", body_style)
         ]
     ]
     t_demo = Table(demo_data, colWidths=[2.5*inch, 2.5*inch, 2.5*inch])
@@ -170,20 +128,21 @@ def build_synthetic_cancer_lab_report_pdf(output_path: str):
     # Clinical Interpretation
     story.append(Paragraph("Clinical Interpretation & Recommended Next Steps", sec_heading))
     story.append(Paragraph("The 'Cancer Signal Detected' result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins (Lung 85% and Pancreas 12%) should guide subsequent diagnostic workup. Recommended next steps include:", body_style))
-    story.append(Paragraph("• <b>High-resolution imaging:</b> Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS).<br/>• <b>Specialist consultation:</b> Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams.<br/>• <b>Diagnostic tissue biopsy:</b> If a suspicious lesion is identified on diagnostic imaging.", body_style))
+    story.append(Paragraph("- <b>High-resolution imaging:</b> Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS).<br/>- <b>Specialist consultation:</b> Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams.<br/>- <b>Diagnostic tissue biopsy:</b> If a suspicious lesion is identified on diagnostic imaging.", body_style))
     story.append(Spacer(1, 5))
     
     # Methodology & Limitations
     story.append(Paragraph("Methodology & Limitations", sec_heading))
-    story.append(Paragraph("<b>Methodology:</b> Plasma cfDNA undergoes targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are classified using proprietary machine-learning algorithms calibrated across 50+ cancer tissue types.", body_style))
+    story.append(Paragraph("<b>Methodology:</b> Plasma cfDNA undergoes targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on high-throughput sequencing instruments. Epigenetic methylation patterns are classified using statistical classification algorithms calibrated across 50+ cancer tissue types.", body_style))
     story.append(Spacer(1, 2))
     story.append(Paragraph("<b>Limitations:</b> This test is an early detection screening tool and is not a definitive histological diagnosis. A negative result does not completely exclude malignancy.", body_style))
     story.append(Spacer(1, 4))
     
     # Laboratory Authorization
     story.append(Paragraph("<b>Laboratory Director Authorization:</b> Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | Date: Aug 14, 2026 | CLIA ID: 00D1234567", sub_title_style))
+    story.extend(get_synthetic_footer_flowables())
 
-    doc.build(story, canvasmaker=NumberedCanvas)
+    doc.build(story)
 
 
 def build_synthetic_mced_negative_pdf(output_path: str):
@@ -194,7 +153,7 @@ def build_synthetic_mced_negative_pdf(output_path: str):
         leftMargin=0.5 * inch,
         rightMargin=0.5 * inch,
         topMargin=0.4 * inch,
-        bottomMargin=0.65 * inch
+        bottomMargin=0.45 * inch
     )
     styles = getSampleStyleSheet()
     
@@ -208,7 +167,7 @@ def build_synthetic_mced_negative_pdf(output_path: str):
     story = []
     
     # Header
-    story.append(Paragraph("PACIFIC PRECISION GENOMICS LAB (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabName', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#1A365D"))))
+    story.append(Paragraph("MOLECULAR GENOMICS REFERENCE LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabName', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#1A365D"))))
     story.append(Paragraph("1000 Synthetic Innovation Way, Suite 400, Fictional City, CA 94000 | CLIA ID: 00D9981245 | CAP Accr: 7748123 | Lab Director: Dr. Eleanor Hayes, MD, PhD, FCAP (Synthetic)", sub_title_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#1A365D"), spaceAfter=5))
     
@@ -224,8 +183,8 @@ def build_synthetic_mced_negative_pdf(output_path: str):
         ],
         [
             Paragraph("Name: Robert T. Sample<br/>DOB: 11/23/1968 (Age 57)<br/>Sex: Male<br/>Patient ID: SYN-MRN-8849102", body_style),
-            Paragraph("Provider: Dr. Marcus Vance, MD<br/>Facility: Bay Area Health System<br/>NPI: 9982736450<br/>Location: Fictional City, CA", body_style),
-            Paragraph("Specimen ID: SYN-SPEC-MCED-4491<br/>Specimen Type: Blood / Plasma<br/>Tube: Streck cfDNA BCT (10.0 mL)<br/>Collection Date: Aug 1, 2026<br/>Received Date: Aug 2, 2026<br/>Report Date: Aug 6, 2026", body_style)
+            Paragraph("Provider: Dr. Marcus Vance, MD<br/>Facility: Comprehensive Medical Clinic<br/>NPI: 9982736450<br/>Location: Fictional City, CA", body_style),
+            Paragraph("Specimen ID: SYN-SPEC-MCED-4491<br/>Specimen Type: Blood / Plasma<br/>Tube: Cell-Free DNA BCT (10.0 mL)<br/>Collection Date: Aug 1, 2026<br/>Received Date: Aug 2, 2026<br/>Report Date: Aug 6, 2026", body_style)
         ]
     ]
     t_demo = Table(demo_data, colWidths=[2.5*inch, 2.5*inch, 2.5*inch])
@@ -284,19 +243,20 @@ def build_synthetic_mced_negative_pdf(output_path: str):
     # Clinical Interpretation
     story.append(Paragraph("Clinical Interpretation & Recommended Next Steps", sec_heading))
     story.append(Paragraph("A 'Cancer Signal Not Detected' result indicates that the targeted cell-free DNA methylation signatures associated with 50+ cancer types were not identified at actionable thresholds in this specimen. Recommended next steps include:", body_style))
-    story.append(Paragraph("• <b>Routine screening:</b> Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated.<br/>• <b>Follow-up:</b> Regular annual wellness examinations with primary care physician.", body_style))
+    story.append(Paragraph("- <b>Routine screening:</b> Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated.<br/>- <b>Follow-up:</b> Regular annual wellness examinations with primary care physician.", body_style))
     story.append(Spacer(1, 5))
     
     # Methodology & Limitations
     story.append(Paragraph("Methodology & Limitations", sec_heading))
-    story.append(Paragraph("<b>Methodology:</b> Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are evaluated using machine-learning classification models calibrated across multi-organ tissue datasets.", body_style))
+    story.append(Paragraph("<b>Methodology:</b> Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on high-throughput sequencing instruments. Epigenetic methylation patterns are evaluated using classification models calibrated across multi-organ tissue datasets.", body_style))
     story.append(Spacer(1, 2))
     story.append(Paragraph("<b>Limitations:</b> A negative result does not eliminate the risk of cancer. Certain indolent tumors or cancers shedding low levels of cfDNA may not be detected.", body_style))
     story.append(Spacer(1, 4))
     
     story.append(Paragraph("<b>Laboratory Director Authorization:</b> Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | Date: Aug 6, 2026 | CLIA ID: 00D9981245", sub_title_style))
+    story.extend(get_synthetic_footer_flowables())
     
-    doc.build(story, canvasmaker=NumberedCanvas)
+    doc.build(story)
 
 
 def build_synthetic_colorectal_ctdna_pdf(output_path: str):
@@ -307,7 +267,7 @@ def build_synthetic_colorectal_ctdna_pdf(output_path: str):
         leftMargin=0.5 * inch,
         rightMargin=0.5 * inch,
         topMargin=0.4 * inch,
-        bottomMargin=0.65 * inch
+        bottomMargin=0.45 * inch
     )
     styles = getSampleStyleSheet()
     
@@ -320,7 +280,7 @@ def build_synthetic_colorectal_ctdna_pdf(output_path: str):
 
     story = []
     
-    story.append(Paragraph("BEACON ONCOLOGY REFERENCE LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabB', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#742A2A"))))
+    story.append(Paragraph("ONCOLOGY MOLECULAR REFERENCE LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabB', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#742A2A"))))
     story.append(Paragraph("450 Synthetic Technology Parkway, Cambridge, MA 02100 | CLIA ID: 00D8874123 | CAP Accr: 6639102 | Director: Dr. Arthur Sterling, MD, FCAP (Synthetic)", sub_title_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#742A2A"), spaceAfter=5))
     
@@ -336,8 +296,8 @@ def build_synthetic_colorectal_ctdna_pdf(output_path: str):
         ],
         [
             Paragraph("Name: Harold K. Sample<br/>DOB: 04/18/1964 (Age 62)<br/>Sex: Male<br/>Patient ID: SYN-MRN-5529184", body_style),
-            Paragraph("Provider: Dr. Sophia Alvarez, MD<br/>Facility: New England Cancer Center<br/>NPI: 9457896321<br/>Location: Boston, MA", body_style),
-            Paragraph("Specimen ID: SYN-SPEC-CRC-7731<br/>Specimen Type: Blood / Plasma<br/>Tube: Streck cfDNA BCT (10.0 mL)<br/>Collection Date: Jul 28, 2026<br/>Received Date: Jul 29, 2026<br/>Report Date: Aug 4, 2026", body_style)
+            Paragraph("Provider: Dr. Sophia Alvarez, MD<br/>Facility: Regional Cancer Center<br/>NPI: 9457896321<br/>Location: Boston, MA", body_style),
+            Paragraph("Specimen ID: SYN-SPEC-CRC-7731<br/>Specimen Type: Blood / Plasma<br/>Tube: Cell-Free DNA BCT (10.0 mL)<br/>Collection Date: Jul 28, 2026<br/>Received Date: Jul 29, 2026<br/>Report Date: Aug 4, 2026", body_style)
         ]
     ]
     t_demo = Table(demo_data, colWidths=[2.5*inch, 2.5*inch, 2.5*inch])
@@ -396,19 +356,20 @@ def build_synthetic_colorectal_ctdna_pdf(output_path: str):
     # Clinical Interpretation
     story.append(Paragraph("Clinical Interpretation & Recommended Next Steps", sec_heading))
     story.append(Paragraph("The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates shed colorectal neoplastic DNA. Recommended next steps include:", body_style))
-    story.append(Paragraph("• <b>Diagnostic colonoscopy:</b> High-definition mucosal inspection with targeted biopsy of any identified lesions.<br/>• <b>Staging radiology:</b> Contrast-enhanced CT of abdomen and pelvis.<br/>• <b>Therapeutic note:</b> The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).", body_style))
+    story.append(Paragraph("- <b>Diagnostic colonoscopy:</b> High-definition mucosal inspection with targeted biopsy of any identified lesions.<br/>- <b>Staging radiology:</b> Contrast-enhanced CT of abdomen and pelvis.<br/>- <b>Therapeutic note:</b> The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).", body_style))
     story.append(Spacer(1, 5))
     
     # Methodology & Limitations
     story.append(Paragraph("Methodology & Limitations", sec_heading))
-    story.append(Paragraph("<b>Methodology:</b> Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using ultra-deep amplicon NGS (minimum 25,000x coverage depth) on Illumina NextSeq.", body_style))
+    story.append(Paragraph("<b>Methodology:</b> Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using deep amplicon NGS (minimum 25,000x coverage depth) on high-throughput sequencing systems.", body_style))
     story.append(Spacer(1, 2))
     story.append(Paragraph("<b>Limitations:</b> False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology.", body_style))
     story.append(Spacer(1, 4))
     
     story.append(Paragraph("<b>Laboratory Director Authorization:</b> Dr. Arthur Sterling, MD, FCAP | Electronically Signed | Date: Aug 4, 2026 | CLIA ID: 00D8874123", sub_title_style))
+    story.extend(get_synthetic_footer_flowables())
     
-    doc.build(story, canvasmaker=NumberedCanvas)
+    doc.build(story)
 
 
 def build_synthetic_hereditary_ngs_pdf(output_path: str):
@@ -419,7 +380,7 @@ def build_synthetic_hereditary_ngs_pdf(output_path: str):
         leftMargin=0.5 * inch,
         rightMargin=0.5 * inch,
         topMargin=0.4 * inch,
-        bottomMargin=0.65 * inch
+        bottomMargin=0.45 * inch
     )
     styles = getSampleStyleSheet()
     
@@ -432,7 +393,7 @@ def build_synthetic_hereditary_ngs_pdf(output_path: str):
 
     story = []
     
-    story.append(Paragraph("GENOMEPATH CLINICAL DIAGNOSTICS (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabG', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#2C5282"))))
+    story.append(Paragraph("GENOMIC PATHOLOGY DIAGNOSTIC LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabG', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#2C5282"))))
     story.append(Paragraph("3600 Synthetic Boulevard, Suite 500, Philadelphia, PA 19100 | CLIA ID: 00D7654321 | CAP Accr: 5519823 | Director: Dr. Sarah Jenkins, MD, FCAP (Synthetic)", sub_title_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#2C5282"), spaceAfter=5))
     
@@ -448,7 +409,7 @@ def build_synthetic_hereditary_ngs_pdf(output_path: str):
         ],
         [
             Paragraph("Name: Brenda S. Sample<br/>DOB: 09/30/1985 (Age 40)<br/>Sex: Female<br/>Patient ID: SYN-MRN-9912048", body_style),
-            Paragraph("Provider: Dr. Ethan Ross, MD<br/>Facility: Pennsylvania Genetics Institute<br/>NPI: 9847392015<br/>Location: Philadelphia, PA", body_style),
+            Paragraph("Provider: Dr. Ethan Ross, MD<br/>Facility: Clinical Genetics Department<br/>NPI: 9847392015<br/>Location: Philadelphia, PA", body_style),
             Paragraph("Specimen ID: SYN-SPEC-NGS-2098<br/>Specimen Type: Whole Blood<br/>Tube: EDTA Lavender Top (4.0 mL)<br/>Collection Date: Jul 15, 2026<br/>Received Date: Jul 16, 2026<br/>Report Date: Jul 24, 2026", body_style)
         ]
     ]
@@ -509,19 +470,20 @@ def build_synthetic_hereditary_ngs_pdf(output_path: str):
     # Clinical Interpretation
     story.append(Paragraph("Clinical Interpretation & Recommended Next Steps", sec_heading))
     story.append(Paragraph("The BRCA1 c.5266dupC (p.Gln1756Profs*74) variant is a well-characterized founder mutation in the BRCA1 tumor suppressor gene that results in premature protein truncation, confirming Hereditary Breast and Ovarian Cancer (HBOC) syndrome. Recommended next steps include:", body_style))
-    story.append(Paragraph("• <b>High-risk breast surveillance:</b> Annual contrast-enhanced breast MRI starting at age 25–30, alternating with annual mammography.<br/>• <b>Ovarian cancer risk reduction:</b> Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35–40.<br/>• <b>Cascade genetic testing:</b> Inform and offer targeted variant testing to all at-risk first-degree relatives.", body_style))
+    story.append(Paragraph("- <b>High-risk breast surveillance:</b> Annual contrast-enhanced breast MRI starting at age 25-30, alternating with annual mammography.<br/>- <b>Ovarian cancer risk reduction:</b> Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35-40.<br/>- <b>Cascade genetic testing:</b> Inform and offer targeted variant testing to all at-risk first-degree relatives.", body_style))
     story.append(Spacer(1, 5))
     
     # Methodology & Limitations
     story.append(Paragraph("Methodology & Limitations", sec_heading))
-    story.append(Paragraph("<b>Methodology:</b> Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization capture probes, followed by paired-end sequencing (Illumina NovaSeq). Copy number variations (CNVs) are called using normalized read-depth algorithms.", body_style))
+    story.append(Paragraph("<b>Methodology:</b> Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization capture probes, followed by paired-end Next-Generation Sequencing. Copy number variations (CNVs) are called using normalized read-depth algorithms.", body_style))
     story.append(Spacer(1, 2))
     story.append(Paragraph("<b>Limitations:</b> This assay does not detect deep intronic mutations outside the targeted regions, complex chromosomal rearrangements, or low-level somatic mosaicism.", body_style))
     story.append(Spacer(1, 4))
     
     story.append(Paragraph("<b>Laboratory Director Authorization:</b> Dr. Sarah Jenkins, MD, FCAP | Electronically Signed | Date: Jul 24, 2026 | CLIA ID: 00D7654321", sub_title_style))
+    story.extend(get_synthetic_footer_flowables())
     
-    doc.build(story, canvasmaker=NumberedCanvas)
+    doc.build(story)
 
 
 def build_synthetic_prostate_phi_pdf(output_path: str):
@@ -532,7 +494,7 @@ def build_synthetic_prostate_phi_pdf(output_path: str):
         leftMargin=0.5 * inch,
         rightMargin=0.5 * inch,
         topMargin=0.4 * inch,
-        bottomMargin=0.65 * inch
+        bottomMargin=0.45 * inch
     )
     styles = getSampleStyleSheet()
     
@@ -545,7 +507,7 @@ def build_synthetic_prostate_phi_pdf(output_path: str):
 
     story = []
     
-    story.append(Paragraph("APEX UROLOGIC REFERENCE LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabA', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#234E52"))))
+    story.append(Paragraph("UROLOGIC BIOMARKER REFERENCE LABORATORY (SYNTHETIC CLINICAL LABORATORY)", ParagraphStyle('LabA', fontName='Helvetica-Bold', fontSize=12, textColor=colors.HexColor("#234E52"))))
     story.append(Paragraph("7700 Synthetic Parkway, Suite 300, Minneapolis, MN 55400 | CLIA ID: 00D1122334 | CAP Accr: 4428901 | Director: Dr. Keith Carlson, MD, FCAP (Synthetic)", sub_title_style))
     story.append(HRFlowable(width="100%", thickness=1.5, color=colors.HexColor("#234E52"), spaceAfter=5))
     
@@ -561,7 +523,7 @@ def build_synthetic_prostate_phi_pdf(output_path: str):
         ],
         [
             Paragraph("Name: Arthur B. Sample<br/>DOB: 02/14/1959 (Age 67)<br/>Sex: Male<br/>Patient ID: SYN-MRN-3341890", body_style),
-            Paragraph("Provider: Dr. David Reynolds, MD<br/>Facility: Northstar Urologic Clinic<br/>NPI: 9092837465<br/>Location: Minneapolis, MN", body_style),
+            Paragraph("Provider: Dr. David Reynolds, MD<br/>Facility: Urologic Specialty Clinic<br/>NPI: 9092837465<br/>Location: Minneapolis, MN", body_style),
             Paragraph("Specimen ID: SYN-SPEC-PHI-8821<br/>Specimen Type: Serum<br/>Tube: SST Gold Top (5.0 mL)<br/>Collection Date: Aug 10, 2026<br/>Received Date: Aug 11, 2026<br/>Report Date: Aug 12, 2026", body_style)
         ]
     ]
@@ -618,23 +580,24 @@ def build_synthetic_prostate_phi_pdf(output_path: str):
     
     # Clinical Interpretation
     story.append(Paragraph("Clinical Interpretation & Recommended Next Steps", sec_heading))
-    story.append(Paragraph("The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides strong clinical justification for mpMRI and targeted prostate biopsy.", body_style))
-    story.append(Paragraph("• <b>Multiparametric prostate MRI (mpMRI):</b> 3-Tesla pelvic mpMRI with PI-RADS scoring.<br/>• <b>Urology consult:</b> Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.", body_style))
+    story.append(Paragraph("The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides clinical justification for mpMRI and targeted prostate biopsy.", body_style))
+    story.append(Paragraph("- <b>Multiparametric prostate MRI (mpMRI):</b> 3-Tesla pelvic mpMRI with PI-RADS scoring.<br/>- <b>Urology consult:</b> Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.", body_style))
     story.append(Spacer(1, 5))
     
     # Methodology & Limitations
     story.append(Paragraph("Methodology & Limitations", sec_heading))
-    story.append(Paragraph("<b>Methodology:</b> Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using Beckman Coulter Access chemiluminescent immunoassays calibrated against WHO standards. The phi score is derived mathematically.", body_style))
+    story.append(Paragraph("<b>Methodology:</b> Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using automated chemiluminescent immunoassay analyzers calibrated against WHO standards. The phi score is derived mathematically.", body_style))
     story.append(Spacer(1, 2))
     story.append(Paragraph("<b>Limitations:</b> phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors.", body_style))
     story.append(Spacer(1, 4))
     
     story.append(Paragraph("<b>Laboratory Director Authorization:</b> Dr. Keith Carlson, MD, FCAP | Electronically Signed | Date: Aug 12, 2026 | CLIA ID: 00D1122334", sub_title_style))
+    story.extend(get_synthetic_footer_flowables())
     
-    doc.build(story, canvasmaker=NumberedCanvas)
+    doc.build(story)
 
 
-def generate_all_synthetic_reports(output_dir: str):
+def generate_all_synthetic_reports(output_dir: str) -> List[str]:
     """Generates all 5 synthetic PDF test reports in the target directory."""
     os.makedirs(output_dir, exist_ok=True)
     
@@ -647,16 +610,17 @@ def generate_all_synthetic_reports(output_dir: str):
     ]
     
     created_paths = []
-    for filename, builder_fn in reports:
-        target_path = os.path.join(output_dir, filename)
-        builder_fn(target_path)
-        created_paths.append(target_path)
+    for fname, builder_fn in reports:
+        full_path = os.path.join(output_dir, fname)
+        builder_fn(full_path)
+        created_paths.append(full_path)
         
     return created_paths
 
 
 if __name__ == "__main__":
-    import sys
-    out_dir = sys.argv[1] if len(sys.argv) > 1 else "reports"
-    created = generate_all_synthetic_reports(out_dir)
-    print(f"Successfully generated {len(created)} synthetic PDF reports in '{out_dir}'.")
+    out = "reports"
+    paths = generate_all_synthetic_reports(out)
+    print(f"Generated {len(paths)} synthetic reports in {out}:")
+    for p in paths:
+        print(" -", p)

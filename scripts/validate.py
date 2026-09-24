@@ -1,4 +1,3 @@
-#!/usr/bin/env python3
 """Runner script to validate generated FHIR JSON bundles."""
 import argparse
 import glob
@@ -6,7 +5,8 @@ import json
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath(os.path.join(os.path.dirname(__file__), "..")))
+if "." not in sys.path:
+    sys.path.insert(0, ".")
 
 from src.fhir_validator import validate_fhir_bundle
 

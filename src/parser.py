@@ -126,7 +126,7 @@ class LabReportParser:
         for line in self.lines[:12]:
             line_clean = line.strip()
             if any(term in line_clean.lower() for term in [
-                "multi-cancer early detection", "cancer detection", "galleri", "diagnostic report",
+                "multi-cancer early detection", "cancer detection", "diagnostic report",
                 "liquid biopsy", "genetic test", "hereditary cancer", "pathology report",
                 "laboratory report", "prostate health index", "ctdna panel", "early detection",
                 "screening report", "ngs panel"
@@ -408,7 +408,7 @@ class LabReportParser:
             
             header = [clean_extracted_text(c).lower() for c in table[0]]
             
-            # Check for Galleri CSO Priority table
+            # Check for CSO Priority table
             if len(header) >= 3 and "priority" in header[0] and "origin" in header[1]:
                 for row in table[1:]:
                     if len(row) >= 3:
@@ -557,30 +557,18 @@ class LabReportParser:
         rec_match = re.search(r'(?:Recommended Next Steps|Next Steps|Follow-up)[:\s]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Director|Laboratory Authorization|Director|$)', self.raw_text, re.IGNORECASE)
         if rec_match:
             block = rec_match.group(1).strip()
-            if "•" in block:
-                parts = [p.strip() for p in block.split("•") if p.strip()]
-                for p in parts:
-                    clean_p = " ".join([l.strip() for l in p.split("\n") if l.strip()])
-                    clean_p = re.sub(r'^[•\-\*\d\.]+\s*', '', clean_p).strip()
-                    if (clean_p and len(clean_p) > 8 and 
-                        not any(clean_p.lower().startswith(prefix) for prefix in [
-                            "the 'cancer signal", "the prostate health index", "the presence of circulating", 
-                            "the brca1", "a 'cancer signal", "recommended next steps"
-                        ])):
-                        recs.append(clean_p)
-            else:
-                for line in block.split('\n'):
-                    line = re.sub(r'^[•\-\*\d\.]+\s*', '', line.strip())
-                    if line and len(line) > 15 and not any(line.lower().startswith(prefix) for prefix in [
-                        "the 'cancer signal", "the prostate health index", "the presence of circulating", 
-                        "the brca1", "a 'cancer signal", "recommended next steps"
-                    ]):
-                        recs.append(line)
+            for line in block.split('\n'):
+                line = re.sub(r'^[\-\*\d\.]+\s*', '', line.strip())
+                if line and len(line) > 15 and not any(line.lower().startswith(prefix) for prefix in [
+                    "the 'cancer signal", "the prostate health index", "the presence of circulating", 
+                    "the brca1", "a 'cancer signal", "recommended next steps"
+                ]):
+                    recs.append(line)
         return recs
 
     def _extract_interpretation(self) -> Optional[str]:
         """Extracts the clinical interpretation and recommendations block."""
-        match = re.search(r'Clinical Interpretation(?: & Recommended Next Steps)?[\s:：]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Director|Laboratory Authorization|References|$)', self.raw_text, re.IGNORECASE)
+        match = re.search(r'Clinical Interpretation(?: & Recommended Next Steps)?[\s:]+([\s\S]+?)(?=Methodology|Limitations|Laboratory Director|Laboratory Authorization|References|$)', self.raw_text, re.IGNORECASE)
         if match:
             text = match.group(1).strip()
             return " ".join([l.strip() for l in text.split("\n") if l.strip()])

@@ -9,7 +9,7 @@ description: >-
 
 # Lab Report to HL7 FHIR Conversion Skill
 
-This skill teaches the agent how to process unstructured or semi-structured laboratory diagnostic reports (PDF files, OCR scans, or text excerpts), convert them into standard HL7 FHIR Release 4 (R4) JSON resources, and render interactive Web UI dashboards for clinical review and JSON inspection.
+This skill processes unstructured or semi-structured laboratory diagnostic reports (PDF files, OCR scans, or text excerpts), converts them into standard HL7 FHIR Release 4 (R4) JSON resources, and generates interactive Web UI dashboards for clinical review and JSON inspection.
 
 ---
 
@@ -18,17 +18,17 @@ This skill teaches the agent how to process unstructured or semi-structured labo
 Activate this skill when:
 - The user provides or asks to process a laboratory report PDF file.
 - The user asks to convert unstructured lab results into HL7 FHIR JSON objects.
-- The user wants to map oncology screening panels (e.g. Multi-Cancer Early Detection, Liquid Biopsy ctDNA, Hereditary NGS genetics, Prostate Biomarkers) or clinical chemistry panels into standard `DiagnosticReport` and `Observation` resources for Electronic Health Record (EHR) integration (such as Epic, Cerner, or cloud FHIR stores).
+- The user wants to map oncology screening panels (e.g. Multi-Cancer Early Detection, Liquid Biopsy ctDNA, Hereditary NGS genetics, Prostate Biomarkers) or clinical chemistry panels into standard `DiagnosticReport` and `Observation` resources for Electronic Health Record (EHR) systems and clinical FHIR repositories.
 - The user requests an interactive visual dashboard, Web UI, or click-to-inspect FHIR visualization.
 
 ---
 
 ## Execution Modes
 
-The agent can perform the conversion and visualization in three ways:
+The conversion and visualization workflow supports three execution modes:
 
-### Mode 1: Automated Script Execution & Conversion
-When a PDF file or directory is available on the filesystem, execute the conversion script directly:
+### Mode 1: Automated Script Execution and Conversion
+When a PDF file or directory is available on the filesystem, execute the conversion script directly from the project root directory:
 
 ```bash
 # Convert a single PDF file to FHIR JSON:
@@ -43,10 +43,10 @@ To validate generated bundles against FHIR R4 schema and referential integrity r
 python3 scripts/validate.py -i "output/"
 ```
 
-### Mode 2: Interactive Report-Specific Web UI Dashboard (Recommended for User Interfaces)
+### Mode 2: Interactive Report-Specific Web UI Dashboard
 When a user asks to view or visualize a laboratory report in an interactive dashboard:
-1. **Extract and Convert**: The agent first extracts clinical entities and observations from the specified report and converts them into an HL7 FHIR R4 Bundle.
-2. **Generate Report-Specific Web UI**: The agent then generates a dedicated Web UI HTML file (`ui/fhir_viewer.html`) displaying the extracted data for **that single report only** (no clutter from unrelated reports).
+1. **Extract and Convert**: Extract clinical entities and observations from the specified report and convert them into an HL7 FHIR R4 Bundle.
+2. **Generate Report-Specific Web UI**: Generate a dedicated Web UI HTML file (`ui/fhir_viewer.html`) displaying the extracted data for that single report.
 
 ```bash
 # Extract data from a PDF report and build the dedicated Web UI dashboard:
@@ -56,12 +56,12 @@ python3 scripts/visualize.py reports/synthetic_cancer_lab_report.pdf
 python3 scripts/visualize.py output/synthetic_colorectal_ctdna_fhir.json
 ```
 
-In agent harnesses and web interfaces supporting HTML dashboard rendering:
-- Point the user to or render the self-contained Web UI file at `ui/fhir_viewer.html`.
-- The dashboard allows users to click on any patient card, biomarker gauge, or observation row from that report to instantly view its underlying HL7 FHIR R4 JSON definition.
+In web interfaces supporting HTML dashboard rendering:
+- Direct the user to the self-contained Web UI file at `ui/fhir_viewer.html`.
+- The dashboard allows users to select any patient card, biomarker gauge, or observation row from that report to view its underlying HL7 FHIR R4 JSON definition.
 
-### Mode 3: Direct Agent Extraction and Mapping (For Text Inputs)
-When the user pastes raw lab text or asks for on-the-fly mapping without disk access:
+### Mode 3: Direct Extraction and Mapping (For Text Inputs)
+When the user provides raw lab text without disk access:
 1. **Extract Core Entities**:
    - **Patient**: Name, Date of Birth (ISO format `YYYY-MM-DD`), Gender (`male`, `female`, `other`, `unknown`), Patient ID / MRN.
    - **Provider**: Ordering Physician Name, NPI (10-digit).
@@ -82,7 +82,7 @@ When the user pastes raw lab text or asks for on-the-fly mapping without disk ac
 
 4. **Verify Output Integrity**:
    - Confirm no required fields are missing (`resourceType`, `id`, `status`, `code`).
-   - Output clean, valid JSON to the user.
+   - Output valid JSON to the user.
 
 ---
 
@@ -90,5 +90,5 @@ When the user pastes raw lab text or asks for on-the-fly mapping without disk ac
 
 - [LOINC and SNOMED CT Ontology Mapping](skills/lab-report-to-fhir/references/loinc_snomed_mapping.md)
 - [HL7 FHIR R4 Resource Schemas](skills/lab-report-to-fhir/references/fhir_r4_schemas.md)
-- [EHR Integration Guide (Epic, Cerner, Cloud FHIR Stores)](skills/lab-report-to-fhir/references/ehr_integration_guide.md)
+- [EHR Integration Guide](skills/lab-report-to-fhir/references/ehr_integration_guide.md)
 - [Interactive Web UI Application](ui/fhir_viewer.html)

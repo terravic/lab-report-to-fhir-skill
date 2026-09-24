@@ -32,7 +32,10 @@ def clean_extracted_text(text: str) -> str:
     for pua_char, replacement in pua_mapping.items():
         text = text.replace(pua_char, replacement)
         
-    text = text.replace('(cid:127)', '•')
+    text = text.replace('(cid:127)', '-')
+    text = text.replace('\u2022', '-')
+    text = text.replace('\u2013', '-')
+    text = text.replace('\u2014', '--')
     text = re.sub(r'\(cid:\d+\)', ' ', text)
     
     # Replace remaining private-use characters

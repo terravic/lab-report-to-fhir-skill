@@ -1,6 +1,6 @@
 """
 FHIR Lab Report Visualizer.
-Generates an interactive, production-grade Web UI Dashboard from an HL7 FHIR R4 Bundle.
+Generates an interactive Web UI Dashboard from an HL7 FHIR R4 Bundle.
 Includes Light/Dark mode toggle, multi-format client-side parser & file upload (PDF, JSON, TXT, CSV),
 specimen chain-of-custody timeline, genomic variant chips, discrete biomarker range gauges,
 actionable clinical recommendations, and synchronized bidirectional FHIR JSON inspection.
@@ -18,13 +18,6 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>HL7 FHIR Clinical Diagnostic Report Dashboard</title>
-  <!-- PDF.js for in-browser client-side PDF text extraction -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
-  <script>
-    if (typeof pdfjsLib !== 'undefined') {
-      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
-    }
-  </script>
   <style>
     :root {
       --bg-main: #f8fafc;
@@ -64,8 +57,8 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       --inspector-border: #334155;
       --inspector-text: #f8fafc;
 
-      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      --font-mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, Courier, monospace;
+      --font-sans: system-ui, -apple-system, sans-serif;
+      --font-mono: ui-monospace, monospace;
       --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
       --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
       --radius: 8px;
@@ -988,7 +981,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           </div>
           <div class="info-card-value" id="org-name">Testing Laboratory</div>
           <div class="info-card-sub" id="org-details">CLIA ID: N/A</div>
-          <div class="governance-badge" id="org-signoff">✔ Verified Electronic Sign-Off</div>
+          <div class="governance-badge" id="org-signoff">[Verified Electronic Sign-Off]</div>
         </div>
       </div>
 
@@ -1173,7 +1166,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       if (provFacMatch) provFac = provFacMatch[1].trim();
 
       // Extract Testing Laboratory & Governance
-      let facName = "Nexus Precision Diagnostics";
+      let facName = "Clinical Reference Diagnostics Laboratory";
       let cliaId = "00D1234567";
       let capNum = "8923412";
       let labDirector = "Dr. Eleanor Hayes, MD, PhD, FCAP";
@@ -1196,7 +1189,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       let collDate = new Date().toISOString().split('T')[0];
       let recDate = collDate;
       let repDate = collDate;
-      let specTube = "Streck cfDNA BCT (10.0 mL)";
+      let specTube = "Cell-Free DNA BCT (10.0 mL)";
 
       const specIdMatch = rawText.match(/(?:Specimen ID|Accession #|Sample ID):\s*([A-Za-z0-9\-]+)/i);
       if (specIdMatch) specId = specIdMatch[1].trim();
@@ -1219,7 +1212,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       // Panel Title
       let panelTitle = "Laboratory Diagnostic Panel";
       let panelLoinc = "11502-2";
-      if (/galleri|early detection|mced|cancer signal/i.test(rawText)) {
+      if (/early detection|mced|cancer signal/i.test(rawText)) {
         panelTitle = "Multi-Cancer Early Detection Screening Report";
         panelLoinc = "94076-7";
       } else if (/prostate|phi|psa/i.test(rawText)) {
@@ -1467,7 +1460,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       const specRecDate = specimen.receivedTime || specCollDate;
       const specRepDate = diagReport.issued || diagReport.effectiveDateTime || 'N/A';
 
-      document.getElementById('specimen-type').textContent = specType + (specTube ? ` • ${specTube}` : '');
+      document.getElementById('specimen-type').textContent = specType + (specTube ? ` | ${specTube}` : '');
       document.getElementById('specimen-details').textContent = `Specimen ID: ${specId}`;
       document.getElementById('time-collected').textContent = specCollDate;
       document.getElementById('time-received').textContent = specRecDate;
@@ -1649,7 +1642,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       if (rawRecMatch) {
         const lines = rawRecMatch[0].split('\n');
         lines.forEach(l => {
-          const cleanL = l.replace(/^•\s*|^-\s*|^Recommended Next Steps:?\s*/i, '').trim();
+          const cleanL = l.replace(/^-\s*|^Recommended Next Steps:?\s*/i, '').trim();
           if (cleanL && cleanL.length > 10) recLines.push(cleanL);
         });
       }
@@ -1660,7 +1653,7 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           recLines.push("Specialist consultation: Prompt referral to thoracic and gastroenterology oncology teams.");
           recLines.push("Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.");
         } else if (/brca1/i.test(fullText)) {
-          recLines.push("High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25–30.");
+          recLines.push("High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25-30.");
           recLines.push("Ovarian cancer risk reduction: Consultation for risk-reducing salpingo-oophorectomy (RRSO).");
           recLines.push("Cascade genetic testing: Inform and offer targeted variant testing to first-degree relatives.");
         } else if (/sept9|kras/i.test(fullText)) {
@@ -1679,12 +1672,12 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
       recLines.forEach(rec => {
         const item = document.createElement('div');
         item.className = 'recommendation-item';
-        item.innerHTML = `<strong>•</strong> ${rec}`;
+        item.innerHTML = `<strong>-</strong> ${rec}`;
         recsContainer.appendChild(item);
       });
 
       // 5. Methodology & Limitations Cards
-      let methodText = "Plasma cfDNA was analyzed by targeted bisulfite conversion and deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Proprietary machine-learning classification models evaluated methylation patterns.";
+      let methodText = "Plasma cfDNA was analyzed by targeted bisulfite conversion and deep Next-Generation Sequencing (NGS) on high-throughput sequencing instruments. Statistical classification models evaluated methylation patterns.";
       let limitText = "This test is an early detection screening tool and is not a definitive histological diagnosis. Negative results do not completely rule out malignancy. Results should be interpreted in clinical context.";
 
       const methMatch = fullText.match(/Methodology:\s*([\s\S]+?)(?=Limitations|Laboratory Director|$)/i);
@@ -1915,49 +1908,17 @@ HTML_TEMPLATE = r"""<!DOCTYPE html>
           }
         };
         reader.readAsText(file);
-      } else if (fileName.endsWith('.pdf')) {
-        if (typeof pdfjsLib === 'undefined') {
-          alert('PDF parsing requires pdf.js library. For CLI processing run:\npython3 scripts/visualize.py ' + file.name);
-          return;
-        }
-        try {
-          const arrayBuffer = await file.arrayBuffer();
-          const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-          const pdf = await loadingTask.promise;
-          let fullText = '';
-          for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
-            const page = await pdf.getPage(pageNum);
-            const textContent = await page.getTextContent();
-            let lastY = null;
-            let pageText = '';
-            textContent.items.forEach(item => {
-              if (lastY !== null && Math.abs(item.transform[5] - lastY) > 5) {
-                pageText += '\n';
-              } else if (pageText.length > 0 && !pageText.endsWith('\n') && !pageText.endsWith(' ')) {
-                pageText += ' ';
-              }
-              pageText += item.str;
-              lastY = item.transform[5];
-            });
-            fullText += pageText + '\n\n';
-          }
-          const bundle = parseTextToFhirBundle(fullText, file.name);
-          renderDashboard(bundle);
-          showToast(`Extracted and converted PDF report: ${file.name}`);
-        } catch (err) {
-          alert('Error extracting text from PDF in browser: ' + err.message + '\n\nYou can also convert using the CLI: python3 scripts/visualize.py path/to/report.pdf');
-        }
       } else {
-        // Plain text, CSV, markdown, or log files
+        // Plain text, CSV, markdown, or PDF text streams
         const reader = new FileReader();
         reader.onload = (event) => {
           try {
             const rawText = event.target.result;
             const bundle = parseTextToFhirBundle(rawText, file.name);
             renderDashboard(bundle);
-            showToast(`Extracted and converted text report: ${file.name}`);
+            showToast(`Extracted and converted report: ${file.name}`);
           } catch (err) {
-            alert('Error converting raw text to FHIR: ' + err.message);
+            alert('Error converting report to FHIR: ' + err.message);
           }
         };
         reader.readAsText(file);
@@ -2005,21 +1966,23 @@ def generate_html_dashboard(bundle: Dict[str, Any], output_html_path: str = "ui/
     
     Args:
         bundle: The extracted and converted FHIR R4 Bundle dictionary for this report.
-        output_html_path: Destination path for the generated HTML file.
+        output_html_path: Relative destination path for the generated HTML file.
         
     Returns:
-        Absolute path to the created HTML file.
+        Relative path to the created HTML file.
     """
     bundle_json_str = json.dumps(bundle, indent=None)
     rendered_html = HTML_TEMPLATE.replace("__ACTIVE_BUNDLE_JSON__", bundle_json_str)
 
-    os.makedirs(os.path.dirname(os.path.abspath(output_html_path)), exist_ok=True)
+    parent_dir = os.path.dirname(output_html_path)
+    if parent_dir:
+        os.makedirs(parent_dir, exist_ok=True)
     with open(output_html_path, "w", encoding="utf-8") as f:
         f.write(rendered_html)
 
-    return os.path.abspath(output_html_path)
+    return output_html_path
 
 
 def open_in_browser(html_path: str):
     """Opens the generated HTML visualizer in the default system web browser."""
-    webbrowser.open(f"file://{os.path.abspath(html_path)}")
+    webbrowser.open(html_path)

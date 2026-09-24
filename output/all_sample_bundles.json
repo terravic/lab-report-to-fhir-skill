@@ -1,1 +1,3431 @@
-{"synthetic_cancer_lab_report": {"resourceType": "Bundle", "id": "2677acf4-1d53-43b2-ba24-c2a2c44f447c", "type": "transaction", "timestamp": "2026-08-28T19:55:21Z", "entry": [{"fullUrl": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50", "resource": {"resourceType": "Patient", "id": "13456b5d-e716-4b7b-a112-ab84ecb21c50", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "P-44556677"}], "active": true, "name": [{"use": "official", "text": "Jane Q. Sample", "family": "Sample", "given": ["Jane", "Q."]}], "gender": "female", "birthDate": "1972-05-12"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:e574cb08-2371-4c06-89d9-e6c477b03395", "resource": {"resourceType": "Practitioner", "id": "e574cb08-2371-4c06-89d9-e6c477b03395", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling, MD</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Avery Sterling, MD"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "1234567890"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a", "resource": {"resourceType": "Organization", "id": "5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> NEXUS PRECISION DIAGNOSTICS</p></div>"}, "active": true, "name": "NEXUS PRECISION DIAGNOSTICS", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D1234567"}, {"system": "urn:oid:2.16.840.1.113883.4.3.38", "value": "8923412"}], "address": [{"use": "work", "text": "888 Synthetic Way, Suite 100, Fictional Heights, CA 90210"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9", "resource": {"resourceType": "Specimen", "id": "7bd4348c-eae4-41f5-8a22-5cb786c2a5d9", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "available", "type": {"coding": [{"code": "119361006", "display": "Plasma specimen", "system": "http://snomed.info/sct"}], "text": "Blood / Plasma"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "collection": {"collectedDateTime": "2026-08-07", "quantity": {"value": 10.0, "unit": "mL", "system": "http://unitsofmeasure.org", "code": "mL"}}, "receivedTime": "2026-08-08", "container": [{"type": {"text": "Streck cfDNA BCT (10.0 mL)"}}]}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:82c507dd-f3bd-4adf-b638-767d8467d716", "resource": {"resourceType": "Observation", "id": "82c507dd-f3bd-4adf-b638-767d8467d716", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94076-7", "display": "Cancer Signal Status"}], "text": "Cancer Signal Status"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "Cancer Signal Detected", "referenceRange": [{"text": "Cancer Signal Not Detected"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:38877d89-d9e3-4979-9a9f-3d5593abfb7c", "resource": {"resourceType": "Observation", "id": "38877d89-d9e3-4979-9a9f-3d5593abfb7c", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted Cancer Signal Origin 1"}], "text": "Predicted Cancer Signal Origin 1"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "Lung (85%)", "referenceRange": [{"text": "None"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:c39ad2f0-bc8b-45a1-8fb4-076b3ca32b93", "resource": {"resourceType": "Observation", "id": "c39ad2f0-bc8b-45a1-8fb4-076b3ca32b93", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted Cancer Signal Origin 2"}], "text": "Predicted Cancer Signal Origin 2"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "Pancreas (12%)", "referenceRange": [{"text": "None"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:bc9dd032-ae63-41e9-8496-0561e7f9c969", "resource": {"resourceType": "Observation", "id": "bc9dd032-ae63-41e9-8496-0561e7f9c969", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 14.2 ng/mL</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "cfDNA Concentration"}], "text": "cfDNA Concentration"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "14.2 ng/mL", "referenceRange": [{"text": "5.0 - 25.0 ng/mL", "low": {"value": 5.0, "unit": ""}, "high": {"value": 25.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:baa0e9f0-5be8-41eb-836b-ff46be6e341c", "resource": {"resourceType": "Observation", "id": "baa0e9f0-5be8-41eb-836b-ff46be6e341c", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 32,500x</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Sequencing Coverage Depth"}], "text": "Sequencing Coverage Depth"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "32,500x", "referenceRange": [{"text": ">= 20,000x", "low": {"value": 20.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:78171007-a229-471f-8667-e4d14bbb909a", "resource": {"resourceType": "Observation", "id": "78171007-a229-471f-8667-e4d14bbb909a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.7%</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Sequencing QC Pass Rate"}], "text": "Sequencing QC Pass Rate"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "performer": [{"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": {"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}, "valueString": "99.7%", "referenceRange": [{"text": ">= 95.0%", "low": {"value": 95.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:83e389f2-b834-4393-9143-ae0f00f53530", "resource": {"resourceType": "DiagnosticReport", "id": "83e389f2-b834-4393-9143-ae0f00f53530", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-992834-X"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "94076-7", "display": "Cancer signal methylation analysis in cell-free DNA panel", "system": "http://loinc.org"}], "text": "Multi-Cancer Early Detection Screening Report"}, "subject": {"reference": "urn:uuid:13456b5d-e716-4b7b-a112-ab84ecb21c50"}, "effectiveDateTime": "2026-08-07", "issued": "2026-08-14", "performer": [{"reference": "urn:uuid:e574cb08-2371-4c06-89d9-e6c477b03395"}, {"reference": "urn:uuid:5baa4b5a-f265-4ec4-964c-ba2d2e8d7c6a"}], "specimen": [{"reference": "urn:uuid:7bd4348c-eae4-41f5-8a22-5cb786c2a5d9"}], "result": [{"reference": "urn:uuid:82c507dd-f3bd-4adf-b638-767d8467d716"}, {"reference": "urn:uuid:38877d89-d9e3-4979-9a9f-3d5593abfb7c"}, {"reference": "urn:uuid:c39ad2f0-bc8b-45a1-8fb4-076b3ca32b93"}, {"reference": "urn:uuid:bc9dd032-ae63-41e9-8496-0561e7f9c969"}, {"reference": "urn:uuid:baa0e9f0-5be8-41eb-836b-ff46be6e341c"}, {"reference": "urn:uuid:78171007-a229-471f-8667-e4d14bbb909a"}], "conclusion": "A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The 'Cancer Signal Detected' result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins (Lung 85% and Pancreas 12%) should guide subsequent diagnostic workup. Recommended next steps include: \u2022 High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS). \u2022 Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams. \u2022 Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nRecommended Next Steps:\n\u2022 High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS).\n\u2022 Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams.\n\u2022 Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nMethodology: Plasma cfDNA undergoes targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are classified using proprietary machine-learning algorithms calibrated across 50+ cancer tissue types.\n\nLimitations: This test is an early detection screening tool and is not a definitive histological diagnosis. A negative result does not completely exclude malignancy.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D1234567"}, "request": {"method": "POST", "url": "DiagnosticReport"}}]}, "synthetic_colorectal_ctdna": {"resourceType": "Bundle", "id": "28f92662-8d86-4f6e-b7d9-86091ff55827", "type": "transaction", "timestamp": "2026-08-28T19:55:21Z", "entry": [{"fullUrl": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d", "resource": {"resourceType": "Patient", "id": "79e5e0b9-c7a7-4fe6-9411-9783ad4e631d", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Harold K. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "SYN-MRN-5529184"}], "active": true, "name": [{"use": "official", "text": "Harold K. Sample", "family": "Sample", "given": ["Harold", "K."]}], "gender": "male", "birthDate": "1964-04-18"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:0cd95ca8-14e4-4135-81db-bc43efb6a1a9", "resource": {"resourceType": "Practitioner", "id": "0cd95ca8-14e4-4135-81db-bc43efb6a1a9", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Sophia Alvarez, MD</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Sophia Alvarez, MD"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "9457896321"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d", "resource": {"resourceType": "Organization", "id": "dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> BEACON ONCOLOGY REFERENCE LABORATORY</p></div>"}, "active": true, "name": "BEACON ONCOLOGY REFERENCE LABORATORY", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D8874123"}, {"system": "urn:oid:2.16.840.1.113883.4.3.38", "value": "6639102"}], "address": [{"use": "work", "text": "450 Synthetic Technology Parkway, Cambridge, MA 02100"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3", "resource": {"resourceType": "Specimen", "id": "44c15859-18dd-49a5-b2fd-9c0f572eaba3", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-CRC-7731 (Blood / Plasma)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-CRC-7731"}], "status": "available", "type": {"coding": [{"code": "119361006", "display": "Plasma specimen", "system": "http://snomed.info/sct"}], "text": "Blood / Plasma"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "collection": {"collectedDateTime": "2026-07-28", "quantity": {"value": 10.0, "unit": "mL", "system": "http://unitsofmeasure.org", "code": "mL"}}, "receivedTime": "2026-07-29", "container": [{"type": {"text": "Streck cfDNA BCT (10.0 mL)"}}]}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:22c05e54-f666-4fb9-8a41-3aa9bb377333", "resource": {"resourceType": "Observation", "id": "22c05e54-f666-4fb9-8a41-3aa9bb377333", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>SEPT9 Methylation:</b> Positive</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "77983-5", "display": "SEPT9 Methylation"}], "text": "SEPT9 Methylation"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "Positive", "referenceRange": [{"text": "Negative"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:bfd14513-430a-411e-85dd-f353fc7f9513", "resource": {"resourceType": "Observation", "id": "bfd14513-430a-411e-85dd-f353fc7f9513", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>KRAS Mutation Analysis:</b> p.G12D (VAF: 1.8%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "48018-6", "display": "KRAS Mutation Analysis"}], "text": "KRAS Mutation Analysis"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "p.G12D (VAF: 1.8%)", "component": [{"code": {"text": "Vaf"}, "valueString": "1.8%"}, {"code": {"text": "Hgvs Protein"}, "valueString": "p.G12D"}], "referenceRange": [{"text": "Not Detected (< 0.05% VAF)", "high": {"value": 0.05, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:52798370-90c3-41c8-9f38-13257e316b93", "resource": {"resourceType": "Observation", "id": "52798370-90c3-41c8-9f38-13257e316b93", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRAF Mutation Analysis:</b> Not Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "48018-6", "display": "BRAF Mutation Analysis"}], "text": "BRAF Mutation Analysis"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "Not Detected", "referenceRange": [{"text": "Not Detected (< 0.05% VAF)", "high": {"value": 0.05, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:5974b2e0-795a-417b-87ff-3a8254eeb1a1", "resource": {"resourceType": "Observation", "id": "5974b2e0-795a-417b-87ff-3a8254eeb1a1", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Mutation Analysis:</b> p.R273H (VAF: 2.3%)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "48018-6", "display": "TP53 Mutation Analysis"}], "text": "TP53 Mutation Analysis"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "p.R273H (VAF: 2.3%)", "component": [{"code": {"text": "Vaf"}, "valueString": "2.3%"}, {"code": {"text": "Hgvs Protein"}, "valueString": "p.R273H"}], "referenceRange": [{"text": "Not Detected (< 0.05% VAF)", "high": {"value": 0.05, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:c7e508c8-54b8-4fec-b2f8-9ef81ed3e0a9", "resource": {"resourceType": "Observation", "id": "c7e508c8-54b8-4fec-b2f8-9ef81ed3e0a9", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total ctDNA Fraction:</b> 2.1%</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Total ctDNA Fraction"}], "text": "Total ctDNA Fraction"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "2.1%", "referenceRange": [{"text": "< 0.1%", "high": {"value": 0.1, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:e85be221-cbd3-45d6-8f5f-56755d801d23", "resource": {"resourceType": "Observation", "id": "e85be221-cbd3-45d6-8f5f-56755d801d23", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Microsatellite Instability (MSI):</b> MSI-Stable (MSS)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "81695-9", "display": "Microsatellite Instability (MSI)"}], "text": "Microsatellite Instability (MSI)"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "MSI-Stable (MSS)", "referenceRange": [{"text": "MSI-Stable"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:6f07a170-4650-478b-be3d-f52241bbf22f", "resource": {"resourceType": "Observation", "id": "6f07a170-4650-478b-be3d-f52241bbf22f", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Tumor Mutational Burden (TMB):</b> 4.2 mut/Mb</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Tumor Mutational Burden (TMB)"}], "text": "Tumor Mutational Burden (TMB)"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "performer": [{"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": {"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}, "valueString": "4.2 mut/Mb", "referenceRange": [{"text": "< 10.0 mut/Mb", "high": {"value": 10.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:11c98d08-8caa-4e30-88a7-121e970e62ed", "resource": {"resourceType": "DiagnosticReport", "id": "11c98d08-8caa-4e30-88a7-121e970e62ed", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Liquid Biopsy Colorectal ctDNA Early Screening Report</h2><p><b>Conclusion:</b> Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-CRC-7731"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "94078-3", "display": "Circulating tumor DNA methylation and somatic mutation analysis panel", "system": "http://loinc.org"}], "text": "Liquid Biopsy Colorectal ctDNA Early Screening Report"}, "subject": {"reference": "urn:uuid:79e5e0b9-c7a7-4fe6-9411-9783ad4e631d"}, "effectiveDateTime": "2026-07-28", "issued": "2026-08-04", "performer": [{"reference": "urn:uuid:0cd95ca8-14e4-4135-81db-bc43efb6a1a9"}, {"reference": "urn:uuid:dd88e15e-6c2e-44ed-b8a9-9ac25a1adb0d"}], "specimen": [{"reference": "urn:uuid:44c15859-18dd-49a5-b2fd-9c0f572eaba3"}], "result": [{"reference": "urn:uuid:22c05e54-f666-4fb9-8a41-3aa9bb377333"}, {"reference": "urn:uuid:bfd14513-430a-411e-85dd-f353fc7f9513"}, {"reference": "urn:uuid:52798370-90c3-41c8-9f38-13257e316b93"}, {"reference": "urn:uuid:5974b2e0-795a-417b-87ff-3a8254eeb1a1"}, {"reference": "urn:uuid:c7e508c8-54b8-4fec-b2f8-9ef81ed3e0a9"}, {"reference": "urn:uuid:e85be221-cbd3-45d6-8f5f-56755d801d23"}, {"reference": "urn:uuid:6f07a170-4650-478b-be3d-f52241bbf22f"}], "conclusion": "Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.\n\nClinical Interpretation: The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates shed colorectal neoplastic DNA. Recommended next steps include: \u2022 Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions. \u2022 Staging radiology: Contrast-enhanced CT of abdomen and pelvis. \u2022 Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nRecommended Next Steps:\n\u2022 Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions.\n\u2022 Staging radiology: Contrast-enhanced CT of abdomen and pelvis.\n\u2022 Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nMethodology: Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using ultra-deep amplicon NGS (minimum 25,000x coverage depth) on Illumina NextSeq.\n\nLimitations: False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology.\n\nLaboratory Director Authorization: Dr. Arthur Sterling, MD, FCAP | Electronically Signed | CLIA ID: 00D8874123"}, "request": {"method": "POST", "url": "DiagnosticReport"}}]}, "synthetic_hereditary_ngs_panel": {"resourceType": "Bundle", "id": "d5748408-4f45-415a-b6bc-ccc3a8031b43", "type": "transaction", "timestamp": "2026-08-28T19:55:21Z", "entry": [{"fullUrl": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5", "resource": {"resourceType": "Patient", "id": "fec82cd3-6e44-4d06-9f0b-18bd4b4609f5", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Brenda S. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "SYN-MRN-9912048"}], "active": true, "name": [{"use": "official", "text": "Brenda S. Sample", "family": "Sample", "given": ["Brenda", "S."]}], "gender": "female", "birthDate": "1985-09-30"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:d7652acc-df8e-4b53-9dc6-0bff533e07a8", "resource": {"resourceType": "Practitioner", "id": "d7652acc-df8e-4b53-9dc6-0bff533e07a8", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Ethan Ross, MD</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Ethan Ross, MD"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "9847392015"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd", "resource": {"resourceType": "Organization", "id": "12c34a0c-af4f-4292-ae1b-34479a833ebd", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> GENOMEPATH CLINICAL DIAGNOSTICS</p></div>"}, "active": true, "name": "GENOMEPATH CLINICAL DIAGNOSTICS", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D7654321"}, {"system": "urn:oid:2.16.840.1.113883.4.3.38", "value": "5519823"}], "address": [{"use": "work", "text": "3600 Synthetic Boulevard, Suite 500, Philadelphia, PA 19100"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4", "resource": {"resourceType": "Specimen", "id": "cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-NGS-2098 (Whole Blood)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-NGS-2098"}], "status": "available", "type": {"coding": [{"code": "119297000", "display": "Blood specimen", "system": "http://snomed.info/sct"}], "text": "Whole Blood"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "collection": {"collectedDateTime": "2026-07-15", "quantity": {"value": 4.0, "unit": "mL", "system": "http://unitsofmeasure.org", "code": "mL"}}, "receivedTime": "2026-07-16", "container": [{"type": {"text": "EDTA Lavender Top (4.0 mL)"}}]}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:d314fb21-e385-4dc1-b842-95e5e1c5cbbf", "resource": {"resourceType": "Observation", "id": "d314fb21-e385-4dc1-b842-95e5e1c5cbbf", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA1 Genetic Analysis:</b> Pathogenic - c.5266dupC (p.Gln1756Profs*74)</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "BRCA1 Genetic Analysis"}], "text": "BRCA1 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Pathogenic - c.5266dupC (p.Gln1756Profs*74)", "component": [{"code": {"text": "Zygosity"}, "valueString": "Heterozygous"}, {"code": {"text": "Hgvs Dna"}, "valueString": "c.5266dupC"}, {"code": {"text": "Hgvs Protein"}, "valueString": "p.Gln1756Profs*74"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "A", "display": "Abnormal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:98a70340-4fbc-4d1f-9b8a-e5d2efa4c8fc", "resource": {"resourceType": "Observation", "id": "98a70340-4fbc-4d1f-9b8a-e5d2efa4c8fc", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "BRCA2 Genetic Analysis"}], "text": "BRCA2 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:f7a93506-9aab-4e88-99cd-b5b4067c8df3", "resource": {"resourceType": "Observation", "id": "f7a93506-9aab-4e88-99cd-b5b4067c8df3", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>PALB2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "PALB2 Genetic Analysis"}], "text": "PALB2 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:e364964a-6433-4b76-9feb-19cfd2ee45f6", "resource": {"resourceType": "Observation", "id": "e364964a-6433-4b76-9feb-19cfd2ee45f6", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "TP53 Genetic Analysis"}], "text": "TP53 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:99790097-8096-4d06-90c8-c7a92a0510ec", "resource": {"resourceType": "Observation", "id": "99790097-8096-4d06-90c8-c7a92a0510ec", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CHEK2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "CHEK2 Genetic Analysis"}], "text": "CHEK2 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:d9c924fa-02f7-4dcf-9468-dff9ccca05dd", "resource": {"resourceType": "Observation", "id": "d9c924fa-02f7-4dcf-9468-dff9ccca05dd", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CDH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "CDH1 Genetic Analysis"}], "text": "CDH1 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:cd2a33eb-b5ba-42b1-97b3-94989e940c0d", "resource": {"resourceType": "Observation", "id": "cd2a33eb-b5ba-42b1-97b3-94989e940c0d", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>ATM Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "ATM Genetic Analysis"}], "text": "ATM Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:1ee7ed98-afff-4b6b-8669-21f3043f2c6a", "resource": {"resourceType": "Observation", "id": "1ee7ed98-afff-4b6b-8669-21f3043f2c6a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>MLH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "69548-6", "display": "MLH1 Genetic Analysis"}], "text": "MLH1 Genetic Analysis"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "performer": [{"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": {"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}, "valueString": "Negative / No Pathogenic Variant", "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:3bb98b5a-4934-47d2-8003-47c236c92ed2", "resource": {"resourceType": "DiagnosticReport", "id": "3bb98b5a-4934-47d2-8003-47c236c92ed2", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Hereditary Cancer Risk 15-Gene NGS Panel</h2><p><b>Conclusion:</b> A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-NGS-2098"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "79207-7", "display": "Hereditary cancer predisposition panel Next generation sequencing", "system": "http://loinc.org"}], "text": "Hereditary Cancer Risk 15-Gene NGS Panel"}, "subject": {"reference": "urn:uuid:fec82cd3-6e44-4d06-9f0b-18bd4b4609f5"}, "effectiveDateTime": "2026-07-15", "issued": "2026-07-24", "performer": [{"reference": "urn:uuid:d7652acc-df8e-4b53-9dc6-0bff533e07a8"}, {"reference": "urn:uuid:12c34a0c-af4f-4292-ae1b-34479a833ebd"}], "specimen": [{"reference": "urn:uuid:cad03d2a-eff4-4a36-8a71-acf7c0a1a4d4"}], "result": [{"reference": "urn:uuid:d314fb21-e385-4dc1-b842-95e5e1c5cbbf"}, {"reference": "urn:uuid:98a70340-4fbc-4d1f-9b8a-e5d2efa4c8fc"}, {"reference": "urn:uuid:f7a93506-9aab-4e88-99cd-b5b4067c8df3"}, {"reference": "urn:uuid:e364964a-6433-4b76-9feb-19cfd2ee45f6"}, {"reference": "urn:uuid:99790097-8096-4d06-90c8-c7a92a0510ec"}, {"reference": "urn:uuid:d9c924fa-02f7-4dcf-9468-dff9ccca05dd"}, {"reference": "urn:uuid:cd2a33eb-b5ba-42b1-97b3-94989e940c0d"}, {"reference": "urn:uuid:1ee7ed98-afff-4b6b-8669-21f3043f2c6a"}], "conclusion": "A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.\n\nClinical Interpretation: The BRCA1 c.5266dupC (p.Gln1756Profs*74) variant is a well-characterized founder mutation in the BRCA1 tumor suppressor gene that results in premature protein truncation, confirming Hereditary Breast and Ovarian Cancer (HBOC) syndrome. Recommended next steps include: \u2022 High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25\u201330, alternating with annual mammography. \u2022 Ovarian cancer risk reduction: Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35\u201340. \u2022 Cascade genetic testing: Inform and offer targeted variant testing to all at-risk first-degree relatives.\n\nRecommended Next Steps:\n\u2022 High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25\u201330, alternating with annual mammography.\n\u2022 Ovarian cancer risk reduction: Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35\u201340.\n\u2022 Cascade genetic testing: Inform and offer targeted variant testing to all at-risk first-degree relatives.\n\nMethodology: Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization capture probes, followed by paired-end sequencing (Illumina NovaSeq). Copy number variations (CNVs) are called using normalized read-depth algorithms.\n\nLimitations: This assay does not detect deep intronic mutations outside the targeted regions, complex chromosomal rearrangements, or low-level somatic mosaicism.\n\nLaboratory Director Authorization: Dr. Sarah Jenkins, MD, FCAP | Electronically Signed | CLIA ID: 00D7654321"}, "request": {"method": "POST", "url": "DiagnosticReport"}}]}, "synthetic_mced_negative": {"resourceType": "Bundle", "id": "eb2a6d90-a96e-4c77-b33e-00c3674abcc9", "type": "transaction", "timestamp": "2026-08-28T19:55:21Z", "entry": [{"fullUrl": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3", "resource": {"resourceType": "Patient", "id": "27b9c4fb-5f42-4b96-9fad-95ece5ff4db3", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Robert T. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "SYN-MRN-8849102"}], "active": true, "name": [{"use": "official", "text": "Robert T. Sample", "family": "Sample", "given": ["Robert", "T."]}], "gender": "male", "birthDate": "1968-11-23"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:3e2a43c0-761d-434a-bc39-a2b555bd5e2b", "resource": {"resourceType": "Practitioner", "id": "3e2a43c0-761d-434a-bc39-a2b555bd5e2b", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Marcus Vance, MD</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. Marcus Vance, MD"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "9982736450"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d", "resource": {"resourceType": "Organization", "id": "4fcba909-9592-452b-998a-4c523a298e4d", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> PACIFIC PRECISION GENOMICS LAB</p></div>"}, "active": true, "name": "PACIFIC PRECISION GENOMICS LAB", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D9981245"}, {"system": "urn:oid:2.16.840.1.113883.4.3.38", "value": "7748123"}], "address": [{"use": "work", "text": "1000 Synthetic Innovation Way, Suite 400, Fictional City, CA 94000"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb", "resource": {"resourceType": "Specimen", "id": "bbfed10b-28ad-4f32-97ff-555a2a8ca6bb", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-MCED-4491 (Blood / Plasma)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-MCED-4491"}], "status": "available", "type": {"coding": [{"code": "119361006", "display": "Plasma specimen", "system": "http://snomed.info/sct"}], "text": "Blood / Plasma"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "collection": {"collectedDateTime": "2026-08-01", "quantity": {"value": 10.0, "unit": "mL", "system": "http://unitsofmeasure.org", "code": "mL"}}, "receivedTime": "2026-08-02", "container": [{"type": {"text": "Streck cfDNA BCT (10.0 mL)"}}]}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:f658bbb1-7267-49d7-8487-138275aa100a", "resource": {"resourceType": "Observation", "id": "f658bbb1-7267-49d7-8487-138275aa100a", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Not Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94076-7", "display": "Cancer Signal Status"}], "text": "Cancer Signal Status"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "Cancer Signal Not Detected", "referenceRange": [{"text": "Cancer Signal Not Detected"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:25511bbb-3b17-4d7d-8b56-4fdebfebed77", "resource": {"resourceType": "Observation", "id": "25511bbb-3b17-4d7d-8b56-4fdebfebed77", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> None Detected</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "94077-5", "display": "Predicted Cancer Signal Origin 1"}], "text": "Predicted Cancer Signal Origin 1"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "None Detected", "referenceRange": [{"text": "None"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:d5bbc16e-bba6-4d7b-b2f1-882d89392b6d", "resource": {"resourceType": "Observation", "id": "d5bbc16e-bba6-4d7b-b2f1-882d89392b6d", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 8.4 ng/mL</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "cfDNA Concentration"}], "text": "cfDNA Concentration"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "8.4 ng/mL", "referenceRange": [{"text": "5.0 - 25.0 ng/mL", "low": {"value": 5.0, "unit": ""}, "high": {"value": 25.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:d9b02a86-9431-46ee-8bfb-19ce19230e99", "resource": {"resourceType": "Observation", "id": "d9b02a86-9431-46ee-8bfb-19ce19230e99", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Bisulfite Conversion Efficiency:</b> 99.8%</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Bisulfite Conversion Efficiency"}], "text": "Bisulfite Conversion Efficiency"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "99.8%", "referenceRange": [{"text": ">= 99.0%", "low": {"value": 99.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:9acfb9d6-ad50-42c0-a533-be2b0b432041", "resource": {"resourceType": "Observation", "id": "9acfb9d6-ad50-42c0-a533-be2b0b432041", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 31,200x</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Sequencing Coverage Depth"}], "text": "Sequencing Coverage Depth"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "31,200x", "referenceRange": [{"text": ">= 20,000x", "low": {"value": 20.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:d90bd152-4be5-436c-952c-7892d112bb77", "resource": {"resourceType": "Observation", "id": "d90bd152-4be5-436c-952c-7892d112bb77", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.4%</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "11502-2", "display": "Sequencing QC Pass Rate"}], "text": "Sequencing QC Pass Rate"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "performer": [{"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": {"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}, "valueString": "99.4%", "referenceRange": [{"text": ">= 95.0%", "low": {"value": 95.0, "unit": ""}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:56be4da2-d1e1-412f-b2de-9160d7d6ee86", "resource": {"resourceType": "DiagnosticReport", "id": "56be4da2-d1e1-412f-b2de-9160d7d6ee86", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-MCED-4491"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "94076-7", "display": "Cancer signal methylation analysis in cell-free DNA panel", "system": "http://loinc.org"}], "text": "Multi-Cancer Early Detection Screening Report"}, "subject": {"reference": "urn:uuid:27b9c4fb-5f42-4b96-9fad-95ece5ff4db3"}, "effectiveDateTime": "2026-08-01", "issued": "2026-08-06", "performer": [{"reference": "urn:uuid:3e2a43c0-761d-434a-bc39-a2b555bd5e2b"}, {"reference": "urn:uuid:4fcba909-9592-452b-998a-4c523a298e4d"}], "specimen": [{"reference": "urn:uuid:bbfed10b-28ad-4f32-97ff-555a2a8ca6bb"}], "result": [{"reference": "urn:uuid:f658bbb1-7267-49d7-8487-138275aa100a"}, {"reference": "urn:uuid:25511bbb-3b17-4d7d-8b56-4fdebfebed77"}, {"reference": "urn:uuid:d5bbc16e-bba6-4d7b-b2f1-882d89392b6d"}, {"reference": "urn:uuid:d9b02a86-9431-46ee-8bfb-19ce19230e99"}, {"reference": "urn:uuid:9acfb9d6-ad50-42c0-a533-be2b0b432041"}, {"reference": "urn:uuid:d90bd152-4be5-436c-952c-7892d112bb77"}], "conclusion": "No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.\n\nClinical Interpretation: A 'Cancer Signal Not Detected' result indicates that the targeted cell-free DNA methylation signatures associated with 50+ cancer types were not identified at actionable thresholds in this specimen. Recommended next steps include: \u2022 Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated. \u2022 Follow-up: Regular annual wellness examinations with primary care physician.\n\nRecommended Next Steps:\n\u2022 Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated.\n\u2022 Follow-up: Regular annual wellness examinations with primary care physician.\n\nMethodology: Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on Illumina NovaSeq 6000 systems. Epigenetic methylation patterns are evaluated using machine-learning classification models calibrated across multi-organ tissue datasets.\n\nLimitations: A negative result does not eliminate the risk of cancer. Certain indolent tumors or cancers shedding low levels of cfDNA may not be detected.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D9981245"}, "request": {"method": "POST", "url": "DiagnosticReport"}}]}, "synthetic_prostate_phi_panel": {"resourceType": "Bundle", "id": "346419cc-d97e-4b79-9ae0-a27b99131830", "type": "transaction", "timestamp": "2026-08-28T19:55:21Z", "entry": [{"fullUrl": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369", "resource": {"resourceType": "Patient", "id": "67e1440c-91bc-42c4-9834-5c2b00447369", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Arthur B. Sample</p></div>"}, "identifier": [{"use": "usual", "type": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0203", "code": "MR", "display": "Medical Record Number"}]}, "system": "urn:ietf:rfc:3986", "value": "SYN-MRN-3341890"}], "active": true, "name": [{"use": "official", "text": "Arthur B. Sample", "family": "Sample", "given": ["Arthur", "B."]}], "gender": "male", "birthDate": "1959-02-14"}, "request": {"method": "POST", "url": "Patient"}}, {"fullUrl": "urn:uuid:d93d8090-ecb0-4a52-844a-715187be1481", "resource": {"resourceType": "Practitioner", "id": "d93d8090-ecb0-4a52-844a-715187be1481", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. David Reynolds, MD</p></div>"}, "active": true, "name": [{"use": "official", "text": "Dr. David Reynolds, MD"}], "identifier": [{"system": "http://hl7.org/fhir/sid/us-npi", "value": "9092837465"}]}, "request": {"method": "POST", "url": "Practitioner"}}, {"fullUrl": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6", "resource": {"resourceType": "Organization", "id": "e0d958e5-29ab-490b-ba7f-da975c1a0eb6", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> APEX UROLOGIC REFERENCE LABORATORY</p></div>"}, "active": true, "name": "APEX UROLOGIC REFERENCE LABORATORY", "identifier": [{"system": "urn:oid:2.16.840.1.113883.4.7", "value": "00D1122334"}, {"system": "urn:oid:2.16.840.1.113883.4.3.38", "value": "4428901"}], "address": [{"use": "work", "text": "7700 Synthetic Parkway, Suite 300, Minneapolis, MN 55400"}]}, "request": {"method": "POST", "url": "Organization"}}, {"fullUrl": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac", "resource": {"resourceType": "Specimen", "id": "5492c2de-bdcc-451a-82a7-051e76c677ac", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-PHI-8821 (Serum)</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-PHI-8821"}], "status": "available", "type": {"coding": [{"code": "119364003", "display": "Serum specimen", "system": "http://snomed.info/sct"}], "text": "Serum"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "collection": {"collectedDateTime": "2026-08-10", "quantity": {"value": 5.0, "unit": "mL", "system": "http://unitsofmeasure.org", "code": "mL"}}, "receivedTime": "2026-08-11", "container": [{"type": {"text": "SST Gold Top (5.0 mL)"}}]}, "request": {"method": "POST", "url": "Specimen"}}, {"fullUrl": "urn:uuid:c58c6484-be48-41bb-96a3-65df3a16236b", "resource": {"resourceType": "Observation", "id": "c58c6484-be48-41bb-96a3-65df3a16236b", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total PSA:</b> 5.6</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "2857-1", "display": "Total PSA"}], "text": "Total PSA"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "performer": [{"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": {"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}, "valueQuantity": {"value": 5.6, "unit": "ng/mL", "system": "http://unitsofmeasure.org", "code": "ng/mL"}, "referenceRange": [{"text": "0.0 - 4.0", "low": {"value": 0.0, "unit": "ng/mL"}, "high": {"value": 4.0, "unit": "ng/mL"}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "H", "display": "High"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:910ac144-a824-4b7b-a410-a1f629bd6bcc", "resource": {"resourceType": "Observation", "id": "910ac144-a824-4b7b-a410-a1f629bd6bcc", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Free PSA:</b> 0.58</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "10886-0", "display": "Free PSA"}], "text": "Free PSA"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "performer": [{"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": {"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}, "valueQuantity": {"value": 0.58, "unit": "ng/mL", "system": "http://unitsofmeasure.org", "code": "ng/mL"}, "referenceRange": [{"text": "N/A"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:2cc90a85-0365-4de4-95f0-a07c37964d37", "resource": {"resourceType": "Observation", "id": "2cc90a85-0365-4de4-95f0-a07c37964d37", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>% Free PSA:</b> 10.4</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "19195-7", "display": "% Free PSA"}], "text": "% Free PSA"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "performer": [{"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": {"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}, "valueQuantity": {"value": 10.4, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}, "referenceRange": [{"text": "> 25.0 %", "low": {"value": 25.0, "unit": "%"}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "L", "display": "Low"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:d5a3ccb3-0c5c-4beb-833b-3fa03b1c1889", "resource": {"resourceType": "Observation", "id": "d5a3ccb3-0c5c-4beb-833b-3fa03b1c1889", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>[-2]proPSA:</b> 19.2</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "72304-9", "display": "[-2]proPSA"}], "text": "[-2]proPSA"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "performer": [{"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": {"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}, "valueQuantity": {"value": 19.2, "unit": "pg/mL", "system": "http://unitsofmeasure.org", "code": "pg/mL"}, "referenceRange": [{"text": "N/A"}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "N", "display": "Normal"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:4774776d-45c1-4652-a9dd-0ba1b434d867", "resource": {"resourceType": "Observation", "id": "4774776d-45c1-4652-a9dd-0ba1b434d867", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Prostate Health Index (phi):</b> 47.8</p></div>"}, "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/observation-category", "code": "laboratory", "display": "Laboratory"}]}], "code": {"coding": [{"system": "http://loinc.org", "code": "72305-6", "display": "Prostate Health Index (phi)"}], "text": "Prostate Health Index (phi)"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "performer": [{"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": {"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}, "valueQuantity": {"value": 47.8, "unit": "{score}", "system": "http://unitsofmeasure.org", "code": "{score}"}, "referenceRange": [{"text": "< 27.0 (Low Risk)", "high": {"value": 27.0, "unit": "{score}"}}], "interpretation": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation", "code": "H", "display": "High"}]}]}, "request": {"method": "POST", "url": "Observation"}}, {"fullUrl": "urn:uuid:08e1c73b-3d78-4022-8fdb-aadd303f4299", "resource": {"resourceType": "DiagnosticReport", "id": "08e1c73b-3d78-4022-8fdb-aadd303f4299", "text": {"status": "generated", "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Prostate Health Index and Early Cancer Biomarker Panel</h2><p><b>Conclusion:</b> Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability (36.0% - 55.0%) of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.</p></div>"}, "identifier": [{"system": "urn:ietf:rfc:3986", "value": "SYN-SPEC-PHI-8821"}], "status": "final", "category": [{"coding": [{"system": "http://terminology.hl7.org/CodeSystem/v2-0074", "code": "LAB", "display": "Laboratory"}]}], "code": {"coding": [{"code": "72305-6", "display": "Prostate Health Index and PSA sub-fractions panel", "system": "http://loinc.org"}], "text": "Prostate Health Index and Early Cancer Biomarker Panel"}, "subject": {"reference": "urn:uuid:67e1440c-91bc-42c4-9834-5c2b00447369"}, "effectiveDateTime": "2026-08-10", "issued": "2026-08-12", "performer": [{"reference": "urn:uuid:d93d8090-ecb0-4a52-844a-715187be1481"}, {"reference": "urn:uuid:e0d958e5-29ab-490b-ba7f-da975c1a0eb6"}], "specimen": [{"reference": "urn:uuid:5492c2de-bdcc-451a-82a7-051e76c677ac"}], "result": [{"reference": "urn:uuid:c58c6484-be48-41bb-96a3-65df3a16236b"}, {"reference": "urn:uuid:910ac144-a824-4b7b-a410-a1f629bd6bcc"}, {"reference": "urn:uuid:2cc90a85-0365-4de4-95f0-a07c37964d37"}, {"reference": "urn:uuid:d5a3ccb3-0c5c-4beb-833b-3fa03b1c1889"}, {"reference": "urn:uuid:4774776d-45c1-4652-a9dd-0ba1b434d867"}], "conclusion": "Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability (36.0% - 55.0%) of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.\n\nClinical Interpretation: The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides strong clinical justification for mpMRI and targeted prostate biopsy. \u2022 Multiparametric prostate MRI (mpMRI): 3-Tesla pelvic mpMRI with PI-RADS scoring. \u2022 Urology consult: Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.\n\nRecommended Next Steps:\n\u2022 Multiparametric prostate MRI (mpMRI): 3-Tesla pelvic mpMRI with PI-RADS scoring.\n\u2022 Urology consult: Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.\n\nMethodology: Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using Beckman Coulter Access chemiluminescent immunoassays calibrated against WHO standards. The phi score is derived mathematically.\n\nLimitations: phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors.\n\nLaboratory Director Authorization: Dr. Keith Carlson, MD, FCAP | Electronically Signed | CLIA ID: 00D1122334"}, "request": {"method": "POST", "url": "DiagnosticReport"}}]}}
+{
+  "resourceType": "Bundle",
+  "id": "02945345-cb8d-41da-adac-be58a307f129",
+  "type": "collection",
+  "timestamp": "2026-09-24T20:57:10Z",
+  "entry": [
+    {
+      "fullUrl": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "ac2a8209-5448-4bfa-8717-83254514a0f3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Jane Q. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "P-44556677"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Jane Q. Sample",
+            "family": "Sample",
+            "given": [
+              "Jane",
+              "Q."
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1972-05-12"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f91ee1e6-8330-4f89-8ceb-6f54f5d8054b",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "f91ee1e6-8330-4f89-8ceb-6f54f5d8054b",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Avery Sterling, MD</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Avery Sterling, MD"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "1234567890"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "99c52d09-e6ec-48b6-b918-f965cbda1bb0",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> CLINICAL REFERENCE DIAGNOSTICS LABORATORY (SYNTHETIC CLINICAL</p></div>"
+        },
+        "active": true,
+        "name": "CLINICAL REFERENCE DIAGNOSTICS LABORATORY (SYNTHETIC CLINICAL",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D1234567"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "8923412"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "text": "888 Synthetic Way, Suite 100, Fictional Heights, CA 90210"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "137f1409-4400-42f9-a97b-2d68f2ca3691",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-992834-X (Blood / Plasma)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-992834-X"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119361006",
+              "display": "Plasma specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Blood / Plasma"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "collection": {
+          "collectedDateTime": "2026-08-07",
+          "quantity": {
+            "value": 10.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
+        },
+        "receivedTime": "2026-08-08",
+        "container": [
+          {
+            "type": {
+              "text": "Cell-Free DNA BCT (10.0 mL)"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:49d95680-465c-49cb-9f3c-220a0458c99c",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "49d95680-465c-49cb-9f3c-220a0458c99c",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94076-7",
+              "display": "Cancer Signal Status"
+            }
+          ],
+          "text": "Cancer Signal Status"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "Cancer Signal Detected",
+        "referenceRange": [
+          {
+            "text": "Cancer Signal Not Detected"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1ce19bda-e9f9-4fdd-83f0-2adb6e716d20",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1ce19bda-e9f9-4fdd-83f0-2adb6e716d20",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> Lung (85%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94077-5",
+              "display": "Predicted Cancer Signal Origin 1"
+            }
+          ],
+          "text": "Predicted Cancer Signal Origin 1"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "Lung (85%)",
+        "referenceRange": [
+          {
+            "text": "None"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4a0c40a7-1b15-488c-8f4d-58be4221c682",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4a0c40a7-1b15-488c-8f4d-58be4221c682",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 2:</b> Pancreas (12%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94077-5",
+              "display": "Predicted Cancer Signal Origin 2"
+            }
+          ],
+          "text": "Predicted Cancer Signal Origin 2"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "Pancreas (12%)",
+        "referenceRange": [
+          {
+            "text": "None"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0a66f1d1-9978-449b-8939-bb4e666fb8a3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "0a66f1d1-9978-449b-8939-bb4e666fb8a3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 14.2 ng/mL</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "cfDNA Concentration"
+            }
+          ],
+          "text": "cfDNA Concentration"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "14.2 ng/mL",
+        "referenceRange": [
+          {
+            "text": "5.0 - 25.0 ng/mL",
+            "low": {
+              "value": 5.0,
+              "unit": ""
+            },
+            "high": {
+              "value": 25.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d6162456-f1a1-42a1-844a-5e4f6cbf7b5a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d6162456-f1a1-42a1-844a-5e4f6cbf7b5a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 32,500x</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing Coverage Depth"
+            }
+          ],
+          "text": "Sequencing Coverage Depth"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "32,500x",
+        "referenceRange": [
+          {
+            "text": ">= 20,000x",
+            "low": {
+              "value": 20.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:18b9c1ae-c919-49ce-af99-a254d14ea43e",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "18b9c1ae-c919-49ce-af99-a254d14ea43e",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.7%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing QC Pass Rate"
+            }
+          ],
+          "text": "Sequencing QC Pass Rate"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "performer": [
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+        },
+        "valueString": "99.7%",
+        "referenceRange": [
+          {
+            "text": ">= 95.0%",
+            "low": {
+              "value": 95.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:992b6809-7d1d-4695-8572-fdf494c691f9",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "992b6809-7d1d-4695-8572-fdf494c691f9",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-992834-X"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "94076-7",
+              "display": "Cancer signal methylation analysis in cell-free DNA panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Multi-Cancer Early Detection Screening Report"
+        },
+        "subject": {
+          "reference": "urn:uuid:ac2a8209-5448-4bfa-8717-83254514a0f3"
+        },
+        "effectiveDateTime": "2026-08-07",
+        "issued": "2026-08-14",
+        "performer": [
+          {
+            "reference": "urn:uuid:f91ee1e6-8330-4f89-8ceb-6f54f5d8054b"
+          },
+          {
+            "reference": "urn:uuid:99c52d09-e6ec-48b6-b918-f965cbda1bb0"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:137f1409-4400-42f9-a97b-2d68f2ca3691"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:49d95680-465c-49cb-9f3c-220a0458c99c"
+          },
+          {
+            "reference": "urn:uuid:1ce19bda-e9f9-4fdd-83f0-2adb6e716d20"
+          },
+          {
+            "reference": "urn:uuid:4a0c40a7-1b15-488c-8f4d-58be4221c682"
+          },
+          {
+            "reference": "urn:uuid:0a66f1d1-9978-449b-8939-bb4e666fb8a3"
+          },
+          {
+            "reference": "urn:uuid:d6162456-f1a1-42a1-844a-5e4f6cbf7b5a"
+          },
+          {
+            "reference": "urn:uuid:18b9c1ae-c919-49ce-af99-a254d14ea43e"
+          }
+        ],
+        "conclusion": "A cancer signal was detected in this synthetic blood sample. This result indicates that cell-free DNA (cfDNA) methylation patterns associated with cancer were identified. Further clinical evaluation, such as imaging or other diagnostic tests, is required to confirm the presence of cancer and determine the location.\n\nClinical Interpretation: The 'Cancer Signal Detected' result is not a diagnosis of cancer. It means that genomic signals often associated with malignancy were found. The predicted origins (Lung 85% and Pancreas 12%) should guide subsequent diagnostic workup. Recommended next steps include: - High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS). - Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams. - Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nRecommended Next Steps:\n- predicted origins (Lung 85% and Pancreas 12%) should guide subsequent diagnostic workup. Recommended next steps include:\n- High-resolution imaging: Low-dose or contrast-enhanced chest CT and dedicated abdominal MRI / endoscopic ultrasound (EUS).\n- Specialist consultation: Prompt referral to thoracic oncology and gastroenterology / surgical oncology teams.\n- Diagnostic tissue biopsy: If a suspicious lesion is identified on diagnostic imaging.\n\nMethodology: Plasma cfDNA undergoes targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on high-throughput sequencing instruments. Epigenetic methylation patterns are classified using statistical classification algorithms calibrated across 50+ cancer tissue types.\n\nLimitations: This test is an early detection screening tool and is not a definitive histological diagnosis. A negative result does not completely exclude malignancy.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D1234567"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "adce980b-ee9e-4d81-a807-f49288ff841a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Harold K. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-5529184"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Harold K. Sample",
+            "family": "Sample",
+            "given": [
+              "Harold",
+              "K."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1964-04-18"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:dc7facad-ff05-4fb8-abf7-fc7a6043dc6d",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "dc7facad-ff05-4fb8-abf7-fc7a6043dc6d",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Sophia Alvarez, MD</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Sophia Alvarez, MD"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9457896321"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "f423ecbd-7984-4db3-9d94-a7c39e2419ea",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> ONCOLOGY MOLECULAR REFERENCE LABORATORY (SYNTHETIC CLINICAL</p></div>"
+        },
+        "active": true,
+        "name": "ONCOLOGY MOLECULAR REFERENCE LABORATORY (SYNTHETIC CLINICAL",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D8874123"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "6639102"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "text": "450 Synthetic Technology Parkway, Cambridge, MA 02100"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-CRC-7731 (Blood / Plasma)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-CRC-7731"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119361006",
+              "display": "Plasma specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Blood / Plasma"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "collection": {
+          "collectedDateTime": "2026-07-28",
+          "quantity": {
+            "value": 10.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
+        },
+        "receivedTime": "2026-07-29",
+        "container": [
+          {
+            "type": {
+              "text": "Cell-Free DNA BCT (10.0 mL)"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:38d755ec-cd76-452f-9ec5-202b4a90d024",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "38d755ec-cd76-452f-9ec5-202b4a90d024",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>SEPT9 Methylation:</b> Positive</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "77983-5",
+              "display": "SEPT9 Methylation"
+            }
+          ],
+          "text": "SEPT9 Methylation"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "Positive",
+        "referenceRange": [
+          {
+            "text": "Negative"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:507b8457-f4eb-4680-aae6-1be9d5cb0e33",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "507b8457-f4eb-4680-aae6-1be9d5cb0e33",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>KRAS Mutation Analysis:</b> p.G12D (VAF: 1.8%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "KRAS Mutation Analysis"
+            }
+          ],
+          "text": "KRAS Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "p.G12D (VAF: 1.8%)",
+        "component": [
+          {
+            "code": {
+              "text": "Vaf"
+            },
+            "valueString": "1.8%"
+          },
+          {
+            "code": {
+              "text": "Hgvs Protein"
+            },
+            "valueString": "p.G12D"
+          }
+        ],
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)",
+            "high": {
+              "value": 0.05,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1e0efb70-a325-4de1-b531-6781fd2d3358",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1e0efb70-a325-4de1-b531-6781fd2d3358",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRAF Mutation Analysis:</b> Not Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "BRAF Mutation Analysis"
+            }
+          ],
+          "text": "BRAF Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "Not Detected",
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)",
+            "high": {
+              "value": 0.05,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:96bf39b2-32f8-462f-bd76-73a7967ade89",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "96bf39b2-32f8-462f-bd76-73a7967ade89",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Mutation Analysis:</b> p.R273H (VAF: 2.3%)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "48018-6",
+              "display": "TP53 Mutation Analysis"
+            }
+          ],
+          "text": "TP53 Mutation Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "p.R273H (VAF: 2.3%)",
+        "component": [
+          {
+            "code": {
+              "text": "Vaf"
+            },
+            "valueString": "2.3%"
+          },
+          {
+            "code": {
+              "text": "Hgvs Protein"
+            },
+            "valueString": "p.R273H"
+          }
+        ],
+        "referenceRange": [
+          {
+            "text": "Not Detected (< 0.05% VAF)",
+            "high": {
+              "value": 0.05,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:338f0b5e-5f31-490e-818d-06b0cff2f4c3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "338f0b5e-5f31-490e-818d-06b0cff2f4c3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total ctDNA Fraction:</b> 2.1%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Total ctDNA Fraction"
+            }
+          ],
+          "text": "Total ctDNA Fraction"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "2.1%",
+        "referenceRange": [
+          {
+            "text": "< 0.1%",
+            "high": {
+              "value": 0.1,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:75bcbcd1-a601-42cf-982d-b395435d71a3",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "75bcbcd1-a601-42cf-982d-b395435d71a3",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Microsatellite Instability (MSI):</b> MSI-Stable (MSS)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "81695-9",
+              "display": "Microsatellite Instability (MSI)"
+            }
+          ],
+          "text": "Microsatellite Instability (MSI)"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "MSI-Stable (MSS)",
+        "referenceRange": [
+          {
+            "text": "MSI-Stable"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1f4be607-8d65-4c3a-84f1-e669b5532f3d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "1f4be607-8d65-4c3a-84f1-e669b5532f3d",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Tumor Mutational Burden (TMB):</b> 4.2 mut/Mb</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Tumor Mutational Burden (TMB)"
+            }
+          ],
+          "text": "Tumor Mutational Burden (TMB)"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "performer": [
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+        },
+        "valueString": "4.2 mut/Mb",
+        "referenceRange": [
+          {
+            "text": "< 10.0 mut/Mb",
+            "high": {
+              "value": 10.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a58be37f-de14-4000-bd73-3f240f86ed3a",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "a58be37f-de14-4000-bd73-3f240f86ed3a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Liquid Biopsy Colorectal ctDNA Early Screening Report</h2><p><b>Conclusion:</b> Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-CRC-7731"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "94078-3",
+              "display": "Circulating tumor DNA methylation and somatic mutation analysis panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Liquid Biopsy Colorectal ctDNA Early Screening Report"
+        },
+        "subject": {
+          "reference": "urn:uuid:adce980b-ee9e-4d81-a807-f49288ff841a"
+        },
+        "effectiveDateTime": "2026-07-28",
+        "issued": "2026-08-04",
+        "performer": [
+          {
+            "reference": "urn:uuid:dc7facad-ff05-4fb8-abf7-fc7a6043dc6d"
+          },
+          {
+            "reference": "urn:uuid:f423ecbd-7984-4db3-9d94-a7c39e2419ea"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:f144dc24-3aa1-4257-9ba9-d1a6ccd49eb4"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:38d755ec-cd76-452f-9ec5-202b4a90d024"
+          },
+          {
+            "reference": "urn:uuid:507b8457-f4eb-4680-aae6-1be9d5cb0e33"
+          },
+          {
+            "reference": "urn:uuid:1e0efb70-a325-4de1-b531-6781fd2d3358"
+          },
+          {
+            "reference": "urn:uuid:96bf39b2-32f8-462f-bd76-73a7967ade89"
+          },
+          {
+            "reference": "urn:uuid:338f0b5e-5f31-490e-818d-06b0cff2f4c3"
+          },
+          {
+            "reference": "urn:uuid:75bcbcd1-a601-42cf-982d-b395435d71a3"
+          },
+          {
+            "reference": "urn:uuid:1f4be607-8d65-4c3a-84f1-e669b5532f3d"
+          }
+        ],
+        "conclusion": "Elevated circulating tumor DNA (ctDNA) markers detected in synthetic sample. Aberrant SEPT9 promoter hypermethylation and somatic mutations in KRAS and TP53 were identified in plasma cfDNA.\n\nClinical Interpretation: The presence of circulating tumor DNA with SEPT9 promoter methylation and concurrent KRAS p.G12D and TP53 p.R273H variants strongly indicates shed colorectal neoplastic DNA. Recommended next steps include: - Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions. - Staging radiology: Contrast-enhanced CT of abdomen and pelvis. - Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nRecommended Next Steps:\n- indicates shed colorectal neoplastic DNA. Recommended next steps include:\n- Diagnostic colonoscopy: High-definition mucosal inspection with targeted biopsy of any identified lesions.\n- Staging radiology: Contrast-enhanced CT of abdomen and pelvis.\n- Therapeutic note: The KRAS p.G12D mutation confers resistance to anti-EGFR antibody therapies (e.g. cetuximab, panitumumab).\n\nMethodology: Plasma ctDNA undergoes dual-chemistry extraction. Methylation of Septin 9 is quantified using real-time PCR. Somatic variant profiling across hotspot exons of KRAS, BRAF, and TP53 is performed using deep amplicon NGS (minimum 25,000x coverage depth) on high-throughput sequencing systems.\n\nLimitations: False-positive methylation or mutations may rarely occur due to clonal hematopoiesis of indeterminate potential (CHIP). Liquid biopsy results should be verified by endoscopic visualization and tissue histology.\n\nLaboratory Director Authorization: Dr. Arthur Sterling, MD, FCAP | Electronically Signed | CLIA ID: 00D8874123"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "588e9169-ebfb-40b3-bb30-810eee1a4e78",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Brenda S. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-9912048"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Brenda S. Sample",
+            "family": "Sample",
+            "given": [
+              "Brenda",
+              "S."
+            ]
+          }
+        ],
+        "gender": "female",
+        "birthDate": "1985-09-30"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:61ef1167-0c81-49b1-89cb-134c37ecab06",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "61ef1167-0c81-49b1-89cb-134c37ecab06",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Ethan Ross, MD</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Ethan Ross, MD"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9847392015"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "7f336621-b1d4-46d3-9e98-f55475eff961",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> GENOMIC PATHOLOGY DIAGNOSTIC LABORATORY (SYNTHETIC CLINICAL</p></div>"
+        },
+        "active": true,
+        "name": "GENOMIC PATHOLOGY DIAGNOSTIC LABORATORY (SYNTHETIC CLINICAL",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D7654321"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "5519823"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "text": "3600 Synthetic Boulevard, Suite 500, Philadelphia, PA 19100"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "2130fdce-bfe3-43db-bfc9-1704f1fb4b17",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-NGS-2098 (Whole Blood)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-NGS-2098"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119297000",
+              "display": "Blood specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Whole Blood"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "collection": {
+          "collectedDateTime": "2026-07-15",
+          "quantity": {
+            "value": 4.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
+        },
+        "receivedTime": "2026-07-16",
+        "container": [
+          {
+            "type": {
+              "text": "EDTA Lavender Top (4.0 mL)"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:edc01a4e-b2aa-414c-8351-1e3b64ac37eb",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "edc01a4e-b2aa-414c-8351-1e3b64ac37eb",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA1 Genetic Analysis:</b> Pathogenic - c.5266dupC (p.Gln1756Profs*74)</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "BRCA1 Genetic Analysis"
+            }
+          ],
+          "text": "BRCA1 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Pathogenic - c.5266dupC (p.Gln1756Profs*74)",
+        "component": [
+          {
+            "code": {
+              "text": "Zygosity"
+            },
+            "valueString": "Heterozygous"
+          },
+          {
+            "code": {
+              "text": "Hgvs Dna"
+            },
+            "valueString": "c.5266dupC"
+          },
+          {
+            "code": {
+              "text": "Hgvs Protein"
+            },
+            "valueString": "p.Gln1756Profs*74"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "A",
+                "display": "Abnormal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d671b5d0-17c5-4814-a45b-963591ce275d",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d671b5d0-17c5-4814-a45b-963591ce275d",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>BRCA2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "BRCA2 Genetic Analysis"
+            }
+          ],
+          "text": "BRCA2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e2eeaf34-4bbf-422f-b384-f05f2b4783ef",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e2eeaf34-4bbf-422f-b384-f05f2b4783ef",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>PALB2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "PALB2 Genetic Analysis"
+            }
+          ],
+          "text": "PALB2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9793d68d-ce18-43f1-93a1-58beaf4b4426",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9793d68d-ce18-43f1-93a1-58beaf4b4426",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>TP53 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "TP53 Genetic Analysis"
+            }
+          ],
+          "text": "TP53 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4897cdf0-90f4-43cc-9d64-db7c217bf1a4",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4897cdf0-90f4-43cc-9d64-db7c217bf1a4",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CHEK2 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "CHEK2 Genetic Analysis"
+            }
+          ],
+          "text": "CHEK2 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:543a34e3-6e34-4f6d-8bd8-25999511e946",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "543a34e3-6e34-4f6d-8bd8-25999511e946",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>CDH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "CDH1 Genetic Analysis"
+            }
+          ],
+          "text": "CDH1 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:601da015-8a2a-401c-963c-fd756c6d28aa",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "601da015-8a2a-401c-963c-fd756c6d28aa",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>ATM Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "ATM Genetic Analysis"
+            }
+          ],
+          "text": "ATM Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c913b0f2-ad4f-4407-b22d-694bdbb52cdd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c913b0f2-ad4f-4407-b22d-694bdbb52cdd",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>MLH1 Genetic Analysis:</b> Negative / No Pathogenic Variant</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "69548-6",
+              "display": "MLH1 Genetic Analysis"
+            }
+          ],
+          "text": "MLH1 Genetic Analysis"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "performer": [
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+        },
+        "valueString": "Negative / No Pathogenic Variant",
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3fa31b3b-b3fe-4765-8083-314072162b69",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "3fa31b3b-b3fe-4765-8083-314072162b69",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Hereditary Cancer Risk 15-Gene NGS Panel</h2><p><b>Conclusion:</b> A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-NGS-2098"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "79207-7",
+              "display": "Hereditary cancer predisposition panel Next generation sequencing",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Hereditary Cancer Risk 15-Gene NGS Panel"
+        },
+        "subject": {
+          "reference": "urn:uuid:588e9169-ebfb-40b3-bb30-810eee1a4e78"
+        },
+        "effectiveDateTime": "2026-07-15",
+        "issued": "2026-07-24",
+        "performer": [
+          {
+            "reference": "urn:uuid:61ef1167-0c81-49b1-89cb-134c37ecab06"
+          },
+          {
+            "reference": "urn:uuid:7f336621-b1d4-46d3-9e98-f55475eff961"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:2130fdce-bfe3-43db-bfc9-1704f1fb4b17"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:edc01a4e-b2aa-414c-8351-1e3b64ac37eb"
+          },
+          {
+            "reference": "urn:uuid:d671b5d0-17c5-4814-a45b-963591ce275d"
+          },
+          {
+            "reference": "urn:uuid:e2eeaf34-4bbf-422f-b384-f05f2b4783ef"
+          },
+          {
+            "reference": "urn:uuid:9793d68d-ce18-43f1-93a1-58beaf4b4426"
+          },
+          {
+            "reference": "urn:uuid:4897cdf0-90f4-43cc-9d64-db7c217bf1a4"
+          },
+          {
+            "reference": "urn:uuid:543a34e3-6e34-4f6d-8bd8-25999511e946"
+          },
+          {
+            "reference": "urn:uuid:601da015-8a2a-401c-963c-fd756c6d28aa"
+          },
+          {
+            "reference": "urn:uuid:c913b0f2-ad4f-4407-b22d-694bdbb52cdd"
+          }
+        ],
+        "conclusion": "A heterozygous pathogenic frameshift variant was identified in the BRCA1 gene in this synthetic sample. No other pathogenic alterations or copy number variants were detected in the remaining 14 genes tested.\n\nClinical Interpretation: The BRCA1 c.5266dupC (p.Gln1756Profs*74) variant is a well-characterized founder mutation in the BRCA1 tumor suppressor gene that results in premature protein truncation, confirming Hereditary Breast and Ovarian Cancer (HBOC) syndrome. Recommended next steps include: - High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25-30, alternating with annual mammography. - Ovarian cancer risk reduction: Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35-40. - Cascade genetic testing: Inform and offer targeted variant testing to all at-risk first-degree relatives.\n\nRecommended Next Steps:\n- premature protein truncation, confirming Hereditary Breast and Ovarian Cancer (HBOC) syndrome. Recommended next steps include:\n- High-risk breast surveillance: Annual contrast-enhanced breast MRI starting at age 25-30, alternating with annual mammography.\n- Ovarian cancer risk reduction: Consultation regarding risk-reducing bilateral salpingo-oophorectomy (RRSO) between ages 35-40.\n- Cascade genetic testing: Inform and offer targeted variant testing to all at-risk first-degree relatives.\n\nMethodology: Genomic DNA is extracted from whole blood. Target enrichment of all coding exons and +/- 20bp flanking intronic boundaries of 15 hereditary cancer predisposition genes is performed using custom hybridization capture probes, followed by paired-end Next-Generation Sequencing. Copy number variations (CNVs) are called using normalized read-depth algorithms.\n\nLimitations: This assay does not detect deep intronic mutations outside the targeted regions, complex chromosomal rearrangements, or low-level somatic mosaicism.\n\nLaboratory Director Authorization: Dr. Sarah Jenkins, MD, FCAP | Electronically Signed | CLIA ID: 00D7654321"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "1f61844f-4826-4e30-8c92-d7bad802c4e6",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Robert T. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-8849102"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Robert T. Sample",
+            "family": "Sample",
+            "given": [
+              "Robert",
+              "T."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1968-11-23"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c7954037-5078-4402-a360-41839c4dc8c7",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "c7954037-5078-4402-a360-41839c4dc8c7",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. Marcus Vance, MD</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. Marcus Vance, MD"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9982736450"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "7fca8d95-8d36-4898-baf1-ae26f67fcb96",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> MOLECULAR GENOMICS REFERENCE LABORATORY (SYNTHETIC CLINICAL</p></div>"
+        },
+        "active": true,
+        "name": "MOLECULAR GENOMICS REFERENCE LABORATORY (SYNTHETIC CLINICAL",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D9981245"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "7748123"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "text": "1000 Synthetic Innovation Way, Suite 400, Fictional City, CA 94000"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "726f0138-b391-4d33-a783-ac1da4d817d9",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-MCED-4491 (Blood / Plasma)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-MCED-4491"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119361006",
+              "display": "Plasma specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Blood / Plasma"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "collection": {
+          "collectedDateTime": "2026-08-01",
+          "quantity": {
+            "value": 10.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
+        },
+        "receivedTime": "2026-08-02",
+        "container": [
+          {
+            "type": {
+              "text": "Cell-Free DNA BCT (10.0 mL)"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:9e084f36-dd6f-4838-9e2b-2d8798c23386",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "9e084f36-dd6f-4838-9e2b-2d8798c23386",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Cancer Signal Status:</b> Cancer Signal Not Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94076-7",
+              "display": "Cancer Signal Status"
+            }
+          ],
+          "text": "Cancer Signal Status"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "Cancer Signal Not Detected",
+        "referenceRange": [
+          {
+            "text": "Cancer Signal Not Detected"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:a427afda-d036-4bae-9567-12388d90e8be",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "a427afda-d036-4bae-9567-12388d90e8be",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Predicted Cancer Signal Origin 1:</b> None Detected</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "94077-5",
+              "display": "Predicted Cancer Signal Origin 1"
+            }
+          ],
+          "text": "Predicted Cancer Signal Origin 1"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "None Detected",
+        "referenceRange": [
+          {
+            "text": "None"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:d285eecc-2326-4bfc-99f4-2bb5c9cfbae8",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "d285eecc-2326-4bfc-99f4-2bb5c9cfbae8",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>cfDNA Concentration:</b> 8.4 ng/mL</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "cfDNA Concentration"
+            }
+          ],
+          "text": "cfDNA Concentration"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "8.4 ng/mL",
+        "referenceRange": [
+          {
+            "text": "5.0 - 25.0 ng/mL",
+            "low": {
+              "value": 5.0,
+              "unit": ""
+            },
+            "high": {
+              "value": 25.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:4f954fca-67b2-4331-9818-bbc9ca79f8fd",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "4f954fca-67b2-4331-9818-bbc9ca79f8fd",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Bisulfite Conversion Efficiency:</b> 99.8%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Bisulfite Conversion Efficiency"
+            }
+          ],
+          "text": "Bisulfite Conversion Efficiency"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "99.8%",
+        "referenceRange": [
+          {
+            "text": ">= 99.0%",
+            "low": {
+              "value": 99.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:3ef5a968-1753-4eef-8523-5c21309d1a69",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "3ef5a968-1753-4eef-8523-5c21309d1a69",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing Coverage Depth:</b> 31,200x</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing Coverage Depth"
+            }
+          ],
+          "text": "Sequencing Coverage Depth"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "31,200x",
+        "referenceRange": [
+          {
+            "text": ">= 20,000x",
+            "low": {
+              "value": 20.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:c1e1271a-8468-461d-8222-586023f22950",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "c1e1271a-8468-461d-8222-586023f22950",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Sequencing QC Pass Rate:</b> 99.4%</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "11502-2",
+              "display": "Sequencing QC Pass Rate"
+            }
+          ],
+          "text": "Sequencing QC Pass Rate"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "performer": [
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+        },
+        "valueString": "99.4%",
+        "referenceRange": [
+          {
+            "text": ">= 95.0%",
+            "low": {
+              "value": 95.0,
+              "unit": ""
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:df5a4735-ed9b-41c1-a249-92c18cedd391",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "df5a4735-ed9b-41c1-a249-92c18cedd391",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Multi-Cancer Early Detection Screening Report</h2><p><b>Conclusion:</b> No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-MCED-4491"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "94076-7",
+              "display": "Cancer signal methylation analysis in cell-free DNA panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Multi-Cancer Early Detection Screening Report"
+        },
+        "subject": {
+          "reference": "urn:uuid:1f61844f-4826-4e30-8c92-d7bad802c4e6"
+        },
+        "effectiveDateTime": "2026-08-01",
+        "issued": "2026-08-06",
+        "performer": [
+          {
+            "reference": "urn:uuid:c7954037-5078-4402-a360-41839c4dc8c7"
+          },
+          {
+            "reference": "urn:uuid:7fca8d95-8d36-4898-baf1-ae26f67fcb96"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:726f0138-b391-4d33-a783-ac1da4d817d9"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:9e084f36-dd6f-4838-9e2b-2d8798c23386"
+          },
+          {
+            "reference": "urn:uuid:a427afda-d036-4bae-9567-12388d90e8be"
+          },
+          {
+            "reference": "urn:uuid:d285eecc-2326-4bfc-99f4-2bb5c9cfbae8"
+          },
+          {
+            "reference": "urn:uuid:4f954fca-67b2-4331-9818-bbc9ca79f8fd"
+          },
+          {
+            "reference": "urn:uuid:3ef5a968-1753-4eef-8523-5c21309d1a69"
+          },
+          {
+            "reference": "urn:uuid:c1e1271a-8468-461d-8222-586023f22950"
+          }
+        ],
+        "conclusion": "No cancer signal was detected in this synthetic cell-free DNA (cfDNA) blood sample. Methylation patterns analyzed across target genomic regions are consistent with non-malignant profiles. This result does not completely rule out the presence of all types of malignancy.\n\nClinical Interpretation: A 'Cancer Signal Not Detected' result indicates that the targeted cell-free DNA methylation signatures associated with 50+ cancer types were not identified at actionable thresholds in this specimen. Recommended next steps include: - Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate screening) as medically indicated. - Follow-up: Regular annual wellness examinations with primary care physician.\n\nRecommended Next Steps:\n- identified at actionable thresholds in this specimen. Recommended next steps include:\n- Routine screening: Continue age-appropriate standard preventative screening guidelines (such as colonoscopy, mammography, and prostate\n- screening) as medically indicated.\n- Follow-up: Regular annual wellness examinations with primary care physician.\n\nMethodology: Plasma cfDNA is extracted and treated with targeted bisulfite conversion followed by deep Next-Generation Sequencing (NGS) on high-throughput sequencing instruments. Epigenetic methylation patterns are evaluated using classification models calibrated across multi-organ tissue datasets.\n\nLimitations: A negative result does not eliminate the risk of cancer. Certain indolent tumors or cancers shedding low levels of cfDNA may not be detected.\n\nLaboratory Director Authorization: Dr. Eleanor Hayes, MD, PhD, FCAP | Electronically Signed | CLIA ID: 00D9981245"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6",
+      "resource": {
+        "resourceType": "Patient",
+        "id": "62b06ea3-a35a-4973-a47b-c3e2865aeba6",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Patient:</b> Arthur B. Sample</p></div>"
+        },
+        "identifier": [
+          {
+            "use": "usual",
+            "type": {
+              "coding": [
+                {
+                  "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+                  "code": "MR",
+                  "display": "Medical Record Number"
+                }
+              ]
+            },
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-MRN-3341890"
+          }
+        ],
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Arthur B. Sample",
+            "family": "Sample",
+            "given": [
+              "Arthur",
+              "B."
+            ]
+          }
+        ],
+        "gender": "male",
+        "birthDate": "1959-02-14"
+      },
+      "request": {
+        "method": "POST",
+        "url": "Patient"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:0ed9a0bc-9f46-41aa-8692-31073d4cda3a",
+      "resource": {
+        "resourceType": "Practitioner",
+        "id": "0ed9a0bc-9f46-41aa-8692-31073d4cda3a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Practitioner:</b> Dr. David Reynolds, MD</p></div>"
+        },
+        "active": true,
+        "name": [
+          {
+            "use": "official",
+            "text": "Dr. David Reynolds, MD"
+          }
+        ],
+        "identifier": [
+          {
+            "system": "http://hl7.org/fhir/sid/us-npi",
+            "value": "9092837465"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Practitioner"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558",
+      "resource": {
+        "resourceType": "Organization",
+        "id": "88214f02-cf49-46b6-94c8-0d6541e99558",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Laboratory:</b> UROLOGIC BIOMARKER REFERENCE LABORATORY (SYNTHETIC CLINICAL</p></div>"
+        },
+        "active": true,
+        "name": "UROLOGIC BIOMARKER REFERENCE LABORATORY (SYNTHETIC CLINICAL",
+        "identifier": [
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.7",
+            "value": "00D1122334"
+          },
+          {
+            "system": "urn:oid:2.16.840.1.113883.4.3.38",
+            "value": "4428901"
+          }
+        ],
+        "address": [
+          {
+            "use": "work",
+            "text": "7700 Synthetic Parkway, Suite 300, Minneapolis, MN 55400"
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Organization"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8",
+      "resource": {
+        "resourceType": "Specimen",
+        "id": "fa1271ba-5429-449b-b49f-b142da3e54f8",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Specimen ID:</b> SYN-SPEC-PHI-8821 (Serum)</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-PHI-8821"
+          }
+        ],
+        "status": "available",
+        "type": {
+          "coding": [
+            {
+              "code": "119364003",
+              "display": "Serum specimen",
+              "system": "http://snomed.info/sct"
+            }
+          ],
+          "text": "Serum"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "collection": {
+          "collectedDateTime": "2026-08-10",
+          "quantity": {
+            "value": 5.0,
+            "unit": "mL",
+            "system": "http://unitsofmeasure.org",
+            "code": "mL"
+          }
+        },
+        "receivedTime": "2026-08-11",
+        "container": [
+          {
+            "type": {
+              "text": "SST Gold Top (5.0 mL)"
+            }
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Specimen"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:467dc1d0-30a5-4996-aedb-4d13201d1c89",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "467dc1d0-30a5-4996-aedb-4d13201d1c89",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Total PSA:</b> 5.6</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "2857-1",
+              "display": "Total PSA"
+            }
+          ],
+          "text": "Total PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+        },
+        "valueQuantity": {
+          "value": 5.6,
+          "unit": "ng/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "ng/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "0.0 - 4.0",
+            "low": {
+              "value": 0.0,
+              "unit": "ng/mL"
+            },
+            "high": {
+              "value": 4.0,
+              "unit": "ng/mL"
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:f00c7d00-3680-4568-80b0-14c9cd78cbcf",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "f00c7d00-3680-4568-80b0-14c9cd78cbcf",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Free PSA:</b> 0.58</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "10886-0",
+              "display": "Free PSA"
+            }
+          ],
+          "text": "Free PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+        },
+        "valueQuantity": {
+          "value": 0.58,
+          "unit": "ng/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "ng/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "N/A"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e7c7275c-93dd-4370-a875-1b916ead7c1a",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e7c7275c-93dd-4370-a875-1b916ead7c1a",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>% Free PSA:</b> 10.4</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "19195-7",
+              "display": "% Free PSA"
+            }
+          ],
+          "text": "% Free PSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+        },
+        "valueQuantity": {
+          "value": 10.4,
+          "unit": "%",
+          "system": "http://unitsofmeasure.org",
+          "code": "%"
+        },
+        "referenceRange": [
+          {
+            "text": "> 25.0 %",
+            "low": {
+              "value": 25.0,
+              "unit": "%"
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "L",
+                "display": "Low"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:6ffdf272-dd4b-46b0-9020-ed9e364268e2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "6ffdf272-dd4b-46b0-9020-ed9e364268e2",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>[-2]proPSA:</b> 19.2</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "72304-9",
+              "display": "[-2]proPSA"
+            }
+          ],
+          "text": "[-2]proPSA"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+        },
+        "valueQuantity": {
+          "value": 19.2,
+          "unit": "pg/mL",
+          "system": "http://unitsofmeasure.org",
+          "code": "pg/mL"
+        },
+        "referenceRange": [
+          {
+            "text": "N/A"
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "N",
+                "display": "Normal"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:e5a532e5-765f-4616-b8d7-8e8138cc41c2",
+      "resource": {
+        "resourceType": "Observation",
+        "id": "e5a532e5-765f-4616-b8d7-8e8138cc41c2",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><p><b>Prostate Health Index (phi):</b> 47.8</p></div>"
+        },
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+                "code": "laboratory",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "system": "http://loinc.org",
+              "code": "72305-6",
+              "display": "Prostate Health Index (phi)"
+            }
+          ],
+          "text": "Prostate Health Index (phi)"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "performer": [
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": {
+          "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+        },
+        "valueQuantity": {
+          "value": 47.8,
+          "unit": "{score}",
+          "system": "http://unitsofmeasure.org",
+          "code": "{score}"
+        },
+        "referenceRange": [
+          {
+            "text": "< 27.0 (Low Risk)",
+            "high": {
+              "value": 27.0,
+              "unit": "{score}"
+            }
+          }
+        ],
+        "interpretation": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationInterpretation",
+                "code": "H",
+                "display": "High"
+              }
+            ]
+          }
+        ]
+      },
+      "request": {
+        "method": "POST",
+        "url": "Observation"
+      }
+    },
+    {
+      "fullUrl": "urn:uuid:48d790d3-4c89-4a32-acb1-a7aeb79b1aad",
+      "resource": {
+        "resourceType": "DiagnosticReport",
+        "id": "48d790d3-4c89-4a32-acb1-a7aeb79b1aad",
+        "text": {
+          "status": "generated",
+          "div": "<div xmlns=\"http://www.w3.org/1999/xhtml\"><h2>Prostate Health Index and Early Cancer Biomarker Panel</h2><p><b>Conclusion:</b> Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability (36.0% - 55.0%) of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.</p></div>"
+        },
+        "identifier": [
+          {
+            "system": "urn:ietf:rfc:3986",
+            "value": "SYN-SPEC-PHI-8821"
+          }
+        ],
+        "status": "final",
+        "category": [
+          {
+            "coding": [
+              {
+                "system": "http://terminology.hl7.org/CodeSystem/v2-0074",
+                "code": "LAB",
+                "display": "Laboratory"
+              }
+            ]
+          }
+        ],
+        "code": {
+          "coding": [
+            {
+              "code": "72305-6",
+              "display": "Prostate Health Index and PSA sub-fractions panel",
+              "system": "http://loinc.org"
+            }
+          ],
+          "text": "Prostate Health Index and Early Cancer Biomarker Panel"
+        },
+        "subject": {
+          "reference": "urn:uuid:62b06ea3-a35a-4973-a47b-c3e2865aeba6"
+        },
+        "effectiveDateTime": "2026-08-10",
+        "issued": "2026-08-12",
+        "performer": [
+          {
+            "reference": "urn:uuid:0ed9a0bc-9f46-41aa-8692-31073d4cda3a"
+          },
+          {
+            "reference": "urn:uuid:88214f02-cf49-46b6-94c8-0d6541e99558"
+          }
+        ],
+        "specimen": [
+          {
+            "reference": "urn:uuid:fa1271ba-5429-449b-b49f-b142da3e54f8"
+          }
+        ],
+        "result": [
+          {
+            "reference": "urn:uuid:467dc1d0-30a5-4996-aedb-4d13201d1c89"
+          },
+          {
+            "reference": "urn:uuid:f00c7d00-3680-4568-80b0-14c9cd78cbcf"
+          },
+          {
+            "reference": "urn:uuid:e7c7275c-93dd-4370-a875-1b916ead7c1a"
+          },
+          {
+            "reference": "urn:uuid:6ffdf272-dd4b-46b0-9020-ed9e364268e2"
+          },
+          {
+            "reference": "urn:uuid:e5a532e5-765f-4616-b8d7-8e8138cc41c2"
+          }
+        ],
+        "conclusion": "Patient has an elevated Prostate Health Index (phi = 47.8) in this synthetic test result, indicating an elevated probability (36.0% - 55.0%) of clinically significant prostate cancer (Gleason Score >= 7) on biopsy.\n\nClinical Interpretation: The Prostate Health Index is calculated via the formula: phi = ([-2]proPSA / Free PSA) * sqrt(Total PSA). A phi value >= 36.0 is associated with a 36.0% to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated score provides clinical justification for mpMRI and targeted prostate biopsy. - Multiparametric prostate MRI (mpMRI): 3-Tesla pelvic mpMRI with PI-RADS scoring. - Urology consult: Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.\n\nRecommended Next Steps:\n- % to 55.0% probability of cancer on biopsy. In men aged 50 and older with total PSA in the 4.0 to 10.0 ng/mL diagnostic gray zone, this elevated\n- score provides clinical justification for mpMRI and targeted prostate biopsy.\n- Multiparametric prostate MRI (mpMRI): 3-Tesla pelvic mpMRI with PI-RADS scoring.\n- Urology consult: Referral for MRI-fusion targeted and systematic transperineal or transrectal prostate biopsy.\n\nMethodology: Total PSA, Free PSA, and [-2]proPSA are quantitatively measured in serum using automated chemiluminescent immunoassay analyzers calibrated against WHO standards. The phi score is derived mathematically.\n\nLimitations: phi results should be evaluated in conjunction with digital rectal examination (DRE), prostate volume, family history, and clinical risk factors.\n\nLaboratory Director Authorization: Dr. Keith Carlson, MD, FCAP | Electronically Signed | CLIA ID: 00D1122334"
+      },
+      "request": {
+        "method": "POST",
+        "url": "DiagnosticReport"
+      }
+    }
+  ]
+}
